@@ -1,2 +1,2 @@
 # Bec
-Better email viewer
+Better email client
