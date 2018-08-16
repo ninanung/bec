@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
+
+import Signin from './components/signin/Signin';
+
 import './App.css';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Welcome to React</h1>
+        <header className="intro-header">
+          <h1 className="intro-title">Welcome to Bec</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <div className="intro-body">
+          <Signin/>
+        </div>
       </div>
     );
   }
