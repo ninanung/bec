@@ -4,10 +4,6 @@ import PropTypes from 'prop-types';
 import './InputBox.css';
 
 class InputBox extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const {width, height, placeholder} = this.props;
 
