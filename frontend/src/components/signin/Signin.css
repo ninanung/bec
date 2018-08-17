@@ -1,0 +1,15 @@
+.signin {
+    text-align: left; width: 370px; margin: auto;
+}
+
+.signin-header {
+    color: #1F2728;
+}
+
+.signin-header-title {
+    font-size: 40px; margin: 0 0 10px 0;
+}
+
+.signin-header-text {
+    font-size: 20px; margin: 5px 0 5px 0; color: #909C9E;
+}
