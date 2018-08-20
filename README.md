@@ -1,5 +1,5 @@
 # bec
-![](https://img.shields.io/badge/frontend-vue-blue.svg)
+![](https://img.shields.io/badge/frontend-react-blue.svg)
 ![](https://img.shields.io/badge/backend-node.js-green.svg)
 
 better e-mail client

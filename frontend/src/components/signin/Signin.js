@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import InputBox from '../input_box/InputBox.js';
+import InputBox from '../input_box/input_box.js';
 
-import './Signin.css';
+import './signin.css';
 
 class Signin extends Component {
     constructor(props) {

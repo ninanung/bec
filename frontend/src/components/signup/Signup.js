@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import InputBox from '../input_box/InputBox.js'
+import InputBox from '../input_box/input_box.js'
 
 class Signup extends Component {
     render() {
@@ -10,7 +10,7 @@ class Signup extends Component {
                     <InputBox/>
                 </form>
             </div>
-        );
+        )
     }
 }
 
