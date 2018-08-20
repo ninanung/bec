@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import Signin from '../signin/signin.js';
+import IntroSample from './intro_sample/intro_sample.js';
 
 import './intro.css';
 
@@ -14,6 +15,9 @@ class Intro extends Component {
                 </header>
                 <div className="intro-body">
                     <Signin/>
+                    <hr/>
+                    <IntroSample/>
+                    <hr/>
                 </div>
             </div>
         );
