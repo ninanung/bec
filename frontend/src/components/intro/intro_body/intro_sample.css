@@ -2,17 +2,19 @@
     .intro-sample-image {
         width: 80%; height: auto; margin: 30px auto 15px auto;
     }
+    .intro-sample-text {
+        font-size: 15px; margin: 5px;
+    }
 }
 @media only screen and (min-width: 850px) {
     .intro-sample-image {
         width: 50%; height: auto; margin: 50px auto 20px auto;
     }
+    .intro-sample-text {
+        font-size: 25px; font-weight: bold; margin: 5px;
+    }
 }
 
 .intro-sample-head {
-    font-size: 40px; color: #157483;
-}
-
-.intro-sample-text {
-    font-size: 25px; font-weight: bold; margin: 5px;
+    font-size: 40px; color: #157483; margin: 0; padding: 20px;
 }

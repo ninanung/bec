@@ -1,0 +1,26 @@
+@media only screen and (max-width: 850px) {
+    .intro-imap-image {
+        width: 30%; height: auto; margin: 30px auto 15px auto;
+    }
+    .hotmail {
+        margin-right: 15px;
+    }
+    .intro-imap-text {
+        font-size: 15px; margin: 5px;
+    }
+}
+@media only screen and (min-width: 850px) {
+    .intro-imap-image {
+        width: 20%; height: auto; margin: 50px auto 20px auto;
+    }
+    .hotmail {
+        margin-right: 30px;
+    }
+    .intro-imap-text {
+        font-size: 25px; font-weight: bold; margin: 5px;
+    }
+}
+
+.intro-imap-head {
+    font-size: 40px; color: #157483; margin: 0; padding: 20px;
+}

@@ -9,7 +9,7 @@ class IntroSample extends Component {
         return (
             <div className='intro-sample'>
                 <h1 className='intro-sample-head'>What is Bec?</h1>
-                <img className='intro-sample-image' src={sample}></img>
+                <img alt="sample" className='intro-sample-image' src={sample}></img>
                 <p className='intro-sample-text'>Chat-like e-mail client</p>
                 <p className='intro-sample-text'>Easy sending, Easy receiving</p>
                 <br/>
