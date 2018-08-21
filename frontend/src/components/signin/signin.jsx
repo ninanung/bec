@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import InputBox from '../input_box/input_box.js';
+import InputBox from '../input_box/input_box';
 
 import './signin.css';
 

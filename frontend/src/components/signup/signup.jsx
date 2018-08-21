@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { checkBetween } from 'sign-checker';
 
-import IntroHeader from '../intro/intro_header/intro_header.js';
-import InputBox from '../input_box/input_box.js'
+import IntroHeader from '../intro/intro_header/intro_header';
+import InputBox from '../input_box/input_box'
 
 import './signup.css';
 

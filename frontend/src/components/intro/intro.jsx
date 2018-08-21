@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-import Signin from '../signin/signin.js';
-import IntroSample from './intro_body/intro_sample.js';
-import IntroHeader from './intro_header/intro_header.js';
-import IntroImap from './intro_body/intro_imap.js';
+import Signin from '../signin/signin';
+import IntroSample from './intro_body/intro_sample';
+import IntroHeader from './intro_header/intro_header';
+import IntroImap from './intro_body/intro_imap';
 
 import './intro.css';
 
