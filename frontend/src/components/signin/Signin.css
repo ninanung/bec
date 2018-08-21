@@ -13,3 +13,13 @@
 .signin-header-text {
     font-size: 20px; margin: 5px 0 5px 0; color: #909C9E;
 }
+
+.button {
+    border-radius: 10px; width: 100px; height: 30px; font-size: 20px;
+    font-weight: bold; cursor: pointer; color: white; background-color: #157483;
+    border-color: white;
+}
+
+.button:hover {
+    color: #157483; background-color: white; border-color: #157483;
+}

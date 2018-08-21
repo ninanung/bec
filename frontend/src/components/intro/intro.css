@@ -1,13 +1,7 @@
-.intro-header {
-  text-align: left; background-color: #C3E5EC;
-  height: 90px; color: #596466; padding: 30px 0 0 40px;
+.header {
+  margin: 0;
 }
 
-.intro-title {
-  font-size: 55px; margin: 0; float: left;
-}
-
-.intro-subtitle {
-  margin: 0; padding: 28px 0 0 40px; float: left;
-  color: white;
+.body {
+  margin: 0;
 }

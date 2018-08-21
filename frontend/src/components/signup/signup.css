@@ -1,0 +1,16 @@
+.signup {
+    text-align: left; width: 370px; margin: 150px auto 150px auto;
+}
+
+.signup-cancel {
+    background-color: #D26D6D; width: 115px;
+    float: left;
+}
+
+.signup-cancel:hover {
+    color: #D26D6D; border-color: #D26D6D;
+}
+
+.signup-next {
+    float: right;
+}
