@@ -28,7 +28,8 @@ class Signup extends Component {
 
     onSignup = () => {
         if(checkBetween(this.state.id, 5, 12)) {
-
+            console.log("?")
+            
         }
     }
 
