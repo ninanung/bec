@@ -1,20 +1,20 @@
-.signup {
+.signup-imap {
     text-align: left; width: 360px; margin: 150px auto 150px auto;
 }
 
-.signup-header {
+.signup-imap-header {
     font-size: 20px; margin: 0 0 10px 0; color: #157483
 }
 
-.signup-cancel {
+.signup-imap-cancel {
     background-color: #D26D6D; width: 115px;
     float: left;
 }
 
-.signup-cancel:hover {
+.signup-imap-cancel:hover {
     color: #D26D6D; border-color: #D26D6D;
 }
 
-.signup-next {
+.signup-imap-next {
     float: right;
 }

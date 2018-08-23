@@ -13,8 +13,11 @@ class Signup extends Component {
         this.state = {
             inputWidth: 350,
             inputHeight: 30,
+            idNoti: '',
+            passwordNoti: '',
             id: '',
             password: '',
+            confirmPassword: '',
         }
     }
 
@@ -23,13 +26,16 @@ class Signup extends Component {
     }
 
     onPasswordChange = (event) => {
-        this.setState({password: event.target.value})
+        this.setState({password: event.target.value});
+    }
+
+    onConfirmPasswordChange = (event) => {
+        this.setState({confirmPassword: event.target.value});
     }
 
     onSignup = () => {
         if(checkBetween(this.state.id, 5, 12)) {
-            console.log("?")
-            
+            this.props.history.push('/signup/imap')
         }
     }
 
@@ -39,12 +45,19 @@ class Signup extends Component {
                 <IntroHeader/>
                 <div className='signup'>
                     <div className='signup-header'>
-                        
+                        <h1>Basic information</h1>
                     </div>
                     <div className='signup-body'>
-                        <InputBox typeChange={this.onIdChange} placeholder='ID' width={this.state.inputWidth} height={this.state.inputHeight} />
+                        <label>ID must be 6~11 letters and English.</label>
+                        <InputBox typeChange={this.onIdChange} placeholder='ID' width={200} height={this.state.inputHeight} />
+                        <p>{this.state.idNoti}</p>
                         <br/>
-                        <InputBox typeChange={this.onPasswordChange} placeholder='Password' width={this.state.inputWidth} height={this.state.inputHeight} />
+                        <label>Password must be combination of English and number.</label>
+                        <InputBox type="password" typeChange={this.onPasswordChange} placeholder='Password' width={this.state.inputWidth} height={this.state.inputHeight} />
+                        <br/>
+                        <InputBox type="password" typeChange={this.onConfirmPasswordChange} placeholder='Repeat Password' width={this.state.inputWidth} height={this.state.inputHeight} />
+                        <p>{this.state.passwordNoti}</p>
+                        <br/>
                     </div>
                     <div className='signup-footer'>
                         <Link to='/'><button className='button signup-cancel'>◀ Cancel</button></Link>
