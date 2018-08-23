@@ -7,7 +7,7 @@
 }
 
 .signup-imap-cancel {
-    background-color: #D26D6D; width: 115px;
+    background-color: #D26D6D; width: 100px;
     float: left;
 }
 
@@ -16,5 +16,17 @@
 }
 
 .signup-imap-next {
-    float: right;
+    float: right; width: 115px;
+}
+
+.signup-imap-footer {
+    margin-top: 40px;
+}
+
+.signup-imap-notice {
+    color: #EE6262;
+}
+
+.br {
+    margin-bottom: 30px;
 }

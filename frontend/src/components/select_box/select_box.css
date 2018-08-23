@@ -1,0 +1,7 @@
+.selectbox {
+    margin: 3px; font-size: 20px; width: 200px; height: 30px; 
+    border: 1px solid #596466; border-radius: 3px;
+}
+.selectbox:hover {
+    cursor: pointer;
+}

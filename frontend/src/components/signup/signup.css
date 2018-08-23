@@ -18,3 +18,11 @@
 .signup-next {
     float: right;
 }
+
+.NotGood {
+    margin: 0; color: red;
+}
+
+.Good {
+    margin: 0; color: green;
+}
