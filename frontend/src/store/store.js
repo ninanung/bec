@@ -1,13 +1,19 @@
-import { createStore, combineReducers } from 'redux';
+import { createStore } from 'redux';
+import { persistReducer, persistStore } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
+import reducer from './reducer';
 import state from './state';
 
-import signup_basic from './reducers/signup_basic';
-import signup_imap from './reducers/signup_imap';
-
-const store = createStore(
-    combineReducers({signup_basic, signup_imap}),
+const persistConfig = {
+    key: 'root',
+    storage,
+  }
+const persistedReducer = persistReducer(persistConfig, reducer)
+let store = createStore(
+    persistedReducer,
     state
 )
+let persistor = persistStore(store)
 
-export default store;
+export {store, persistor};

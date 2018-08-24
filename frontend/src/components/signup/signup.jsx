@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { checkBetween, checkWhiteSpace, checkLanguageEnglish, checkLongerThan } from 'sign-checker';
+import { checkBetween, checkWhiteSpace, checkLanguageEnglish, checkLongerThan } from 'sign-checker/check';
 
 import IntroHeader from '../intro/intro_header/intro_header';
 import InputBox from '../input_box/input_box'

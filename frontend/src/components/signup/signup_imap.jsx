@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { checkNumber } from 'sign-checker';
+import { checkNumber } from 'sign-checker/check';
 
 import IntroHeader from '../intro/intro_header/intro_header';
 import InputBox from '../input_box/input_box';
