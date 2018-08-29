@@ -8,12 +8,9 @@ import state from './state';
 const persistConfig = {
     key: 'root',
     storage,
-  }
+}
 const persistedReducer = persistReducer(persistConfig, reducer)
-let store = createStore(
-    persistedReducer,
-    state
-)
+let store = createStore(persistedReducer, state)
 let persistor = persistStore(store)
 
 export {store, persistor};
