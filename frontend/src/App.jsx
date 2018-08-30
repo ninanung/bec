@@ -1,27 +1,35 @@
 import React, { Component } from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import { PersistGate } from 'redux-persist/integration/react';
-import { Provider } from 'react-redux';
+import { connect } from 'react-redux';
 
-import Router from './router/router';
-import { store, persistor } from './store/store';
+import RouterRoot from './router_root';
+
+import { bindActionCreators } from 'redux';
+import * as actions from './store/action';
 
 import './App.css';
+
+const mapStateToProps = (state) => {
+  return {
+    signup_basic: state.signup_basic,
+    signup_imap: state.signup_imap,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    store_signup_imap: actions.store_signup_imap,
+    store_signup_basic: actions.store_signup_basic,
+  }, dispatch)
+}
 
 class App extends Component {
   render() {
     return (
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <BrowserRouter>
-            <div className='App'>
-              <Router/>
-            </div>
-          </BrowserRouter>
-        </PersistGate>
-      </Provider>
+      <div className='App'>
+        <RouterRoot />
+      </div>
     );
   }
 }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);

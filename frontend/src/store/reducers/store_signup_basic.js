@@ -1,12 +1,13 @@
 import state from '../state';
 
-const initialState = state.signup_imap
+const initialState = state.signup_basic
 
 export default (state = initialState, action) => {
     switch (action.type) {
-        case 'IMAP_INFO':
+        case 'BASIC_INFO':
             return Object.assign({}, state, {
-                signup_imap: action.signup_imap
+                id: action.signup_basic.id,
+                password: action.signup_basic.password,
             })
         default:
             return state;

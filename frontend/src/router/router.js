@@ -8,11 +8,11 @@ import SignupImap from '../components/signup/signup_imap';
 class Router extends Component {
   render() {
     return (
-        <div>
-            <Route exact path='/' component={ Intro } />
-            <Route exact path='/signup' component={ Signup } />
-            <Route exact path='/signup/imap' component={ SignupImap } />
-        </div>
+      <div>
+          <Route exact path='/' component={ Intro } />
+          <Route exact path='/signup' component={ Signup } />
+          <Route exact path='/signup/imap' component={ SignupImap } />
+      </div>
     );
   }
 }

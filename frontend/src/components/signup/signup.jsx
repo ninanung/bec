@@ -7,6 +7,24 @@ import InputBox from '../input_box/input_box'
 
 import './signup.css';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as actions from '../../store/action';
+
+const mapStateToProps = (state) => {
+    return {
+        signup_basic: state.signup_basic,
+        signup_imap: state.signup_imap,
+    }
+}
+  
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        store_signup_imap: actions.store_signup_imap,
+        store_signup_basic: actions.store_signup_basic,
+    }, dispatch)
+}
+
 class Signup extends Component {
     constructor(props) {
         super(props);
@@ -68,9 +86,17 @@ class Signup extends Component {
         if(!checkLanguageEnglish(id+password+confirmPassword)) {
             return alert('All information must be made with English language.');
         }
+        if(!checkLongerThan(password, 5)) {
+            return alert('Password must be longer than 5 letters.')
+        }
         if(password !== confirmPassword) {
             return alert('Password and repeated password are not matched.');
         }
+        const info = {
+            id: id,
+            password: password
+        };
+        this.props.store_signup_basic(info);
         history.push('/signup/imap');
     }
 
@@ -105,4 +131,4 @@ class Signup extends Component {
     }
 }
 
-export default Signup;
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);

@@ -8,6 +8,24 @@ import SelectBox from '../select_box/select_box';
 
 import './signup_imap.css';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as actions from '../../store/action';
+
+const mapStateToProps = (state) => {
+    return {
+        signup_basic: state.signup_basic,
+        signup_imap: state.signup_imap,
+    }
+}
+  
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        store_signup_imap: actions.store_signup_imap,
+        store_signup_basic: actions.store_signup_basic,
+    }, dispatch)
+}
+
 class SignupImap extends Component {
     constructor(props) {
         super(props);
@@ -47,6 +65,7 @@ class SignupImap extends Component {
     }
 
     onCreateAccount = () => {
+        console.log(this.props.signup_basic);
         const {id, password, host, port, tls} = this.state;
         if(!id || !password || !host || !port || !tls) {
             return alert('All information must be fullfilled.')
@@ -103,4 +122,4 @@ class SignupImap extends Component {
     }
 }
 
-export default SignupImap;
+export default connect(mapStateToProps, mapDispatchToProps)(SignupImap);
