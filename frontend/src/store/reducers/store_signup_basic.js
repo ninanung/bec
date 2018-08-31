@@ -9,6 +9,11 @@ export default (state = initialState, action) => {
                 id: action.signup_basic.id,
                 password: action.signup_basic.password,
             })
+        case 'CLEAR_BASIC':
+            return Object.assign({}, state, {
+                id: '',
+                password: '',
+            })
         default:
             return state;
     }

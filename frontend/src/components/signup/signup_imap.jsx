@@ -22,7 +22,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
         store_signup_imap: actions.store_signup_imap,
-        store_signup_basic: actions.store_signup_basic,
+        clear_signup_basic: actions.clear_signup_basic,
+        clear_signup_imap: actions.clear_signup_imap,
     }, dispatch)
 }
 
@@ -35,6 +36,14 @@ class SignupImap extends Component {
             host: '',
             port: '',
             tls: true,
+        }
+    }
+
+    componentWillMount = () => {
+        this.props.clear_signup_imap();
+        if(!this.props.signup_basic.id || !this.props.signup_basic.password) {
+            alert('You have to write basic information first.')
+            this.props.history.push('/signup');
         }
     }
 
@@ -64,6 +73,11 @@ class SignupImap extends Component {
         this.setState({tls: tls});
     }
 
+    clearState = () => {
+        this.props.clear_signup_basic();
+        this.props.clear_signup_imap();
+    }
+
     onCreateAccount = () => {
         console.log(this.props.signup_basic);
         const {id, password, host, port, tls} = this.state;
@@ -75,6 +89,14 @@ class SignupImap extends Component {
                 return alert('Port must be number.');
             }
         }
+        const info = {
+            imap_id: id,
+            imap_password: password,
+            imap_host: host,
+            imap_port: port,
+            imap_tls: tls,
+        }
+        this.props.store_signup_imap(info)
     }
 
     render() {

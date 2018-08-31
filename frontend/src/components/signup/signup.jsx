@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { checkBetween, checkWhiteSpace, checkLanguageEnglish, checkLongerThan } from 'sign-checker/check';
 
 import IntroHeader from '../intro/intro_header/intro_header';
@@ -20,8 +19,9 @@ const mapStateToProps = (state) => {
   
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        store_signup_imap: actions.store_signup_imap,
         store_signup_basic: actions.store_signup_basic,
+        clear_signup_basic: actions.clear_signup_basic,
+        clear_signup_imap: actions.clear_signup_imap,
     }, dispatch)
 }
 
@@ -37,6 +37,10 @@ class Signup extends Component {
             password: '',
             confirmPassword: '',
         }
+    }
+
+    componentWillMount = () => {
+        this.props.clear_signup_basic();
     }
 
     checkPasswordGood = (password, confirmPassword) => {
@@ -71,6 +75,12 @@ class Signup extends Component {
         this.setState({confirmPassword: event.target.value});
     }
 
+    onCancel = () => {
+        this.props.clear_signup_basic();
+        this.props.clear_signup_imap();
+        this.props.history.push('/');
+    }
+
     onSignup = () => {
         const {history} = this.props;
         const {id, password, confirmPassword} = this.state;
@@ -97,6 +107,7 @@ class Signup extends Component {
             password: password
         };
         this.props.store_signup_basic(info);
+        this.props.clear_signup_imap();
         history.push('/signup/imap');
     }
 
@@ -122,7 +133,7 @@ class Signup extends Component {
                         <br/>
                     </div>
                     <div className='signup-footer'>
-                        <Link to='/'><button className='button signup-cancel'>◀ Cancel</button></Link>
+                        <button onClick={this.onCancel} className='button signup-cancel'>◀ Cancel</button>
                         <button onClick={this.onSignup} className='button signup-next'>Next ▶</button>
                     </div>
                 </div>

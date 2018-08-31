@@ -12,6 +12,14 @@ export default (state = initialState, action) => {
                 imap_port: action.signup_imap.imap_port,
                 imap_tls: action.signup_imap.imap_tls,
             })
+        case 'CLEAR_IMAP':
+            return Object.assign({}, state, {
+                imap_id: '',
+                imap_password: '',
+                imap_host: '',
+                imap_port: '',
+                imap_tls: null,
+            })
         default:
             return state;
     }
