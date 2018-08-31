@@ -5,6 +5,13 @@ import InputBox from '../input_box/input_box';
 
 import './signin.css';
 
+import { connect } from 'react-redux';
+const mapStateToProps = (state) => {
+    return {
+        signup_basic: state.signup_basic,
+    }
+}
+
 class Signin extends Component {
     constructor(props) {
         super(props);
@@ -32,6 +39,7 @@ class Signin extends Component {
         return (
             <div className='signin'>
                 <div className='signin-header'>
+                    {console.log(this.props.signup_basic)}
                     <h1 className='signin-header-title'>wellcome Bec!</h1>
                     <p className='signin-header-text'>For the better e-mail user experience</p>
                     <p className='signin-header-text'>Organize users and mails.</p>
@@ -50,4 +58,4 @@ class Signin extends Component {
     }
 }
 
-export default Signin;
+export default connect(mapStateToProps)(Signin);

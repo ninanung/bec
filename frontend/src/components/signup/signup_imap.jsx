@@ -79,7 +79,6 @@ class SignupImap extends Component {
     }
 
     onCreateAccount = () => {
-        console.log(this.props.signup_basic);
         const {id, password, host, port, tls} = this.state;
         if(!id || !password || !host || !port || !tls) {
             return alert('All information must be fullfilled.')
@@ -89,14 +88,9 @@ class SignupImap extends Component {
                 return alert('Port must be number.');
             }
         }
-        const info = {
-            imap_id: id,
-            imap_password: password,
-            imap_host: host,
-            imap_port: port,
-            imap_tls: tls,
-        }
-        this.props.store_signup_imap(info)
+        //pass infos to the server
+        this.clearState();
+        this.props.history.push('/')
     }
 
     render() {
