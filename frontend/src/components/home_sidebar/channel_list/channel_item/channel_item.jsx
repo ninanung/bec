@@ -1,4 +1,5 @@
-import React, { Component } from react;
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class ChannelItem extends Component {
     render() {
@@ -8,6 +9,11 @@ class ChannelItem extends Component {
             </div>
         )
     }
+}
+
+ChannelItem.propTypes = {
+    mail: PropTypes.object,
+    index: PropTypes.number,
 }
 
 export default ChannelItem

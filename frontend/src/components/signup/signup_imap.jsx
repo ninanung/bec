@@ -88,8 +88,19 @@ class SignupImap extends Component {
                 return alert('Port must be number.');
             }
         }
+
+        //for test
+        const info = {
+            imap_id: id,
+            imap_password: password,
+            imap_host: host,
+            imap_port: port,
+            imap_tls: true,
+        }
+        this.props.store_signup_imap(info);
+
         //pass infos to the server
-        this.clearState();
+        //this.clearState();
         this.props.history.push('/')
     }
 

@@ -6,10 +6,14 @@ import InputBox from '../input_box/input_box';
 import './signin.css';
 
 import { connect } from 'react-redux';
-const mapStateToProps = (state) => {
-    return {
-        signup_basic: state.signup_basic,
-    }
+import { bindActionCreators } from 'redux';
+import * as actions from '../../store/action';
+  
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        store_signup_imap: actions.store_signup_imap,
+        store_signup_basic: actions.store_signup_basic,
+    }, dispatch)
 }
 
 class Signin extends Component {
@@ -32,14 +36,21 @@ class Signin extends Component {
     }
 
     onSignin = () => {
+        if(!this.state.id || !this.state.password) {
+            return alert('Please, fulfill all user information.')
+        }
         //send data to server
+        const basic_info = null;
+        const imap_info = null;
+        this.props.store_signup_basic(basic_info);
+        this.props.store_signup_imap(imap_info);
+        this.props.history.push('/home');
     }
 
     render() {
         return (
             <div className='signin'>
                 <div className='signin-header'>
-                    {console.log(this.props.signup_basic)}
                     <h1 className='signin-header-title'>wellcome Bec!</h1>
                     <p className='signin-header-text'>For the better e-mail user experience</p>
                     <p className='signin-header-text'>Organize users and mails.</p>
@@ -58,4 +69,4 @@ class Signin extends Component {
     }
 }
 
-export default connect(mapStateToProps)(Signin);
+export default connect(mapDispatchToProps)(Signin);

@@ -7,7 +7,23 @@ import IntroImap from './intro_body/intro_imap';
 
 import './intro.css';
 
+import { connect } from 'react-redux';
+
+const mapStateToProps = (state) => {
+    return {
+        signup_basic: state.signup_basic,
+        signup_imap: state.signup_imap,
+    }
+}
+
 class Intro extends Component {
+    componentWillMount = () => {
+        const { signup_basic, signup_imap, history } = this.props;
+        if(signup_basic.id && signup_basic.password && signup_imap.imap_id && signup_imap.imap_password && signup_imap.imap_host && signup_imap.imap_port) {
+            history.push('/home');
+        }
+    }
+
     render() {
         return (
             <div className='header'>
@@ -26,4 +42,4 @@ class Intro extends Component {
     }
 }
 
-export default Intro;
+export default connect(mapStateToProps)(Intro);
