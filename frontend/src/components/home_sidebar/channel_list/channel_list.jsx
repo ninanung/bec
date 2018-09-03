@@ -18,7 +18,7 @@ class ChannelList extends Component {
         })
     }
 
-    listMails = (channels) => {
+    listChannels = (channels) => {
         channels.map((channel, index) => {
             return (
                 <ChannelItem channel={channel} index={index} key={index} />
@@ -29,7 +29,7 @@ class ChannelList extends Component {
     render() {
         return (
             <div className='channel-list-body'>
-                {this.listMails(this.state.channels)}
+                {this.listChannels(this.state.channels)}
             </div>
         )
     }
