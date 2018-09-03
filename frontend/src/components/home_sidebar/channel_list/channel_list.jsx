@@ -6,22 +6,22 @@ class ChannelList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            mails: [],
+            channels: [],
         }
     }
 
     componentWillMount() {
         //connect to server and get emails
-        const mails = [];
+        const channels = [];
         this.setState({
-            mails: mails,
+            channels: channels,
         })
     }
 
-    listMails = (mails) => {
-        mails.map((mail, index) => {
+    listMails = (channels) => {
+        channels.map((channel, index) => {
             return (
-                <ChannelItem mail={mail} index={index} key={index} />
+                <ChannelItem channel={channel} index={index} key={index} />
             )
         })
     }
@@ -29,7 +29,7 @@ class ChannelList extends Component {
     render() {
         return (
             <div className='channel-list-body'>
-                {this.listMails(this.state.mails)}
+                {this.listMails(this.state.channels)}
             </div>
         )
     }

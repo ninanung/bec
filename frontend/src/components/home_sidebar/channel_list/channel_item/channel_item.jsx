@@ -12,7 +12,7 @@ class ChannelItem extends Component {
 }
 
 ChannelItem.propTypes = {
-    mail: PropTypes.object,
+    channel: PropTypes.object,
     index: PropTypes.number,
 }
 
