@@ -1,13 +1,13 @@
 var express = require('express');
 var router = express.Router();
+var htmlToText = require('html-to-text');
 
 router.get('/', function(req, res, next) {
-  var Imap = require('imap'),
-  inspect = require('util').inspect;
+  var Imap = require('imap'), inspect = require('util').inspect;
 
   var imap = new Imap({
-    user: 'some@gmail.com',
-    password: 'some',
+    user: 'ninanung0503@gmail.com',
+    password: '1004nmnm',
     host: 'imap.gmail.com',
     port: 993,
     tls: true
@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
   function openInbox(cb) {
     imap.openBox('INBOX', true, cb);
   }
-
+  
   imap.once('ready', function() {
     openInbox(function(err, box) {
       if (err) throw err;
@@ -38,6 +38,7 @@ router.get('/', function(req, res, next) {
         });
         msg.once('attributes', function(attrs) {
           console.log(prefix + 'Attributes: %s', inspect(attrs, false, 8));
+          console.log(attrs.struct[2])
         });
         msg.once('end', function() {
           console.log(prefix + 'Finished');
@@ -52,15 +53,15 @@ router.get('/', function(req, res, next) {
       });
     });
   });
-
+  
   imap.once('error', function(err) {
     console.log(err);
   });
-
+  
   imap.once('end', function() {
     console.log('Connection ended');
   });
-
+  
   imap.connect();
 });
 

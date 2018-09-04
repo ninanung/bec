@@ -14,6 +14,7 @@
     "react-scripts": "1.1.4",
     "redux": "^4.0.0",
     "redux-persist": "^5.10.0",
+    "request": "^2.88.0",
     "sign-checker": "^1.0.8"
   },
   "scripts": {
