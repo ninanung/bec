@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/imap', imap);
+app.use('/', imap);
 app.use('/pop3', pop3);
 
 app.use(function(req, res, next) {
