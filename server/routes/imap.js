@@ -41,9 +41,7 @@ router.get('/', function(req, res, next) {
   }
 
   imap.once('ready', function () {
-    imap.getBoxes('', function(error, boxes) {
-      console.log(boxes);
-    })
+    console.log(imap);
     openInbox(function (err, box) {
       if (err) throw err;
       imap.search(['SEEN'], function (err, results) {
@@ -52,7 +50,6 @@ router.get('/', function(req, res, next) {
         var f = imap.fetch(results, { bodies: 'HEADER.FIELDS (FROM TO SUBJECT DATE)', struct: true });
         f.on('message', function (msg, seqno) {
           //console.log('Message #%d' + seqno);
-          console.log('Message type' + msg.text);
           var prefix = '(#' + seqno + ') ';
           msg.on('body', function (stream, info) {
             stream.on('data', function (chunk) {
@@ -63,13 +60,13 @@ router.get('/', function(req, res, next) {
               if (info.which === '1') {
                 //console.log('BUFFER' + buffer)
               }
-              console.log(inspect(Imap.parseHeader(buffer)))
+              //console.log(inspect(Imap.parseHeader(buffer)))
             });
             //console.log(prefix + 'Body');
             //stream.pipe(fs.createWriteStream('msg-' + seqno + '-body.html'));
           });
           msg.once('attributes', function (attrs) {
-            console.log(prefix + 'Attributes: %s', inspect(attrs, false, 8));
+            //console.log(prefix + 'Attributes: %s', inspect(attrs, false, 8));
           });
           msg.once('end', function () {
             console.log(prefix + 'Finished');
@@ -133,7 +130,6 @@ router.get('/imap', function(req, res, next) {
     //debug: console.log, // Or your custom function with only one incoming argument. Default: null
     tlsOptions: { rejectUnauthorized: false },
     mailbox: "INBOX", // mailbox to monitor
-    searchFilter: ["ALL"], // the search filter being used after an IDLE notification has been retrieved
     markSeen: true, // all fetched email willbe marked as seen and not fetched next time
     fetchUnreadOnStart: true, // use it only if you want to get all unread email on lib start. Default is `false`,
     mailParserOptions: {streamAttachments: true}, // options to be passed to mailParser lib.
@@ -142,9 +138,19 @@ router.get('/imap', function(req, res, next) {
   });
    
   mailListener.start(); // start listening
-   
   // stop listening
   //mailListener.stop();
+
+  mailListener.on("mail", function(mail, seqno, attributes){
+    // do something with mail object including attachments
+    //console.log(mail.html);
+    console.log('new message alived!!!!');
+    if(mail.cc) {
+      console.log(inspect(mail.cc));
+    }
+    console.log(mail.subject)
+    console.log('--------------------------------------------------------------')
+  });
    
   mailListener.on("server:connected", function(){
     console.log("imapConnected");
@@ -162,12 +168,15 @@ router.get('/imap', function(req, res, next) {
     console.log(err);
   });
    
-  mailListener.on("mail", function(mail, seqno, attributes){
+  /*mailListener.on("mail", function(mail, seqno, attributes){
     // do something with mail object including attachments
-    console.log(mail.eml);
+    //console.log(mail.html);
+    if(mail.cc) {
+      console.log(inspect(mail.cc));
+    }
+    console.log(mail.subject)
     console.log('--------------------------------------------------------------')
-    // mail processing code goes here
-  });
+  });*/
    
   mailListener.on("attachment", function(attachment){
     console.log(attachment.path);
