@@ -13,7 +13,7 @@ const naver = {
   password: '1004Nmnm!',
 }
 
-router.get('/', function(req, res, next) {
+router.get('/imap', function(req, res, next) {
   var buffer = '';
   var myMap;
 
@@ -90,34 +90,8 @@ router.get('/', function(req, res, next) {
   imap.connect(); 
 });
 
-router.get('/inbox', function(req, res, next) {
-  var inbox = require("inbox");
- 
-  var client = inbox.createConnection(false, "imap.gmail.com", {
-      secureConnection: true,
-      auth:{
-          user: "ninanung0503@gmail.com",
-          pass: "1004nmnm"
-      }
-  });
-   
-  client.connect();
-   
-  client.on("connect", function(){
-      client.openMailbox("INBOX", function(error, info){
-          if(error) throw error;
-   
-          client.listMessages(-10, function(err, messages){
-              messages.forEach(function(message){
-                console.log(message);
-              });
-          });
-      });
-  });
-});
-
-router.get('/imap', function(req, res, next) {
-  var MailListener = require("mail-listener4");
+router.get('/', function(req, res, next) {
+  var MailListener = require('mail-listener4');
  
   var mailListener = new MailListener({
     username: google.id,
@@ -129,46 +103,46 @@ router.get('/imap', function(req, res, next) {
     authTimeout: 5000, // Default by node-imap,
     //debug: console.log, // Or your custom function with only one incoming argument. Default: null
     tlsOptions: { rejectUnauthorized: false },
-    mailbox: "INBOX", // mailbox to monitor
+    mailbox: 'INBOX', // mailbox to monitor
     markSeen: true, // all fetched email willbe marked as seen and not fetched next time
     fetchUnreadOnStart: true, // use it only if you want to get all unread email on lib start. Default is `false`,
     mailParserOptions: {streamAttachments: true}, // options to be passed to mailParser lib.
     attachments: true, // download attachments as they are encountered to the project directory
-    attachmentOptions: { directory: "attachments/" } // specify a download directory for attachments
+    attachmentOptions: { directory: 'attachments/' } // specify a download directory for attachments
   });
    
   mailListener.start(); // start listening
   // stop listening
   //mailListener.stop();
 
-  mailListener.on("mail", function(mail, seqno, attributes){
+  mailListener.on('mail', function(mail, seqno, attributes){
     // do something with mail object including attachments
     //console.log(mail.html);
     console.log('new message alived!!!!');
     if(mail.cc) {
       console.log(inspect(mail.cc));
     }
-    console.log(mail.subject)
+    console.log(mail)
     console.log('--------------------------------------------------------------')
   });
    
-  mailListener.on("server:connected", function(){
-    console.log("imapConnected");
+  mailListener.on('server:connected', function(){
+    console.log('imapConnected');
   });
    
-  mailListener.on("mailbox", function(mailbox){
-    console.log("Total number of mails: ", mailbox.messages.total); // this field in mailbox gives the total number of emails
+  mailListener.on('mailbox', function(mailbox){
+    console.log('total : ', mailbox.messages.total); // this field in mailbox gives the total number of emails
   });
    
-  mailListener.on("server:disconnected", function(){
-    console.log("imapDisconnected");
+  mailListener.on('server:disconnected', function(){
+    console.log('imapDisconnected');
   });
    
-  mailListener.on("error", function(err){
+  mailListener.on('error', function(err){
     console.log(err);
   });
    
-  /*mailListener.on("mail", function(mail, seqno, attributes){
+  /*mailListener.on('mail', function(mail, seqno, attributes){
     // do something with mail object including attachments
     //console.log(mail.html);
     if(mail.cc) {
@@ -178,7 +152,7 @@ router.get('/imap', function(req, res, next) {
     console.log('--------------------------------------------------------------')
   });*/
    
-  mailListener.on("attachment", function(attachment){
+  mailListener.on('attachment', function(attachment){
     console.log(attachment.path);
   });
 })
