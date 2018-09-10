@@ -16,6 +16,8 @@ const users = mongoose.Schema({
     smtp_port: { type: String, required: true },
     smtp_secure: { type: Boolean, required: true },
 
+    channels: [{ type: String }],
+
     sent_messages: {
         from: { type: String },
         to: { type: String },

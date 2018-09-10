@@ -1,4 +1,5 @@
 var express = require('express');
+var MailListener = require('mail-listener4');
 var router = express.Router();
 
 var User = require('../models/users');
@@ -26,6 +27,26 @@ router.get('/', function(req, res, next) {
             info.words = 'Wrong password.';
             return res.send(info);
         }
+        var mailListener = new MailListener({
+            username: user.imap_id,
+            password: user.imap_password,
+            host: user.imap_host,
+            port: user.imap_port,
+            tls: user.imap_tls,
+            connTimeout: 10000, // Default by node-imap
+            authTimeout: 5000, // Default by node-imap,
+            //debug: console.log, // Or your custom function with only one incoming argument. Default: null
+            tlsOptions: { rejectUnauthorized: false },
+            mailbox: 'INBOX', // mailbox to monitor
+            markSeen: true, // all fetched email willbe marked as seen and not fetched next time
+            fetchUnreadOnStart: true, // use it only if you want to get all unread email on lib start. Default is `false`,
+            mailParserOptions: {streamAttachments: true}, // options to be passed to mailParser lib.
+            attachments: true, // download attachments as they are encountered to the project directory
+            attachmentOptions: { directory: 'attachments/' } // specify a download directory for attachments
+        });
+
+        mailListener.start();
+
         return res.send(user);
     });
 });
