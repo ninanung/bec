@@ -6,9 +6,9 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 
 var imap = require('./routes/imap');
-var pop3 = require('./routes/pop3');
-var signup = require('./routes/signup');
-var signin = require('./routes/signin');
+var signup = require('./routes/account/signup');
+var signin = require('./routes/account/signin');
+var get_user = require('./routes/account/get_user')
 
 var app = express();
 
@@ -22,9 +22,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.set('view engine', 'html');
 
 app.use('/imap', imap);
-app.use('/pop3', pop3);
 app.use('/api/signup', signup);
-app.use('/api/signin', signin)
+app.use('/api/signin', signin);
+app.user('/api/get/user', get_user);
 
 app.use(function(req, res, next) {
   next(createError(404));
