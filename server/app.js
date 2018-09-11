@@ -6,7 +6,6 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 
 var app = express();
-app.set('view engine', 'html');
 
 const get = '/api/get';
 const post = '/api/post';

@@ -4,8 +4,9 @@ var router = express.Router();
 var Imap = require('imap'), inspect = require('util').inspect;
 var fs = require('fs'), fileStream;
 
-var imap;
+var User = require('../../models/users');
 
+var imap;
 const google = {
   id: 'ninanung0503@gmail.com',
   password: '1004nmnm',
@@ -13,7 +14,6 @@ const google = {
   port: 993,
   tls: true,
 }
-var User = require('../../models/users');
 
 router.get('/', function(req, res, next) {
     //var user = req.body;
@@ -48,7 +48,7 @@ router.get('/', function(req, res, next) {
         console.log('mail');
         console.log('new mail : ', num);
         imap.search(['UNSEEN'], function (err, results) {
-            var f = imap.fetch(results[results.length - 1], { bodies: '', struct: true });    
+            var f = imap.fetch(results[result.length - 1], { bodies: '', struct: true });    
             f.on('message', function (msg, seqno) {
                 msg.on('body', function (stream, info) {
                     simpleParser(stream, (err, parsed) => {
@@ -85,16 +85,75 @@ router.get('/disconnect', function(req, res, next) {
     imap.end()
 });
 
-router.get('/emails/all/:id', function(req, res, next) {
-
+router.get('/emails/all', function(req, res, next) {
+    var send = {
+        error: '',
+        mails: [],
+    }
+    imap.search('ALL', function(err, results) {
+        if(err) {
+            send.error = err
+            return res.send(send);
+        }
+        var f = imap.fetch(results, { bodies: '', struct: true });    
+        f.on('message', function (msg, seqno) {
+            msg.on('body', function (stream, info) {
+                simpleParser(stream, (err, parsed) => {
+                    mails.push(parsed);
+                    console.log(parsed.subject);
+                })
+            })
+        })
+    })
+    return send(send);
 });
 
 router.get('/emails/:address', function(req, res, next) {
-
+    var send = {
+        error: '',
+        mails: [],
+    }
+    imap.search('ALL', function(err, results) {
+        if(err) {
+            send.error = err
+            return res.send(send);
+        }
+        var f = imap.fetch(results, { bodies: '', struct: true });    
+        f.on('message', function (msg, seqno) {
+            msg.on('body', function (stream, info) {
+                simpleParser(stream, (err, parsed) => {
+                    if(parsed.from.value[0].address === req.params.address) {
+                        mails.push(parsed);
+                        console.log(parsed.subject);
+                    }
+                })
+            })
+        })
+    })
+    return send(send);
 });
 
 router.get('/emails/unseen', function(req, res, next) {
-
+    var send = {
+        error: '',
+        mails: [],
+    }
+    imap.search('UNSEEN', function(err, results) {
+        if(err) {
+            send.error = err
+            return res.send(send);
+        }
+        var f = imap.fetch(results, { bodies: '', struct: true });    
+        f.on('message', function (msg, seqno) {
+            msg.on('body', function (stream, info) {
+                simpleParser(stream, (err, parsed) => {
+                    mails.push(parsed);
+                    console.log(parsed.subject);
+                })
+            })
+        })
+    })
+    return send(send);
 });
 
 router.get('/emails/sent/:address', function(req, res, next) {
