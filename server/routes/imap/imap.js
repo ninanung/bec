@@ -25,7 +25,7 @@ router.get('/', function(req, res, next) {
         port: google.port, //user.imap_port,
         tls: google.tls, //user.imap_tls,
         connTimeout: 10000, // Default by node-imap 
-        authTimeout: 5000, // Default by node-imap, 
+        authTimeout: 10000, // Default by node-imap, 
         //debug: console.log, // Or your custom function with only one incoming argument. Default: null 
         tlsOptions: { rejectUnauthorized: false },
         mailbox: 'INBOX',
@@ -157,7 +157,24 @@ router.get('/emails/unseen', function(req, res, next) {
 });
 
 router.get('/emails/sent/:address', function(req, res, next) {
-
+    const body = req.body;
+    var send = {
+        error: '',
+        mails: [],
+    }
+    User.findOne({ id: body.id }, function(err, user) {
+        if(err) {
+            send.error = err;
+            console.log(err);
+            return res.send(info);
+        }
+        if(!user) {
+            send.error = 'There\'s no account that has same id.';
+            return res.send(info);
+        }
+        send.mails = user.sent_messages.slice();
+        return res.send(send);
+    });
 });
 
 module.exports = router;

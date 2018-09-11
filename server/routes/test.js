@@ -32,32 +32,47 @@ router.get('/imaptest', function(req, res, next) {
   function openInbox(cb) {
     imap.openBox('INBOX', false, cb);
   }
-
+  const fromarray = [];
+  const attrarray = [];
+  const isit = true;
   imap.once('ready', function () {
     openInbox(function (err, box) {
       if (err) throw err;
       imap.search(['UNSEEN'], function (err, results) {
         if (err) throw err;
         //results 값이 비어있을 경우 fetch를 하면 error를 발생시킴
-        var f = imap.fetch(results[results.length - 1], { bodies: '', struct: true });    
+        var f = imap.fetch(results, { bodies: '', struct: true });    
         f.on('message', function (msg, seqno) {
           //console.log('Message #%d' + seqno);
           var prefix = '(#' + seqno + ') ';
+          msg.on('attributes', function (attrs) {
+            if(attrs.flags.length === 0) {
+              isit = true;
+            }
+            for(var i = 0; i < attrs.flags.length; i++) {
+              isit = true;
+              if(attrs.flags[i] === '\\Seen') {
+                isit = false;
+                i = attrs.flags.length;
+              }
+            }
+            attrarray.push(attrs.uid);
+            console.log(attrarray);
+            console.log('--------------------------------------------------------------')
+          });
           msg.on('body', function (stream, info) {
-            console.log(results.length);
+            //console.log(results.length);
             simpleParser(stream, (err, parsed) => {
               const html = parsed.html.replace(/\\n/gi, '')
               const from = parsed.from.value[0].address
               //const cc = parsed.cc.value[0].address;
-              console.log(from);
+              fromarray.push(from);
+              console.log(fromarray);
               console.log('--------------------------------------------------------------')
             })
             //stream.pipe(fs.createWriteStream('msg-' + seqno + '-body.html'));
           });
-          msg.once('attributes', function (attrs) {
-            //console.log(prefix + 'Attributes: %s', inspect(attrs, false, 8));
-          });
-          msg.once('end', function () {
+          msg.on('end', function () {
             console.log(prefix + 'Finished');
           });
         });
@@ -79,8 +94,8 @@ router.get('/imaptest', function(req, res, next) {
       f.on('message', function (msg, seqno) {
         msg.on('body', function (stream, info) {
           simpleParser(stream, (err, parsed) => {
-            console.log(parsed);
-            console.log('--------------------------------------------------------------')
+            //console.log(parsed);
+            //console.log('--------------------------------------------------------------')
           })
         })
       })
