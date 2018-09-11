@@ -6,29 +6,24 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 
 var app = express();
+app.set('view engine', 'html');
 
 const get = '/api/get';
 const post = '/api/post';
 
-var imap = require('./routes/imap');
+var imap = require('./routes/imap/imap');
 var signup = require('./routes/account/signup');
 var signin = require('./routes/account/signin');
 var get_user = require('./routes/account/get_user');
 var update_user = require('./routes/account/update_user');
-var get_all_email_by_address = require('./routes/get_email/get_all_email_by_address');
-var get_email_by_address = require('./routes/get_email/get_email_by_address');
-var get_email_unseen = require('./routes/get_email/get_email_unseen');
-var get_sent_email_by_address = require('./routes/get_email/get_sent_email_by_address');
+var test = require('./routes/test');
 
-app.use('/imap', imap);
+app.use('/test', test);
+app.use(get + '/imap', imap);
 app.use(post + '/signup', signup);
 app.use(post + '/update/user', update_user);
 app.use(get + '/signin', signin);
 app.use(get + '/user', get_user);
-app.use(get + '/email/:address', get_email_by_address);
-app.use(get + '/email/all/:address', get_all_email_by_address);
-app.use(get + '/email/unseen', get_email_unseen);
-app.use(get + '/email/sent/:address', get_sent_email_by_address);
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -50,7 +45,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  //res.render('error');
 });
 
 module.exports = app;

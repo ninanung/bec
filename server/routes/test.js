@@ -28,10 +28,7 @@ var imap = new Imap({
   attachmentOptions: { directory: 'attachments/' } // specify a download directory for attachments 
 });
 
-router.get('/', function(req, res, next) {
-  var buffer = '';
-  var myMap;
-  
+router.get('/imaptest', function(req, res, next) {
   function openInbox(cb) {
     imap.openBox('INBOX', false, cb);
   }
@@ -51,8 +48,8 @@ router.get('/', function(req, res, next) {
             simpleParser(stream, (err, parsed) => {
               const html = parsed.html.replace(/\\n/gi, '')
               const from = parsed.from.value[0].address
-              const cc = parsed.cc.value[0].address;
-              console.log(cc);
+              //const cc = parsed.cc.value[0].address;
+              console.log(from);
               console.log('--------------------------------------------------------------')
             })
             //stream.pipe(fs.createWriteStream('msg-' + seqno + '-body.html'));
@@ -74,23 +71,21 @@ router.get('/', function(req, res, next) {
     });
   });
 
-  /*imap.on('mail', function(num) {
-    console.log('mail')
-    openInbox(function(err, box) {
-      if(err) throw err;
-      imap.search(['UNSEEN'], function (err, results) {
-        var f = imap.fetch(results[results.length - 1], { bodies: '', struct: true });    
-        f.on('message', function (msg, seqno) {
-          msg.on('body', function (stream, info) {
-            simpleParser(stream, (err, parsed) => {
-              console.log(parsed);
-              console.log('--------------------------------------------------------------')
-            })
+  imap.on('mail', function(num) {
+    console.log('mail');
+    console.log('new mail : ', num);
+    imap.search(['UNSEEN'], function (err, results) {
+      var f = imap.fetch(results[results.length - 1], { bodies: '', struct: true });    
+      f.on('message', function (msg, seqno) {
+        msg.on('body', function (stream, info) {
+          simpleParser(stream, (err, parsed) => {
+            console.log(parsed);
+            console.log('--------------------------------------------------------------')
           })
         })
       })
     })
-  })*/
+  })
 
   imap.on('update', function(seq, info) {
     console.log('update');
@@ -107,10 +102,11 @@ router.get('/', function(req, res, next) {
   });
   
   imap.connect(); 
+  return res.send('done');
 });
 
-router.get('/test', function(req, res, next) {
-  console.log('test');
-});
+router.get('/', function(req, res, next) {
+  res.send('test');
+})
 
 module.exports = router;
