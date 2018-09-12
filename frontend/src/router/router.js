@@ -5,6 +5,7 @@ import Intro from '../components/intro/intro';
 import Signup from '../components/signup/signup';
 import SignupImap from '../components/signup/signup_imap';
 import Home from '../components/home/home';
+import SignupSmtp from '../components/signup/signup_smtp';
 
 class NotFound extends Component {
   render() {
@@ -22,6 +23,7 @@ class Router extends Component {
           <Route exact path='/' component={ Intro } />
           <Route exact path='/signup' component={ Signup } />
           <Route exact path='/signup/imap' component={ SignupImap } />
+          <Route exact path='/signup/smtp' component={ SignupSmtp } />
           <Route exact path='/home' component={ Home } />
           <Route component={ NotFound } />
         </Switch>

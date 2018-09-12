@@ -23,3 +23,16 @@ export const clear_signup_basic = () => {
         type: 'CLEAR_BASIC',
     }
 }
+
+export const store_signup_smtp = (signup_smtp) => {
+    return {
+        type: 'SMTP_INFO',
+        signup_smtp,
+    }
+}
+
+export const clear_signup_smtp = () => {
+    return {
+        type: 'CLEAR_SMTP',
+    }
+}

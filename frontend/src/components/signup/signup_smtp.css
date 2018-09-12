@@ -1,0 +1,32 @@
+.signup-smtp {
+    text-align: left; width: 360px; margin: 150px auto 150px auto;
+}
+
+.signup-smtp-header {
+    font-size: 20px; margin: 0 0 10px 0; color: #157483
+}
+
+.signup-smtp-cancel {
+    background-color: #D26D6D; width: 100px;
+    float: left;
+}
+
+.signup-smtp-cancel:hover {
+    color: #D26D6D; border-color: #D26D6D;
+}
+
+.signup-smtp-next {
+    float: right; width: 115px;
+}
+
+.signup-smtp-footer {
+    margin-top: 40px;
+}
+
+.signup-smtp-notice {
+    color: #EE6262;
+}
+
+.br {
+    margin-bottom: 30px;
+}

@@ -48,15 +48,17 @@ router.get('/', function(req, res, next) {
         console.log('mail');
         console.log('new mail : ', num);
         imap.search(['UNSEEN'], function (err, results) {
-            var f = imap.fetch(results[result.length - 1], { bodies: '', struct: true });    
-            f.on('message', function (msg, seqno) {
-                msg.on('body', function (stream, info) {
-                    simpleParser(stream, (err, parsed) => {
-                        console.log(parsed);
-                        console.log('--------------------------------------------------------------')
+            if(results) {
+                var f = imap.fetch(results[result.length - 1], { bodies: '', struct: true });    
+                f.on('message', function (msg, seqno) {
+                    msg.on('body', function (stream, info) {
+                        simpleParser(stream, (err, parsed) => {
+                            console.log(parsed);
+                            console.log('--------------------------------------------------------------')
+                        })
                     })
                 })
-            })
+            }
         })
     })
 
@@ -95,6 +97,9 @@ router.get('/emails/all', function(req, res, next) {
             send.error = err
             return res.send(send);
         }
+        if(!results) {
+            return res.send(send);
+        }
         var f = imap.fetch(results, { bodies: '', struct: true });    
         f.on('message', function (msg, seqno) {
             msg.on('body', function (stream, info) {
@@ -116,6 +121,9 @@ router.get('/emails/:address', function(req, res, next) {
     imap.search('ALL', function(err, results) {
         if(err) {
             send.error = err
+            return res.send(send);
+        }
+        if(!results) {
             return res.send(send);
         }
         var f = imap.fetch(results, { bodies: '', struct: true });    
@@ -143,6 +151,9 @@ router.get('/emails/unseen', function(req, res, next) {
             send.error = err
             return res.send(send);
         }
+        if(!results) {
+            return res.send(send);
+        }
         var f = imap.fetch(results, { bodies: '', struct: true });    
         f.on('message', function (msg, seqno) {
             msg.on('body', function (stream, info) {
@@ -157,7 +168,7 @@ router.get('/emails/unseen', function(req, res, next) {
 });
 
 router.get('/emails/sent/:address', function(req, res, next) {
-    const body = req.body;
+    const address = req.params.address;
     var send = {
         error: '',
         mails: [],
@@ -172,7 +183,11 @@ router.get('/emails/sent/:address', function(req, res, next) {
             send.error = 'There\'s no account that has same id.';
             return res.send(info);
         }
-        send.mails = user.sent_messages.slice();
+        for(var i = 0; i < user.sent_messages.length; i++) {
+            if(sent_messages[i].to === address) {
+                send.mails.push(sent_messages[i]);
+            }
+        }
         return res.send(send);
     });
 });

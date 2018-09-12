@@ -18,14 +18,14 @@ const users = mongoose.Schema({
 
     channels: [{ type: String }],
 
-    sent_messages: {
+    sent_messages: [{
         from: { type: String },
         to: { type: String },
         cc: { type: String },
         subject: { type: String },
         html: { type: String },
         text: { type: String },
-    }
+    }],
 });
 
 const User = mongoose.model("user", users);

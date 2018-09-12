@@ -34,11 +34,11 @@ router.get('/imaptest', function(req, res, next) {
   }
   const fromarray = [];
   const attrarray = [];
-  const isit = true;
+  var isit = true;
   imap.once('ready', function () {
     openInbox(function (err, box) {
       if (err) throw err;
-      imap.search(['UNSEEN'], function (err, results) {
+      imap.search(['SEEN'], function (err, results) {
         if (err) throw err;
         //results 값이 비어있을 경우 fetch를 하면 error를 발생시킴
         var f = imap.fetch(results, { bodies: '', struct: true });    
@@ -46,9 +46,6 @@ router.get('/imaptest', function(req, res, next) {
           //console.log('Message #%d' + seqno);
           var prefix = '(#' + seqno + ') ';
           msg.on('attributes', function (attrs) {
-            if(attrs.flags.length === 0) {
-              isit = true;
-            }
             for(var i = 0; i < attrs.flags.length; i++) {
               isit = true;
               if(attrs.flags[i] === '\\Seen') {
@@ -56,17 +53,22 @@ router.get('/imaptest', function(req, res, next) {
                 i = attrs.flags.length;
               }
             }
-            attrarray.push(attrs.uid);
+            if(isit) {
+              attrarray.push(attrs.uid);
+            }
+            console.log(attrs);
             console.log(attrarray);
             console.log('--------------------------------------------------------------')
           });
           msg.on('body', function (stream, info) {
             //console.log(results.length);
             simpleParser(stream, (err, parsed) => {
-              const html = parsed.html.replace(/\\n/gi, '')
+              //const html = parsed.html.replace(/\\n/gi, '')
               const from = parsed.from.value[0].address
               //const cc = parsed.cc.value[0].address;
-              fromarray.push(from);
+              if(isit) {
+                fromarray.push(from);
+              }
               console.log(fromarray);
               console.log('--------------------------------------------------------------')
             })

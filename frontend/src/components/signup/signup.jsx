@@ -13,7 +13,6 @@ import * as actions from '../../store/action';
 const mapStateToProps = (state) => {
     return {
         signup_basic: state.signup_basic,
-        signup_imap: state.signup_imap,
     }
 }
   
@@ -22,6 +21,7 @@ const mapDispatchToProps = (dispatch) => {
         store_signup_basic: actions.store_signup_basic,
         clear_signup_basic: actions.clear_signup_basic,
         clear_signup_imap: actions.clear_signup_imap,
+        clear_signup_smtp: actions.clear_signup_smtp,
     }, dispatch)
 }
 
@@ -77,6 +77,7 @@ class Signup extends Component {
 
     onCancel = () => {
         this.props.clear_signup_basic();
+        this.props.clear_signup_smtp();
         this.props.clear_signup_imap();
         this.props.history.push('/');
     }
@@ -107,8 +108,8 @@ class Signup extends Component {
             password: password
         };
         this.props.store_signup_basic(info);
-        this.props.clear_signup_imap();
-        history.push('/signup/imap');
+        this.props.clear_signup_smtp();
+        history.push('/signup/smtp');
     }
 
     render() {
