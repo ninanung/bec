@@ -23,7 +23,7 @@ router.post('/', function(req, res, next) {
         error: '',
         words: '',
     }
-    User.findOne({ id: body.id }, function(err, user) {
+    /*User.findOne({ id: body.id }, function(err, user) {
         if(err) {
             info.error = 'true';
             info.words = err;
@@ -44,7 +44,8 @@ router.post('/', function(req, res, next) {
             }
         });
         return res.send(info);
-    });
+    });*/
+    return res.send(userinfo);
 });
 
 module.exports = router;

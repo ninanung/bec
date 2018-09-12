@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { checkNumber } from 'sign-checker/check';
 
 import IntroHeader from '../intro/intro_header/intro_header';
@@ -16,14 +15,14 @@ const mapStateToProps = (state) => {
     return {
         signup_smtp: state.signup_smtp,
         signup_basic: state.signup_basic,
+        signup_imap: state.signup_imap,
     }
 }
   
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        clear_signup_basic: actions.clear_signup_basic,
-        clear_signup_imap: actions.clear_signup_imap,
         clear_signup_smtp: actions.clear_signup_smtp,
+        clear_signup_imap: actions.clear_signup_imap,
     }, dispatch)
 }
 
@@ -41,9 +40,16 @@ class SignupImap extends Component {
 
     componentWillMount = () => {
         this.props.clear_signup_imap();
+        console.log(this.props.signup_basic);
+        console.log(this.props.signup_imap);
+        console.log(this.props.signup_smtp);
         if(!this.props.signup_basic.id || !this.props.signup_basic.password) {
             alert('You have to write basic information first.')
             this.props.history.push('/signup');
+        }
+        if(!this.props.signup_smtp.smtp_id || !this.props.signup_smtp.smtp_password) {
+            alert('You have to write SMTP server information first.')
+            this.props.history.push('/signup/smtp');
         }
     }
 
@@ -74,8 +80,12 @@ class SignupImap extends Component {
     }
 
     clearState = () => {
-        this.props.clear_signup_basic();
-        this.props.clear_signup_imap();
+        this.props.clear_signup_smtp();
+    }
+
+    onCancel = () => {
+        this.clearState();
+        this.props.history.push('/signup/smtp');
     }
 
     onCreateAccount = () => {
@@ -147,7 +157,7 @@ class SignupImap extends Component {
                         <p className='br'/>
                     </div>
                     <div className='signup-imap-footer'>
-                        <Link to='/signup/smtp'><button className='button signup-imap-cancel'>◀ Back</button></Link>
+                        <button onClick={this.onCancel} className='button signup-imap-cancel'>◀ Back</button>
                         <button onClick={this.onCreateAccount} className='button signup-imap-next'>Create ▶</button>
                     </div>
                 </div>

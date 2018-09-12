@@ -10,7 +10,7 @@ export default (state = initialState, action) => {
                 smtp_password: action.signup_smtp.smtp_password,
                 smtp_host: action.signup_smtp.smtp_host,
                 smtp_port: action.signup_smtp.smtp_port,
-                smtp_secure: action.signup_smtp.smtp_tls,
+                smtp_secure: action.signup_smtp.smtp_secure,
             })
         case 'CLEAR_SMTP':
             return Object.assign({}, state, {

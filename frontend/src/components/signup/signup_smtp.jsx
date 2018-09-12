@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { checkNumber } from 'sign-checker/check';
 
 import IntroHeader from '../intro/intro_header/intro_header';
@@ -14,6 +13,7 @@ import * as actions from '../../store/action';
 
 const mapStateToProps = (state) => {
     return {
+        signup_basic: state.signup_basic,
         signup_smtp: state.signup_smtp,
     }
 }
@@ -43,10 +43,6 @@ class SignupSmtp extends Component {
         if(!this.props.signup_basic.id || !this.props.signup_basic.password) {
             alert('You have to write basic information first.')
             this.props.history.push('/signup');
-        }
-        if(!this.props.signup_smtp.smtp_id || !this.props.signup_smtp.smtp_password) {
-            alert('You have to write SMTP server information first.')
-            this.props.history.push('/signup/smtp');
         }
     }
 
@@ -79,10 +75,14 @@ class SignupSmtp extends Component {
     clearState = () => {
         this.props.clear_signup_basic();
         this.props.clear_signup_smtp();
-        this.props.clear_signup_imap();
     }
 
-    onCreateAccount = () => {
+    onCancel = () => {
+        this.clearState();
+        this.props.history.push('/signup')
+    }
+
+    onSignup = () => {
         const {id, password, host, port, secure} = this.state;
         if(!id || !password || !host || !port || !secure) {
             return alert('All information must be fullfilled.')
@@ -139,8 +139,8 @@ class SignupSmtp extends Component {
                         <p className='br'/>
                     </div>
                     <div className='signup-smtp-footer'>
-                        <Link to='/signup'><button className='button signup-smtp-cancel'>◀ Back</button></Link>
-                        <button onClick={this.onCreateAccount} className='button signup-smtp-next'>Create ▶</button>
+                        <button onClick={this.onCancel} className='button signup-smtp-cancel'>◀ Back</button>
+                        <button onClick={this.onSignup} className='button signup-smtp-next'>Next ▶</button>
                     </div>
                 </div>
             </div>
