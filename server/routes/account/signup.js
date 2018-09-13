@@ -1,9 +1,11 @@
 var express = require('express');
 var router = express.Router();
+var bodyParser = require('body-parser')
+var jsonParser = bodyParser.json();
 
 var User = require('../../models/users');
 
-router.post('/', function(req, res, next) {
+router.post('/', jsonParser, function(req, res, next) {
     var body = req.body;
     var userinfo = {
         id: body.id,
@@ -23,7 +25,7 @@ router.post('/', function(req, res, next) {
         error: '',
         words: '',
     }
-    /*User.findOne({ id: body.id }, function(err, user) {
+    User.findOne({ id: body.id }, function(err, user) {
         if(err) {
             info.error = 'true';
             info.words = err;
@@ -44,8 +46,7 @@ router.post('/', function(req, res, next) {
             }
         });
         return res.send(info);
-    });*/
-    return res.send(userinfo);
+    });
 });
 
 module.exports = router;

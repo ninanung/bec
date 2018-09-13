@@ -28,13 +28,13 @@ app.use(post + '/update/user', update_user);
 app.use(get + '/signin', signin);
 app.use(get + '/user', get_user);
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'build')));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 app.set('view engine', 'html');
 
 app.use(function(req, res, next) {

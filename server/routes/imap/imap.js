@@ -2,6 +2,8 @@ var express = require('express');
 var simpleParser = require('mailparser').simpleParser;
 var router = express.Router();
 var Imap = require('imap'), inspect = require('util').inspect;
+var bodyParser = require('body-parser')
+var jsonParser = bodyParser.json();
 var fs = require('fs'), fileStream;
 
 var User = require('../../models/users');
@@ -15,7 +17,7 @@ const google = {
   tls: true,
 }
 
-router.get('/', function(req, res, next) {
+router.get('/', jsonParser, function(req, res, next) {
     //var user = req.body;
 
     imap = new Imap({

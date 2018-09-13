@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { checkNumber } from 'sign-checker/check';
+import request from 'request';
 
 import IntroHeader from '../intro/intro_header/intro_header';
 import InputBox from '../input_box/input_box';
 import SelectBox from '../select_box/select_box';
 
+import constant from '../../constant/server_constant';
 import './signup_imap.css';
 
 import { connect } from 'react-redux';
@@ -21,6 +23,7 @@ const mapStateToProps = (state) => {
   
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
+        clear_signup_basic: actions.clear_signup_basic,
         clear_signup_smtp: actions.clear_signup_smtp,
         clear_signup_imap: actions.clear_signup_imap,
     }, dispatch)
@@ -40,16 +43,13 @@ class SignupImap extends Component {
 
     componentWillMount = () => {
         this.props.clear_signup_imap();
-        console.log(this.props.signup_basic);
-        console.log(this.props.signup_imap);
-        console.log(this.props.signup_smtp);
         if(!this.props.signup_basic.id || !this.props.signup_basic.password) {
             alert('You have to write basic information first.')
-            this.props.history.push('/signup');
+            return this.props.history.push('/signup');
         }
         if(!this.props.signup_smtp.smtp_id || !this.props.signup_smtp.smtp_password) {
             alert('You have to write SMTP server information first.')
-            this.props.history.push('/signup/smtp');
+            return this.props.history.push('/signup/smtp');
         }
     }
 
@@ -80,11 +80,13 @@ class SignupImap extends Component {
     }
 
     clearState = () => {
+        this.props.clear_signup_basic();
         this.props.clear_signup_smtp();
+        this.props.clear_signup_imap();
     }
 
     onCancel = () => {
-        this.clearState();
+        this.props.clear_signup_smtp();
         this.props.history.push('/signup/smtp');
     }
 
@@ -99,8 +101,6 @@ class SignupImap extends Component {
                 return alert('Port must be number.');
             }
         }
-
-        //for test
         const signupInfo = {
             id: signup_basic.id,
             password: signup_basic.password,
@@ -115,10 +115,20 @@ class SignupImap extends Component {
             smtp_port: signup_smtp.smtp_port,
             smtp_secure: signup_smtp.smtp_secure,
         }
-
-        //pass infos to the server
+        const option = {
+            method: 'POST',
+            uri: constant.SIGNUP,
+            json: signupInfo,
+        }
+        request(option, function(err, res, body) {
+            if(body.error) {
+                return alert(body.error);
+            } else {
+                alert('Signup is done, please signin!');
+            }
+        })
         this.clearState();
-        this.props.history.push('/')
+        return this.props.history.push('/')
     }
 
     render() {

@@ -18,4 +18,10 @@ This is just example image and can be changed any time. But i wiil try not to ch
 
 ## Notice
 
-This project is public now, but can be changed to private.
+This project is public now, but can be changed to private.  
+
+## What i first try in this project
+
+1. Complicate websocket event
+2. Using Imap(email base product)
+3. Web notification

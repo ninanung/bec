@@ -1,10 +1,11 @@
 var express = require('express');
-var Imap = require('imap')
 var router = express.Router();
+var bodyParser = require('body-parser')
+var jsonParser = bodyParser.json();
 
 var User = require('../../models/users');
 
-router.get('/', function(req, res, next) {
+router.get('/', jsonParser, function(req, res, next) {
     var body = req.body;
     var info = {
         error: '',

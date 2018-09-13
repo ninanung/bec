@@ -5,6 +5,9 @@ build:
 	echo Install npm modules and build
 	cd $(BUILD_CD) && npm install && npm run build
 
+delete:
+	cd $(SERVER_CD) && rm -r build
+
 just-build:
 	cd $(BUILD_CD) && npm run build
 
@@ -16,8 +19,8 @@ start:
 
 build-and-copy: | build copy
 
-just-build-and-copy: | just-build copy
+just-build-and-copy: | just-build delete copy
 
-fisrt-start-server: | build-and-copy start
+first-start-server: | build-and-copy start
 
 start-server: | just-build-and-copy start
