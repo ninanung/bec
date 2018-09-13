@@ -36,3 +36,15 @@ export const clear_signup_smtp = () => {
         type: 'CLEAR_SMTP',
     }
 }
+
+export const make_signin = () => {
+    return {
+        type: 'MAKE_SIGNIN',
+    }
+}
+
+export const make_signout = () => {
+    return {
+        type: 'MAKE_SIGNOUT',
+    }
+}

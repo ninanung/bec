@@ -16,6 +16,7 @@ const mapDispatchToProps = (dispatch) => {
         store_signup_imap: actions.store_signup_imap,
         store_signup_basic: actions.store_signup_basic,
         store_signup_smtp: actions.store_signup_smtp,
+        make_signin: actions.make_signin,
     }, dispatch)
 }
 
@@ -82,6 +83,7 @@ class Signin extends Component {
         this.props.store_signup_basic(basic_info);
         this.props.store_signup_imap(imap_info);
         this.props.store_signup_smtp(smtp_info);
+        this.props.make_signin();
         return this.props.history.push('/home');
     }
 

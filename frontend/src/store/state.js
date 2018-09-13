@@ -17,6 +17,7 @@ const state = {
         imap_port: '',
         imap_tls: true,
     },
+    is_signin: false,
 }
 
 export default state;
