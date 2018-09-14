@@ -38,13 +38,24 @@ router.get('/imaptest', function(req, res, next) {
   imap.once('ready', function () {
     openInbox(function (err, box) {
       if (err) throw err;
-      imap.search(['SEEN'], function (err, results) {
+      imap.search(['UNSEEN'], function (err, results) {
         if (err) throw err;
         //results 값이 비어있을 경우 fetch를 하면 error를 발생시킴
         var f = imap.fetch(results, { bodies: '', struct: true });    
         f.on('message', function (msg, seqno) {
           //console.log('Message #%d' + seqno);
           var prefix = '(#' + seqno + ') ';
+          let mail = {
+            date: '',
+            from: '',
+            name: '',
+            to: '',
+            cc: '',
+            subject: '',
+            html: '',
+            text: '',
+            uid: '',
+          }
           msg.on('attributes', function (attrs) {
             for(var i = 0; i < attrs.flags.length; i++) {
               isit = true;
@@ -56,20 +67,41 @@ router.get('/imaptest', function(req, res, next) {
             if(isit) {
               attrarray.push(attrs.uid);
             }
-            console.log(attrs);
-            console.log(attrarray);
+            mail.uid = attrs.uid;
+            //console.log(attrs);
+            //console.log(attrarray);
             console.log('--------------------------------------------------------------')
           });
           msg.on('body', function (stream, info) {
             //console.log(results.length);
             simpleParser(stream, (err, parsed) => {
-              //const html = parsed.html.replace(/\\n/gi, '')
-              const from = parsed.from.value[0].address
-              //const cc = parsed.cc.value[0].address;
-              if(isit) {
-                fromarray.push(from);
+              if(parsed.html) {
+                mail.html = parsed.html.replace(/\\n/gi, '')
               }
-              console.log(fromarray);
+              if(parsed.text) {
+                mail.text = parsed.text;
+              }
+              if(parsed.cc) {
+                mail.cc = parsed.cc.value[0].address;
+              }
+              if(parsed.from) {
+                mail.from = parsed.from.value[0].address;
+                mail.name = parsed.from.value[0].name;
+              }
+              if(parsed.to) {
+                mail.to = parsed.to.value[0].address;
+              }
+              if(parsed.subject) {
+                mail.subject = parsed.subject;
+              }
+              if(parsed.date) {
+                mail.date = new Date(parsed.date).getTime();
+              }
+              if(isit) {
+                fromarray.push(mail.from);
+              }
+              //console.log(fromarray);
+              console.log(mail);
               console.log('--------------------------------------------------------------')
             })
             //stream.pipe(fs.createWriteStream('msg-' + seqno + '-body.html'));
