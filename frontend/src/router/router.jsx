@@ -18,15 +18,16 @@ class NotFound extends Component {
 
 class Router extends Component {
   render() {
+    const outside = [true, '/home'];
+    const inside = [false, '/'];
     return (
       <div>
         <Switch>
-          <RouteGuard exact={ true } path='/' component={ Intro } />
-          <RouteGuard exact={ true } path='/signup' component={ Signup } />
-          <RouteGuard exact={ true } path='/signup/imap' component={ SignupImap } />
-          <RouteGuard exact={ true } path='/signup/smtp' component={ SignupSmtp } />
-          <RouteGuard exact={ true } path='/home' component={ Home } />
-          <RouteGuard exact={ true } path='/test/:test' component={ Intro } />
+          <RouteGuard exact={ true } path='/' component={ Intro } option={ outside } />
+          <RouteGuard exact={ true } path='/signup' component={ Signup } option={ outside } />
+          <RouteGuard exact={ true } path='/signup/imap' component={ SignupImap } option={ outside } />
+          <RouteGuard exact={ true } path='/signup/smtp' component={ SignupSmtp } option={ outside } />
+          <RouteGuard exact={ true } path='/home' component={ Home } option={ inside } />
           <Route component={ NotFound } />
         </Switch>
       </div>
