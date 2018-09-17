@@ -1,0 +1,23 @@
+.home {
+    width: 100%; height: 100%; margin: 0;
+}
+
+@media only screen and (max-width: 1000px) {
+    .home-sidebar {
+        display: none;
+    }
+    
+    .home-body {
+        border: 0; height: 100%; width: 100%;
+    }
+}
+@media only screen and (min-width: 1000px) {
+    .home-sidebar {
+        border: 0; height: 100%; width: 300px; left: 0; top: 0;
+        margin: 0; float: left;
+    }
+    
+    .home-body {
+        border: 0; height: 100%; width: calc(100% - 300px); margin-left: 300px;
+    }
+}

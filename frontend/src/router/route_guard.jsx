@@ -12,7 +12,7 @@ const mapStateToProps = (state) => {
 class RouterGuard extends Component {
     componentWillMount = () => {
         console.log(this.props)
-        if(this.props.option) {
+        /*if(this.props.option) {
             if(this.props.option[0]) {
                 if(this.props.is_signin) {
                     window.location.href = this.props.option[1];
@@ -22,7 +22,7 @@ class RouterGuard extends Component {
                     window.location.href = this.props.option[1];
                 }
             }
-        }
+        }*/
     }
 
     render() {

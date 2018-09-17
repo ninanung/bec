@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import HomeSidebar from '../home_sidebar/home_sidebar';
 import HomeBody from '../home_body/home_body';
 
+import './home.css';
+
 class Home extends Component {
     render() {
         return (

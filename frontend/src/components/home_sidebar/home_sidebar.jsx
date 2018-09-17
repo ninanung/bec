@@ -12,7 +12,9 @@ class HomeSidebar extends Component {
                     <Profile />
                     <SidebarMenu />
                 </div>
-                <ChannelList />
+                <div className='channel-list'>
+                    <ChannelList />
+                </div>
             </div>
         )
     }
