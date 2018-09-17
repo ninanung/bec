@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 
 import HomeSidebar from '../home_sidebar/home_sidebar';
-import HomeBody from '../home_body/home_body';
 
-import './home.css';
+import '../home/home.css';
 
-class Home extends Component {
+class HomeIntro extends Component {
     render() {
         return (
             <div className='home'>
@@ -13,11 +12,11 @@ class Home extends Component {
                     <HomeSidebar history={this.props.history}/>
                 </div>
                 <div className='home-body'>
-                    <HomeBody />
+                    <h1>Home sweet home!</h1>
                 </div>
             </div>
         );
     }
 }
 
-export default Home;
+export default HomeIntro;

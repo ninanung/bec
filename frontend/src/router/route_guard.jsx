@@ -18,6 +18,7 @@ class RouterGuard extends Component {
                 }
             } else {
                 if(!this.props.is_signin) {
+                    alert('Please Sign in first!');
                     window.location.href = this.props.option[1];
                 }
             }
