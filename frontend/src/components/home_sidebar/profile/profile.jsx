@@ -12,6 +12,7 @@ class Profile extends Component {
         const hello = 'Hello, ' + this.props.signup_basic.id;
         return (
             <div className='profile-body'>
+                {console.log(this.props.signup_basic)}
                 <p>{hello}</p>
             </div>
         )

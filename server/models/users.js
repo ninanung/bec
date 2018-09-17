@@ -18,7 +18,7 @@ const users = mongoose.Schema({
 
     channels: [{ 
         name: { type: String },
-        from: { type: String },
+        address: { type: String },
     }],
 
     sent_messages: [{

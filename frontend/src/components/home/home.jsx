@@ -10,11 +10,14 @@ class Home extends Component {
         return (
             <div className='home'>
                 <div className='home-sidebar'>
-                    <HomeSidebar />
+                    <HomeSidebar history={this.props.history}/>
                 </div>
-                <div className='home-body'>
-                    <HomeBody />
-                </div>
+                {this.props.location.pathname === '/home' ? 
+                    <h1>home!</h1> : //insert home-intro component here 
+                    <div className='home-body'>
+                        <HomeBody />
+                    </div>
+                }
             </div>
         );
     }

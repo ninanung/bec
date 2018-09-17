@@ -48,3 +48,16 @@ export const make_signout = () => {
         type: 'MAKE_SIGNOUT',
     }
 }
+
+export const insert_channels = (channels) => {
+    return {
+        type: 'INSERT_CHANNELS',
+        channels,
+    }
+}
+
+export const empty_channels = () => {
+    return {
+        type: 'EMPTY_CHANNELS',
+    }
+}

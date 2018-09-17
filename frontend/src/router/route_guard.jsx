@@ -11,7 +11,6 @@ const mapStateToProps = (state) => {
 
 class RouterGuard extends Component {
     componentWillMount = () => {
-        console.log(this.props)
         /*if(this.props.option) {
             if(this.props.option[0]) {
                 if(this.props.is_signin) {

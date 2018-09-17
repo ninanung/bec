@@ -41,6 +41,7 @@ class Signup extends Component {
 
     componentWillMount = () => {
         this.props.clear_signup_basic();
+        console.log(this.props);
     }
 
     checkPasswordGood = (password, confirmPassword) => {
