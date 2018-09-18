@@ -12,10 +12,10 @@ class ChannelItem extends Component {
         return (
             <div onClick={this.clickListItem} className='channel-item-body'>
                 <div className='channel-item-name'>
-                    {this.props.channel.name}
+                    <h3>{this.props.channel.name}</h3>
                 </div>
                 <div className='channel-item-address'>
-                    {this.props.channel.address}
+                    {this.props.isChannel ? this.props.channel.address : ''}
                 </div>
             </div>
         )
@@ -24,7 +24,9 @@ class ChannelItem extends Component {
 
 ChannelItem.propTypes = {
     channel: PropTypes.object.isRequired,
-    index: PropTypes.number.isRequired,
+    history: PropTypes.object.isRequired,
+    index: PropTypes.number,
+    isChannel: PropTypes.bool.isRequired,
 }
 
 export default ChannelItem

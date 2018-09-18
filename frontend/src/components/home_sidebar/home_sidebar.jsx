@@ -6,6 +6,8 @@ import Profile from './profile/profile';
 
 import { connect } from 'react-redux';
 
+import './home_sidebar.css';
+
 const mapStateToProps = (state) => {
     return {
         signup_basic: state.signup_basic,

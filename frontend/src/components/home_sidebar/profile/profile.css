@@ -1,0 +1,11 @@
+.profile-body {
+    height: 50px; width: 100%;
+}
+
+.profile-hello {
+    position: relative; top: 50%; left: 20%; text-align: left;
+}
+
+.profile-body * {
+    margin: 0;
+}

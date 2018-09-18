@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import HomeSidebar from '../home_sidebar/home_sidebar';
 
-import '../home/home.css';
+import './home_intro.css';
 
 class HomeIntro extends Component {
     render() {

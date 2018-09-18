@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 
+import './profile.css';
+
 class Profile extends Component {
     render() {
         const hello = 'Hello, ' + this.props.user.id;
         return (
             <div className='profile-body'>
-                <p>{hello}</p>
+                <p className='profile-hello'>{hello}</p>
             </div>
         )
     }
