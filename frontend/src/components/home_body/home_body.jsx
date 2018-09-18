@@ -4,6 +4,8 @@ import TextField from './text_field/text_field';
 import HomeBodyHeader from './home_body_header/home_body_header';
 import HomeBodyMails from './home_body_mails/home_body_mails';
 
+import './home_body.css';
+
 class HomeBody extends Component {
     render() {
         return (

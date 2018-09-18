@@ -5,16 +5,14 @@ import './input_box.css';
 
 class InputBox extends Component {
     render() {
-        const {width, height, placeholder, typeChange, type} = this.props;
-
+        const {onKeyPress, width, height, placeholder, typeChange, type, margin, color} = this.props;
         return (
-            <input type={type} onChange={typeChange} className='inputbox' placeholder={placeholder} style={{width: width, height: height}}/>
+            <input onKeyPress={onKeyPress} type={type} onChange={typeChange} className='inputbox' placeholder={placeholder} style={{width: width, height: height, margin: margin, color: {color}}}/>
         );
     }
 }
 
 InputBox.propTypes = {
-    width: PropTypes.number,
     height: PropTypes.number,
     placeholder: PropTypes.string,
     type: PropTypes.string,
