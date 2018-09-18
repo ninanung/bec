@@ -10,10 +10,10 @@ class Home extends Component {
         return (
             <div className='home'>
                 <div className='home-sidebar'>
-                    <HomeSidebar history={this.props.history}/>
+                    <HomeSidebar history={this.props.history} />
                 </div>
                 <div className='home-body'>
-                    <HomeBody />
+                    <HomeBody history={this.props.history} />
                 </div>
             </div>
         );

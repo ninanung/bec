@@ -7,7 +7,7 @@ class Profile extends Component {
         const hello = 'Hello, ' + this.props.user.id;
         return (
             <div className='profile-body'>
-                <p className='profile-hello'>{hello}</p>
+                <h3 className='profile-hello'>{hello}</h3>
             </div>
         )
     }

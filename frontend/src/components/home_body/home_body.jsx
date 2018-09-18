@@ -8,9 +8,9 @@ class HomeBody extends Component {
     render() {
         return (
             <div className='home-body-main'>
-                <HomeBodyHeader />
-                <HomeBodyMails />
-                <TextField />
+                <HomeBodyHeader history={this.props.history} />
+                <HomeBodyMails history={this.props.history} />
+                <TextField history={this.props.history} />
             </div>
         )
     }

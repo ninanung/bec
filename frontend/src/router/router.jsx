@@ -22,17 +22,15 @@ class Router extends Component {
     const outside = [true, '/home'];
     const inside = [false, '/'];
     return (
-      <div>
-        <Switch>
-          <RouteGuard exact={ true } path='/' component={ Intro } option={ outside } />
-          <RouteGuard exact={ true } path='/signup' component={ Signup } option={ outside } />
-          <RouteGuard exact={ true } path='/signup/imap' component={ SignupImap } option={ outside } />
-          <RouteGuard exact={ true } path='/signup/smtp' component={ SignupSmtp } option={ outside } />
-          <RouteGuard exact={ true } path='/home' component={ HomeIntro } option={ inside } />
-          <RouteGuard exact={ true } path='/home/:address' component={ Home } option={ inside } />
-          <Route component={ NotFound } />
-        </Switch>
-      </div>
+      <Switch>
+        <RouteGuard exact={ true } path='/' component={ Intro } option={ outside } />
+        <RouteGuard exact={ true } path='/signup' component={ Signup } option={ outside } />
+        <RouteGuard exact={ true } path='/signup/imap' component={ SignupImap } option={ outside } />
+        <RouteGuard exact={ true } path='/signup/smtp' component={ SignupSmtp } option={ outside } />
+        <RouteGuard exact={ true } path='/home' component={ HomeIntro } option={ inside } />
+        <RouteGuard exact={ true } path='/home/:address' component={ Home } option={ inside } />
+        <Route component={ NotFound } />
+      </Switch>
     );
   }
 }

@@ -1,7 +1,23 @@
+.channel-list-body {
+    height: calc(100vh - 50px); overflow-y: scroll;
+}
+
+.channel-list-body::-webkit-scrollbar {
+    display: hidden; background: #157483;
+}
+
+.channel-list-body:hover::-webkit-scrollbar {
+    display: block; opacity: 0.2; background: #157483;
+}
+
+.channel-list-body:hover::-webkit-scrollbar-thumb {
+    display: block; opacity: 0.2; background: #D1BABA;
+}
+
 .channel-list-home {
     text-decoration: none;
 }
 
 .channel-list-h2 {
-    padding: 10px 0 10px 0; margin: 0;
+    padding: 10px 0 10px 0; margin: 0; color: #FFFFFF;
 }
