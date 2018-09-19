@@ -5,7 +5,7 @@ import './channel_item.css';
 
 class ChannelItem extends Component {
     clickListItem = () => {
-        return this.props.history.push('/home/' + this.props.channel.address);
+        this.props.history.push('/home/' + this.props.channel.address);
     }
 
     render() {

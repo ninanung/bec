@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import InputBox from '../../input_box/input_box';
+import TextAreaBox from '../../text_area_box/text_area_box';
 
 import './text_field.css';
 
@@ -13,6 +13,7 @@ class TextField extends Component {
     }
 
     onTextChange = (event) => {
+        this.forceUpdate();
         this.setState({text: event.target.value});
     }
 
@@ -20,11 +21,10 @@ class TextField extends Component {
         console.log(this.state.text);
     }
 
-    //text field needed
     render() {
         return (
             <div className='text-field-body'>
-                
+                <TextAreaBox history={this.props.history} onKeyPress={this.onEnterPress} typeChange={this.onTextChange} placeholder="Type and Press Enter to Send!" height={60} width={'calc(100% - 100px)'} margin={6} />
             </div>
         )
     }
