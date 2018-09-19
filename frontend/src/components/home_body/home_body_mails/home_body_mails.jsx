@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import MailItem from './mail_item/mail_item';
 
+import './home_body_mails.css';
+
 class HomeBodyMails extends Component {
     constructor(props) {
         super(props);
@@ -29,7 +31,17 @@ class HomeBodyMails extends Component {
     render() {
         return (
             <div className='mails-body'>
-                {this.listMails(this.state.mails)}
+                <h1>test</h1>
+                <h1>test</h1>
+                <h1>test</h1>
+                <h1>test</h1>
+                <h1>test</h1>
+                <h1>test</h1>
+                <h1>test</h1>
+                <h1>test</h1>
+                <h1>test</h1>
+                <h1>test</h1>
+                <h1>test</h1>
             </div>
         )
     }

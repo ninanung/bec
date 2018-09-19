@@ -21,7 +21,8 @@ class TextAreaBox extends Component {
     render() {
         const {onKeyPress, width, height, placeholder, typeChange, type, margin, color} = this.props;
         return (
-            <textarea id='textarea' onKeyPress={onKeyPress} type={type} onChange={typeChange} className='textareabox' placeholder={placeholder} style={{width: width, height: height, margin: margin, color: {color}}}/>
+            <textarea id='textarea' onKeyPress={onKeyPress} type={type} onChange={typeChange} className='textareabox' 
+            placeholder={placeholder} style={{width: width, height: height, margin: margin, color: {color}}}/>
         );
     }
 }
