@@ -3,7 +3,7 @@
 }
 
 .profile-hello {
-    position: relative; top: 50%; left: 10%; text-align: left; color: #FFFFFF;
+    position: relative; top: 50%; left: 10%; text-align: left; color: #FFFFFF; width: 200px;
 }
 
 .profile-body * {

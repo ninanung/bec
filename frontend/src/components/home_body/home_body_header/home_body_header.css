@@ -1,0 +1,44 @@
+.header-body {
+    width: 100%; height: 70px; border-bottom: 1px solid white;
+    background: white; float: left; margin-top: 30px;
+}
+
+.header-address {
+    color: black;
+}
+
+@media only screen and (max-width: 1000px) {
+    .header-menu {
+        display: inline; right: 0; top: 20; position: absolute;
+    }
+
+    .header-menu:hover {
+        cursor: pointer;
+    }
+
+    .mailbox-menu {
+        display: inline; left: 5px; top: 30; position: absolute;
+    }
+
+    .mailbox-menu:hover {
+        cursor: pointer;
+    }
+
+    .header-address {
+        font-size: 15px;
+    }
+}
+
+@media only screen and (min-width: 1000px) {
+    .mailbox-menu {
+        display: none;
+    }
+
+    .header-menu {
+        display: none;
+    }
+
+    .header-address {
+        top: 20px; left: 330px; position: absolute;
+    }
+}

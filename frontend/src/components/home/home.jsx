@@ -13,7 +13,7 @@ class Home extends Component {
                     <HomeSidebar history={this.props.history} />
                 </div>
                 <div className='home-body'>
-                    <HomeBody history={this.props.history} />
+                    <HomeBody address={this.props.match.params.address} history={this.props.history} />
                 </div>
             </div>
         );
