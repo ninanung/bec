@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 
-import HomeBodyHeader from './home_body_header/home_body_header';
-import HomeBodyMails from './home_body_mails/home_body_mails';
-import TextAreaBox from '../text_area_box/text_area_box';
+import HomeBodyHeader from '../home_body/home_body_header/home_body_header'
+import HomeBodyMails from '../home_body/home_body_mails/home_body_mails'
 
-import './home_body.css';
+import './mailbox_home.css';
 
 class HomeBody extends Component {
     constructor(props) {
@@ -12,6 +11,13 @@ class HomeBody extends Component {
         this.state = {
             popup: false,
             text: '',
+        }
+    }
+
+    componentWillMount = () => {
+        const address = this.props.address;
+        if(address !== 'unread' && address !== 'all' && address !== 'sent') {
+            this.props.history.push('/404');
         }
     }
 
@@ -40,9 +46,8 @@ class HomeBody extends Component {
                 </div>
                 <div className='mails-div'>
                     <HomeBodyMails address={this.props.address} history={this.props.history} />
-                    <div className='textarea-div'>
-                        <TextAreaBox history={this.props.history} onKeyPress={this.onEnterPress} typeChange={this.onTextChange} 
-                        placeholder="Type and Press Enter to Send!" height={60} width={'calc(100% - 50px)'} margin={6} />
+                    <div className='text-div'>
+                        <h1>Please, Click the Mails!</h1>
                     </div>
                 </div>
             </div>

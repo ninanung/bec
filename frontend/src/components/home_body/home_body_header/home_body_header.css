@@ -1,6 +1,6 @@
 .header-body {
-    width: 100%; height: 70px; border-bottom: 1px solid white;
-    background: white; float: left; margin-top: 30px;
+    width: 100%; height: 100%;
+    background: white; margin-top: 30px;
 }
 
 .header-address {
@@ -9,7 +9,7 @@
 
 @media only screen and (max-width: 1000px) {
     .header-menu {
-        display: inline; right: 0; top: 20; position: absolute;
+        display: inline; right: 3px; top: 20; position: absolute;
     }
 
     .header-menu:hover {
@@ -17,7 +17,7 @@
     }
 
     .mailbox-menu {
-        display: inline; left: 5px; top: 30; position: absolute;
+        display: inline; left: 10px; top: 30; position: absolute;
     }
 
     .mailbox-menu:hover {
@@ -39,6 +39,6 @@
     }
 
     .header-address {
-        top: 20px; left: 330px; position: absolute;
+        top: 20px; left: calc(50% - 160px); right: calc(50% - 160px); position: absolute;
     }
 }

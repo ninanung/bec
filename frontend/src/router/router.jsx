@@ -29,6 +29,7 @@ class Router extends Component {
         <RouteGuard exact={ true } path='/signup/smtp' component={ SignupSmtp } option={ outside } />
         <RouteGuard exact={ true } path='/home' component={ HomeIntro } option={ inside } />
         <RouteGuard exact={ true } path='/home/:address' component={ Home } option={ inside } />
+        <RouteGuard exact={ true } path='/home/:mailbox/:address' component={ Home } option={ inside } /> 
         <Route component={ NotFound } />
       </Switch>
     );

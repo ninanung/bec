@@ -44,9 +44,9 @@ class ChannelList extends Component {
                     )
                 })}
                 <h2 className='channel-list-h2'>Mail Boxes</h2>
-                <ChannelItem isChannel={false} history={this.props.history} channel={{ name: 'Unread', address: 'unread' }} />
-                <ChannelItem isChannel={false} history={this.props.history} channel={{ name: 'All', address: 'all' }} />
-                <ChannelItem isChannel={false} history={this.props.history} channel={{ name: 'Sent', address: 'sent' }} />
+                <ChannelItem isChannel={false} history={this.props.history} channel={{ name: 'Unread', address: 'mailbox/unread' }} />
+                <ChannelItem isChannel={false} history={this.props.history} channel={{ name: 'All', address: 'mailbox/all' }} />
+                <ChannelItem isChannel={false} history={this.props.history} channel={{ name: 'Sent', address: 'mailbox/sent' }} />
             </div>
         )
     }

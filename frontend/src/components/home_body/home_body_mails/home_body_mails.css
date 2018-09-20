@@ -1,3 +1,15 @@
 .mails-body {
-    margin-top: 71px;
+    margin-top: 71px; overflow-y: scroll; height: 100%; width: 100%;
+}
+
+.mails-body::-webkit-scrollbar {
+    display: hidden; background: #9CB3D3;
+}
+
+.mails-body:hover::-webkit-scrollbar {
+    display: block; opacity: 0.2; background: #9CB3D3;
+}
+
+.mails-body:hover::-webkit-scrollbar-thumb {
+    display: block; opacity: 0.2; background: #D1BABA;
 }
