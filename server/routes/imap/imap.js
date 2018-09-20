@@ -169,21 +169,20 @@ router.get('/emails/unseen', function(req, res, next) {
     return send(send);
 });
 
-router.get('/emails/sent/:address', function(req, res, next) {
-    const address = req.params.address;
+router.get('/emails/sent', function(req, res, next) {
     var send = {
         error: '',
         mails: [],
     }
-    User.findOne({ id: body.id }, function(err, user) {
+    User.findOne({ id: req.body.id }, function(err, user) {
         if(err) {
             send.error = err;
             console.log(err);
-            return res.send(info);
+            return res.send(send);
         }
         if(!user) {
             send.error = 'There\'s no account that has same id.';
-            return res.send(info);
+            return res.send(send);
         }
         for(var i = 0; i < user.sent_messages.length; i++) {
             if(sent_messages[i].to === address) {
@@ -193,5 +192,79 @@ router.get('/emails/sent/:address', function(req, res, next) {
         return res.send(send);
     });
 });
+
+router.get('/emails/sent/:address', function(req, res, next) {
+    const address = req.params.address;
+    var send = {
+        error: '',
+        mails: [],
+    }
+    User.findOne({ id: req.body.id }, function(err, user) {
+        if(err) {
+            send.error = err;
+            console.log(err);
+            return res.send(send);
+        }
+        if(!user) {
+            send.error = 'There\'s no account that has same id.';
+            return res.send(send);
+        }
+        for(var i = 0; i < user.sent_messages.length; i++) {
+            if(sent_messages[i].to === address) {
+                send.mails.push(sent_messages[i]);
+            }
+        }
+        return res.send(send);
+    });
+});
+
+router.get('/emails/all/:address', function(req, res, next) {
+    const address = req.params.address;
+    const body = req.body;
+    var send = {
+        error: '',
+        mails: [],
+    }
+
+    User.findOne({ id: body.id }, function(err, user) {
+        if(err) {
+            send.error = err;
+            console.log(err);
+            return res.send(send);
+        }
+        if(!user) {
+            send.error = 'There\'s no account that has same id.';
+            return res.send(send);
+        }
+        for(var i = 0; i < user.sent_messages.length; i++) {
+            if(sent_messages[i].to === address) {
+                send.mails.push(sent_messages[i]);
+            }
+        }
+    });
+
+    imap.search('ALL', function(err, results) {
+        if(err) {
+            send.error = err
+            return res.send(send);
+        }
+        if(!results) {
+            return res.send(send);
+        }
+        var f = imap.fetch(results, { bodies: '', struct: true });    
+        f.on('message', function (msg, seqno) {
+            msg.on('body', function (stream, info) {
+                simpleParser(stream, (err, parsed) => {
+                    if(parsed.from.value[0].address === address) {
+                        mails.push(parsed);
+                        console.log(parsed.subject);
+                    }
+                })
+            })
+        })
+    })
+
+    return res.send(send);
+})
 
 module.exports = router;

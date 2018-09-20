@@ -13,3 +13,7 @@
 .mails-body:hover::-webkit-scrollbar-thumb {
     display: block; opacity: 0.2; background: #D1BABA;
 }
+
+.mails-div-item {
+    margin: 50px 0 50px 0 !important; height: 90px; position: relative;
+}

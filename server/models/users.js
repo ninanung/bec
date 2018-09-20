@@ -29,6 +29,7 @@ const users = mongoose.Schema({
         html: { type: String },
         text: { type: String },
         date: { type: String },
+        sent: { type: Boolean },
     }],
 });
 

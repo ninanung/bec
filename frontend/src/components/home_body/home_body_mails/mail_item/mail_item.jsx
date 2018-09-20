@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import './mail_item.css';
+
 import PopupMail from '../../../popup_mail/popup_mail';
 
 class MailItem extends Component {
@@ -24,12 +26,18 @@ class MailItem extends Component {
     }
 
     render() {
-        const popupComponent = (
-            <PopupMail mail={this.props.mail} closePopup={this.closePopup} />
-        )
+        const { mail, sent } = this.props;
+        let whoSent = '';
+        if(sent) {
+            whoSent = 'mail-item-me'
+        } else {
+            whoSent = 'mail-item-other'
+        }
         return (
-            <div onClick={this.onPopup()} className='mail-item-body'>
-                {this.state.popup ? popupComponent : null}
+            <div onClick={this.onPopup} className={whoSent}>
+                <h2 className='mail-item-text'>Subject: {mail.subject}</h2>
+                <h3 className='mail-item-text'>Text: {mail.text}</h3>
+                {this.state.popup ? <PopupMail mail={mail} closePopup={this.closePopup} /> : null}
             </div>
         )
     }

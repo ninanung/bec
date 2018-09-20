@@ -1,0 +1,13 @@
+.mail-item-me {
+    height: 100%; width: 50%; right: 30px; position: absolute;
+    background: #A4D8EE; text-align: left; border-radius: 10px;
+}
+
+.mail-item-other {
+    height: 100%; width: 50%; left: 30px; position: absolute;
+    background: white; text-align: left; border-radius: 10px;
+}
+
+.mail-item-text {
+    margin: 10px !important;
+}

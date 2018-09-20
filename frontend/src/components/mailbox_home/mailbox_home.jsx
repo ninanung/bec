@@ -21,15 +21,6 @@ class HomeBody extends Component {
         }
     }
 
-    onTextChange = (event) => {
-        this.forceUpdate();
-        this.setState({text: event.target.value});
-    }
-
-    onEnterPress = (event) => {
-        console.log(this.state.text);
-    }
-
     menuIconClick = () => {
         //menu
     }
