@@ -35,8 +35,8 @@ class MailItem extends Component {
         }
         return (
             <div onClick={this.onPopup} className={whoSent}>
-                <h2 className='mail-item-text'>Subject: {mail.subject}</h2>
-                <h3 className='mail-item-text'>Text: {mail.text}</h3>
+                <h2 className='mail-item-text'>{'Sub: ' + mail.subject}</h2>
+                <h3 className='mail-item-text'>{'Text: ' + mail.text}</h3>
                 {this.state.popup ? <PopupMail mail={mail} closePopup={this.closePopup} /> : null}
             </div>
         )
