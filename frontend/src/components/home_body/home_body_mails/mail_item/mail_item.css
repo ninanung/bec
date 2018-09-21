@@ -8,6 +8,14 @@
     background: white; text-align: left; border-radius: 10px; 
 }
 
+.mail-item-me:hover {
+    cursor: pointer;
+}
+
+.mail-item-other:hover {
+    cursor: pointer;
+}
+
 .mail-item-text {
     margin: 10px !important; width: calc(100% - 20px); 
     white-space: nowrap; 

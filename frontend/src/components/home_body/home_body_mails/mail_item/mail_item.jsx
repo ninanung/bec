@@ -27,6 +27,7 @@ class MailItem extends Component {
 
     render() {
         const { mail, sent } = this.props;
+        const { popup } = this.state;
         let whoSent = '';
         if(sent) {
             whoSent = 'mail-item-me'
@@ -34,10 +35,12 @@ class MailItem extends Component {
             whoSent = 'mail-item-other'
         }
         return (
-            <div onClick={this.onPopup} className={whoSent}>
-                <h2 className='mail-item-text'>{'Sub: ' + mail.subject}</h2>
-                <h3 className='mail-item-text'>{'Text: ' + mail.text}</h3>
-                {this.state.popup ? <PopupMail mail={mail} closePopup={this.closePopup} /> : null}
+            <div className={whoSent}>
+                <div onClick={this.onPopup}>
+                    <h2 className='mail-item-text'>{'Sub: ' + mail.subject}</h2>
+                    <h3 className='mail-item-text'>{'Text: ' + mail.text}</h3>
+                </div>
+                {popup ? <PopupMail mail={mail} closePopup={this.closePopup} /> : null}
             </div>
         )
     }

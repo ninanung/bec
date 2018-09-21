@@ -21,7 +21,7 @@ const testmailarray = [
         to: 'ninanung@naver.com',
         cc: '',
         subject: 'testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest',
-        html: '',
+        html: '<div></div>',
         text: 'testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest',
         date: 123,
         sent: false,
@@ -122,11 +122,11 @@ class HomeBodyMails extends Component {
                 {testmailarray.map((mail, index) => { //this.state.mails.map((mail, index) => {
                     if(mail.sent) {
                         return (
-                            <div className='mails-div-item'><MailItem sent={true} mail={mail} index={index}/></div>
+                            <div className='mails-div-item' key={index}><MailItem sent={true} mail={mail} index={index} /></div>
                         )
                     } else {
                         return (
-                            <div className='mails-div-item'><MailItem sent={false} mail={mail} index={index}/></div>
+                            <div className='mails-div-item' key={index}><MailItem sent={false} mail={mail} index={index} /></div>
                         )
                     }
                 })}  
