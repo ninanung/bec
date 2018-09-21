@@ -7,7 +7,7 @@ class PopupMail extends Component {
     render() {
         const { mail } = this.props;
         return (
-            <div className='popup-body' onKeyPress={this.props.closePopup}>
+            <div className='popup-body'>
                 <div className='popup-inner-body'>
                     <div onClick={this.props.closePopup} className='close-button'>X</div>
                     <h2 className='subject'>subject: {mail.subject}</h2>
@@ -33,6 +33,7 @@ class PopupMail extends Component {
 PopupMail.propTypes = {
     mail: PropTypes.object,
     closePopup: PropTypes.func,
+    onEscClose: PropTypes.func,
 }
 
 export default PopupMail

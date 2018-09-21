@@ -40,7 +40,7 @@
 @media only screen and (max-width: 1000px) {
     .popup-inner-body {
         height: 900px; width: 100%; left: 0; right: 0; background: white;
-        position: absolute;
+        position: absolute; z-index: 2 !important;
     }
 
     .close-button {
@@ -51,7 +51,7 @@
 @media only screen and (min-width: 1000px) {
     .popup-inner-body {
         height: 900px; width: 800px; left: calc(50% - 400px); right: calc(50% - 400px); background: white;
-        position: absolute; top: 50px; bottom: 50px;
+        position: absolute; top: 50px; bottom: 50px; z-index: 2 !important;
     }
 
     .close-button {

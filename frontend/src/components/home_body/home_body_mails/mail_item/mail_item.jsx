@@ -25,6 +25,15 @@ class MailItem extends Component {
         })
     }
 
+    onEscClose = (event) => {
+        console.log(event.keyCode)
+        if(event.keyCode && event.keyCode === 27) {
+            this.setState({
+                popup: false,
+            })
+        }
+    }
+
     render() {
         const { mail, sent } = this.props;
         const { popup } = this.state;
@@ -40,7 +49,7 @@ class MailItem extends Component {
                     <h2 className='mail-item-text'>{'Sub: ' + mail.subject}</h2>
                     <h3 className='mail-item-text'>{'Text: ' + mail.text}</h3>
                 </div>
-                {popup ? <PopupMail mail={mail} closePopup={this.closePopup} /> : null}
+                {popup ? <PopupMail mail={mail} onEscClose={this.onEscClose} closePopup={this.closePopup} /> : null}
             </div>
         )
     }
