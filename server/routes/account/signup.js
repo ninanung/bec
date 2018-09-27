@@ -47,6 +47,7 @@ router.post('/', jsonParser, function(req, res, next) {
         });
         return res.send(info);
     });
+    return res.send(info);
 });
 
 module.exports = router;

@@ -8,7 +8,6 @@ var fs = require('fs'), fileStream;
 
 var User = require('../../models/users');
 
-var imap;
 const google = {
   id: 'ninanung0503@gmail.com',
   password: '1004nmnm',
@@ -16,6 +15,8 @@ const google = {
   port: 993,
   tls: true,
 }
+
+var imap;
 
 router.get('/', jsonParser, function(req, res, next) {
     //var user = req.body;
@@ -44,6 +45,7 @@ router.get('/', jsonParser, function(req, res, next) {
             if(err) throw err;
             console.log('box open');
         });
+        return res.send(true);
     });
 
     imap.on('mail', function(num) {
@@ -51,12 +53,11 @@ router.get('/', jsonParser, function(req, res, next) {
         console.log('new mail : ', num);
         imap.search(['UNSEEN'], function (err, results) {
             if(results) {
-                var f = imap.fetch(results[result.length - 1], { bodies: '', struct: true });    
+                var f = imap.fetch(results, { bodies: '', struct: true });    
                 f.on('message', function (msg, seqno) {
                     msg.on('body', function (stream, info) {
                         simpleParser(stream, (err, parsed) => {
-                            console.log(parsed);
-                            console.log('--------------------------------------------------------------')
+                            console.log('unseen')
                         })
                     })
                 })
@@ -89,12 +90,14 @@ router.get('/disconnect', function(req, res, next) {
     imap.end()
 });
 
-router.get('/emails/all', function(req, res, next) {
+router.get('/emails/all', jsonParser, function(req, res, next) {
+    console.log(mails);
     var send = {
         error: '',
         mails: [],
     }
     imap.search('ALL', function(err, results) {
+        console.log('here')
         if(err) {
             send.error = err
             return res.send(send);
@@ -102,17 +105,56 @@ router.get('/emails/all', function(req, res, next) {
         if(!results) {
             return res.send(send);
         }
-        var f = imap.fetch(results, { bodies: '', struct: true });    
+        console.log('here');
+        var f = imap.fetch(results, { bodies: '', struct: true });
+        console.log('here');
         f.on('message', function (msg, seqno) {
+            console.log('here');
+            let mail = {
+                date: '',
+                from: '',
+                name: '',
+                to: null,
+                cc: null,
+                subject: '',
+                html: '',
+                text: '',
+                uid: '',
+            }
+            msg.on('attributes', function (attrs) {
+                mail.uid = attrs.uid;
+            });
             msg.on('body', function (stream, info) {
                 simpleParser(stream, (err, parsed) => {
-                    mails.push(parsed);
-                    console.log(parsed.subject);
+                    if(parsed.html) {
+                        mail.html = parsed.html.replace(/\\n/gi, '')
+                    }
+                    if(parsed.text) {
+                        mail.text = parsed.text;
+                    }
+                    if(parsed.cc) {
+                        mail.cc = parsed.cc.value;
+                    }
+                    if(parsed.from) {
+                        mail.from = parsed.from.value[0].address;
+                        mail.name = parsed.from.value[0].name;
+                    }
+                    if(parsed.to) {
+                        mail.to = parsed.to.value;
+                    }
+                    if(parsed.subject) {
+                        mail.subject = parsed.subject;
+                    }
+                    if(parsed.date) {
+                        mail.date = new Date(parsed.date).getTime();
+                    }
                 })
+                console.log(mail)
+                send.mails.push(mail);
             })
         })
+        return res.send(send);
     })
-    return send(send);
 });
 
 router.get('/emails/:address', function(req, res, next) {

@@ -10,6 +10,7 @@ router.get('/', jsonParser, function(req, res, next) {
     var info = {
         error: '',
         words: '',
+        user: null,
     }
     User.findOne({ id: body.id }, function(err, user) {
         if(err) {
@@ -28,8 +29,8 @@ router.get('/', jsonParser, function(req, res, next) {
             info.words = 'Wrong password.';
             return res.send(info);
         }
-
-        return res.send(user);
+        info.user = user;
+        return res.send(info);
     });
 });
 

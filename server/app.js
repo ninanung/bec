@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var connectHistoryApiFallback = require("connect-history-api-fallback");
 
 var app = express();
-app.use(connectHistoryApiFallback());
+//app.use(connectHistoryApiFallback());
 
 const get = '/api/get';
 const post = '/api/post';
@@ -34,7 +34,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'build')));
+//app.use(express.static(path.join(__dirname, 'build')));
 app.set('view engine', 'html');
 
 app.use(function(req, res, next) {
@@ -45,7 +45,6 @@ app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
   // render the error page
   res.status(err.status || 500);
   //res.render('error');
