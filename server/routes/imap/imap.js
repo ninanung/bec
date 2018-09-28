@@ -30,6 +30,7 @@ router.get('/', jsonParser, function(req, res, next) {
         tls: google.tls, //user.imap_tls,
         connTimeout: 10000, // Default by node-imap 
         authTimeout: 10000, // Default by node-imap, 
+        keepalive: true,
         //debug: console.log, // Or your custom function with only one incoming argument. Default: null 
         tlsOptions: { rejectUnauthorized: false },
         mailbox: 'INBOX',
@@ -48,6 +49,7 @@ router.get('/', jsonParser, function(req, res, next) {
             isNewEmail = false;
             var date = new Date();
             var time = date.getTime();
+            console.log(time);
             console.log(new Date(time));
         });
         return res.send(true);
@@ -85,7 +87,8 @@ router.get('/', jsonParser, function(req, res, next) {
     imap.once('end', function() {
         var date = new Date();
         var time = date.getTime();
-        console.log(date(time));
+        console.log(time);
+        console.log(new Date(time));
         console.log('end');
     });
 

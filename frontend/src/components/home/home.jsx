@@ -6,7 +6,21 @@ import MailboxHome from '../mailbox_home/mailbox_home';
 
 import './home.css';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as actions from '../../store/action';
+  
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        insert_channel: actions.insert_channel
+    }, dispatch)
+}
+
 class Home extends Component {
+    componentWillMount = () => {
+
+    }
+
     render() {
         return (
             <div className='home'>
@@ -24,4 +38,4 @@ class Home extends Component {
     }
 }
 
-export default Home;
+export default connect(mapDispatchToProps)(Home);
