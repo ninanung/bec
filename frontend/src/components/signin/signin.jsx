@@ -40,17 +40,33 @@ class Signin extends Component {
         this.setState({password: event.target.value})
     }
 
+    connectImap = (imap_info) => {
+        const option = {
+            method: 'POST',
+            url: constant.CONNECT_IMAP,
+            json: {
+                imap_info: imap_info,
+            },
+        }
+        request(option, function(err, res, body) {
+            if(err) {
+                return alert(err);
+            } 
+        });
+    }
+
     onSignin = () => {
         if(!this.state.id || !this.state.password) {
             return alert('Please, fulfill all user information.')
         }
-        const option = {
-            method: 'GET',
+        const signinInfo = {
+            id: this.state.id,
+            password: this.state.password,
+        }
+        let option = {
+            method: 'POST',
             url: constant.SIGNIN,
-            json: {
-                id: this.state.id,
-                password: this.state.password,
-            },
+            json: signinInfo,
         }
         let basic_info = null;
         let smtp_info = null;
@@ -81,6 +97,7 @@ class Signin extends Component {
                     imap_tls: body.imap_tls,
                 };
                 channels = body.channels;
+                this.connectImap(imap_info);
             }
         });
         this.props.store_signup_basic(basic_info);
@@ -102,7 +119,7 @@ class Signin extends Component {
                 <div className='signin-body'>
                     <InputBox typeChange={this.onIdChange} placeholder='ID' width={this.state.inputWidth} height={this.state.inputHeight} />
                     <br/>
-                    <InputBox typeChange={this.onPasswordChange} placeholder='Password' width={this.state.inputWidth} height={this.state.inputHeight} />
+                    <InputBox typeChange={this.onPasswordChange} placeholder='Password' type='password' width={this.state.inputWidth} height={this.state.inputHeight} />
                     <button onClick={this.onSignin} className='button'>Sign in</button>
                 </div>
                 <div className='signin-footer'>

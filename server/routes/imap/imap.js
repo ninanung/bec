@@ -19,7 +19,7 @@ const google = {
 var imap;
 var isNewEmail = false;
 
-router.get('/', jsonParser, function(req, res, next) {
+router.post('/', jsonParser, function(req, res, next) {
     //var user = req.body;
 
     imap = new Imap({
@@ -95,7 +95,7 @@ router.get('/', jsonParser, function(req, res, next) {
     imap.connect();
 });
 
-router.get('/disconnect', function(req, res, next) {
+router.post('/disconnect', function(req, res, next) {
     imap.closeBox(function(err) {
         if(err) throw err;
         console.log('box closed');
@@ -103,7 +103,7 @@ router.get('/disconnect', function(req, res, next) {
     imap.end()
 });
 
-router.get('/emails/all', jsonParser, function(req, res, next) {
+router.post('/emails/all', jsonParser, function(req, res, next) {
     var send = {
         error: '',
         mails: [],
@@ -181,7 +181,7 @@ router.get('/emails/all', jsonParser, function(req, res, next) {
     imap.connect();
 });
 
-router.get('/emails/from/:address', function(req, res, next) {
+router.post('/emails/from/:address', function(req, res, next) {
     var selectAddress = 'ninanung@naver.com'//req.params.address;
     var send = {
         error: '',
@@ -262,7 +262,7 @@ router.get('/emails/from/:address', function(req, res, next) {
     imap.connect();
 });
 
-router.get('/emails/unseen', function(req, res, next) {
+router.post('/emails/unseen', function(req, res, next) {
     var send = {
         error: '',
         mails: [],
@@ -340,7 +340,7 @@ router.get('/emails/unseen', function(req, res, next) {
     imap.connect();
 });
 
-router.get('/emails/sent', function(req, res, next) {
+router.post('/emails/sent', function(req, res, next) {
     var send = {
         error: '',
         mails: [],
@@ -364,7 +364,7 @@ router.get('/emails/sent', function(req, res, next) {
     });
 });
 
-router.get('/emails/sent/:address', function(req, res, next) {
+router.post('/emails/sent/:address', function(req, res, next) {
     const selectAddress = req.params.address;
     var send = {
         error: '',
@@ -389,7 +389,7 @@ router.get('/emails/sent/:address', function(req, res, next) {
     });
 });
 
-router.get('/emails/all/:address', function(req, res, next) {
+router.post('/emails/all/:address', function(req, res, next) {
     const selectAddress = req.params.address;
     var send = {
         error: '',

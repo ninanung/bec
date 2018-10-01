@@ -37,7 +37,7 @@ class HomeBodyMails extends Component {
             id: this.props.signup_basic.id,
         }
         const option = {
-            method: 'GET',
+            method: 'POST',
             uri: uri,
             json: idInfo,
         }

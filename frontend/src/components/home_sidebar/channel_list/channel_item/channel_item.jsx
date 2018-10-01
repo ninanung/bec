@@ -5,6 +5,9 @@ import './channel_item.css';
 
 class ChannelItem extends Component {
     clickListItem = () => {
+        if(!this.props.isChannel) {
+            this.props.history.push('/home/mailbox/' + this.props.channel.address);
+        }
         this.props.history.push('/home/' + this.props.channel.address);
     }
 

@@ -122,16 +122,16 @@ class SignupImap extends Component {
         }
         request(option, function(err, res, body) {
             if(err) {
-                return  alert(err);
+                return alert(err);
             }
             if(body.error) {
                 return alert(body.error);
             } else {
                 alert('Signup is done, please signin!');
+                this.clearState();
+                return this.props.history.push('/')
             }
         })
-        this.clearState();
-        return this.props.history.push('/')
     }
 
     render() {

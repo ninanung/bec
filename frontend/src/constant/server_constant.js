@@ -1,15 +1,16 @@
 const BASE_URL = 'http://localhost:3000';
-const SIGNIN = '/api/get/signin';
+const SIGNIN = '/api/post/signin';
 const SIGNUP = '/api/post/signup';
-const GET_USER = '/api/get/user';
+const GET_USER = '/api/post/user';
 const UPDATE_USER = '/api/post/update/user';
-const GET_ALL_EMAIL_BY_ID = '/api/get/imap/emails/all';
-const GET_EMAIL_BY_ADDRESS = '/api/get/imap/emails/from/';
-const GET_EMAIL_UNSEEN = '/api/get/imap/emails/unseen';
-const GET_SENT_EMAIL_BY_ADDRESS = '/api/get/imap/emails/sent/';
-const GET_EMAIL_SENT = '/api/get/imap/emails/sent';
-const GET_ALL_EMAIL_BY_ADDRESS = '/api/get/imap/emails/all/';
-const DISCONNECT = '/api/get/imap/disconnect';
+const CONNECT_IMAP = '/api/post/imap'
+const GET_ALL_EMAIL_BY_ID = '/api/post/imap/emails/all';
+const GET_EMAIL_BY_ADDRESS = '/api/post/imap/emails/from/';
+const GET_EMAIL_UNSEEN = '/api/post/imap/emails/unseen';
+const GET_SENT_EMAIL_BY_ADDRESS = '/api/post/imap/emails/sent/';
+const GET_EMAIL_SENT = '/api/post/imap/emails/sent';
+const GET_ALL_EMAIL_BY_ADDRESS = '/api/post/imap/emails/all/';
+const DISCONNECT = '/api/post/imap/disconnect';
 
 export default {
     BASE_URL: BASE_URL,
@@ -17,6 +18,7 @@ export default {
     SIGNUP: BASE_URL + SIGNUP,
     GET_USER: BASE_URL + GET_USER,
     UPDATE_USER: BASE_URL + UPDATE_USER,
+    CONNECT_IMAP: BASE_URL + CONNECT_IMAP,
     GET_ALL_EMAIL_BY_ID: BASE_URL + GET_ALL_EMAIL_BY_ID,
     GET_EMAIL_BY_ADDRESS: BASE_URL + GET_EMAIL_BY_ADDRESS,
     GET_EMAIL_UNSEEN: BASE_URL + GET_EMAIL_UNSEEN,

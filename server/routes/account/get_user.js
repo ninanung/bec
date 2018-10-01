@@ -5,7 +5,7 @@ var jsonParser = bodyParser.json();
 
 var User = require('../../models/users');
 
-router.get('/', jsonParser, function(req, res, next) {
+router.post('/', jsonParser, function(req, res, next) {
     var body = req.body;
     var info = {
         error: '',

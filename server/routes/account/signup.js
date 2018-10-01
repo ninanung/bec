@@ -23,31 +23,26 @@ router.post('/', jsonParser, function(req, res, next) {
     }
     var info = {
         error: '',
-        words: '',
     }
     User.findOne({ id: body.id }, function(err, user) {
         if(err) {
-            info.error = 'true';
-            info.words = err;
+            info.error = err;
             console.log(err);
             return res.send(info);
         }
         if(user) {
-            info.error = 'true';
-            info.words = 'There\'s already same id exist.';
+            info.error = 'There\'s already same id exist.';
             return res.send(info);
         }
         let newUser = new User(userinfo);
         newUser.save(function(err) {    
             if(err) {
-                info.error = 'true';
-                info.words = err;
+                info.error = err;
                 console.log(err);
             }
         });
         return res.send(info);
     });
-    return res.send(info);
 });
 
 module.exports = router;

@@ -24,11 +24,11 @@ const test = require('./routes/test');
 
 app.use('/test', test);
 app.use('/', index);
-app.use(get + '/imap', imap);
+app.use(post + '/imap', imap);
 app.use(post + '/signup', signup);
 app.use(post + '/update/user', update_user);
-app.use(get + '/signin', signin);
-app.use(get + '/user', get_user);
+app.use(post + '/signin', signin);
+app.use(post + '/user', get_user);
 
 mongoose.connect("mongodb://localhost:27017/test");
 app.use(bodyParser.urlencoded({ extended: false }));

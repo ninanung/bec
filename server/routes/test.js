@@ -57,6 +57,7 @@ router.get('/imaptest', function(req, res, next) {
             uid: '',
           }
           msg.on('attributes', function (attrs) {
+            console.log(attrs.flags.length);
             mail.uid = attrs.uid;
           });
           msg.on('body', function (stream, info) {

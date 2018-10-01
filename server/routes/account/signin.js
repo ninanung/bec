@@ -5,12 +5,13 @@ var jsonParser = bodyParser.json();
 
 var User = require('../../models/users');
 
-router.get('/', jsonParser, function(req, res, next) {
+router.post('/', jsonParser, function(req, res, next) {
     var body = req.body;
     var info = {
         error: '',
         user: null,
     }
+    console.log(body);
     User.findOne({ id: body.id }, function(err, user) {
         if(err) {
             info.error = err;
