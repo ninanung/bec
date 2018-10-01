@@ -3,21 +3,6 @@ import React, { Component } from 'react';
 import ChannelItem from './channel_item/channel_item';
 import './channel_list.css';
 
-const testList = [
-    {
-        name: 'kim',
-        address: 'ninanung@naver.com'
-    },
-    {
-        name: 'park',
-        address: 'slskshdsl@daum.net'
-    },
-    {
-        name: 'song',
-        address: 'songbird@gmail.com'
-    }
-]
-
 class ChannelList extends Component {
     constructor(props) {
         super(props);
@@ -27,7 +12,7 @@ class ChannelList extends Component {
     }
 
     componentWillMount() {
-        const channels = testList; //this.props.channels;
+        const channels = this.props.channels;
         this.setState({
             channels: channels,
         })

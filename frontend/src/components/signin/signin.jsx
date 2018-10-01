@@ -10,7 +10,13 @@ import constant from '../../constant/server_constant';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../../store/action';
-  
+
+const mapStateToProps = (state) => {
+    return {
+        signup_basic: state.signup_basic,
+    }
+}
+
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
         store_signup_imap: actions.store_signup_imap,
@@ -19,6 +25,25 @@ const mapDispatchToProps = (dispatch) => {
         insert_channels: actions.insert_channels,
         make_signin: actions.make_signin,
     }, dispatch)
+}
+
+const connectImap = (imap_info) => {
+    const option = {
+        method: 'POST',
+        url: constant.CONNECT_IMAP,
+        json: {
+            imap_info: imap_info,
+        },
+    }
+    let isError = false;
+    request(option, function(err, res, body) {
+        if(err) {
+            isError = true;
+            return alert(err);
+        } 
+    });
+    if(isError) return true;
+    else return false;
 }
 
 class Signin extends Component {
@@ -40,19 +65,14 @@ class Signin extends Component {
         this.setState({password: event.target.value})
     }
 
-    connectImap = (imap_info) => {
-        const option = {
-            method: 'POST',
-            url: constant.CONNECT_IMAP,
-            json: {
-                imap_info: imap_info,
-            },
-        }
-        request(option, function(err, res, body) {
-            if(err) {
-                return alert(err);
-            } 
-        });
+    storeAll = (basic_info, imap_info, smtp_info, channels) => {
+        const {store_signup_basic, store_signup_imap, store_signup_smtp, insert_channels, make_signin} = this.props;
+        store_signup_basic(basic_info);
+        store_signup_imap(imap_info);
+        store_signup_smtp(smtp_info);
+        insert_channels(channels);
+        make_signin();
+        window.location.href = '/home';
     }
 
     onSignin = () => {
@@ -72,6 +92,7 @@ class Signin extends Component {
         let smtp_info = null;
         let imap_info = null;
         let channels = null;
+        const storeAll = this.storeAll;
         request(option, function(err, res, body) {
             if(err) {
                 return alert(err);
@@ -79,33 +100,30 @@ class Signin extends Component {
                 return alert(body.error);
             } else {
                 basic_info = {
-                    id: body.id,
-                    password: body.password,
+                    id: body.user.id,
+                    password: body.user.password,
                 };
                 smtp_info = {
-                    smtp_id: body.smtp_id,
-                    smtp_password: body.smtp_password,
-                    smtp_host: body.smtp_host,
-                    smtp_port: body.smtp_port,
-                    smtp_secure: body.smtp_secure,
+                    smtp_id: body.user.smtp_id,
+                    smtp_password: body.user.smtp_password,
+                    smtp_host: body.user.smtp_host,
+                    smtp_port: body.user.smtp_port,
+                    smtp_secure: body.user.smtp_secure,
                 };
                 imap_info = {
-                    imap_id: body.imap_id,
-                    imap_password: body.imap_password,
-                    imap_host: body.imap_host,
-                    imap_port: body.imap_port,
-                    imap_tls: body.imap_tls,
+                    imap_id: body.user.imap_id,
+                    imap_password: body.user.imap_password,
+                    imap_host: body.user.imap_host,
+                    imap_port: body.user.imap_port,
+                    imap_tls: body.user.imap_tls,
                 };
-                channels = body.channels;
-                this.connectImap(imap_info);
+                channels = body.user.channels;
+                if(connectImap(imap_info)) {
+                    return window.location.href('/home');
+                }
+                storeAll(basic_info, imap_info, smtp_info, channels);
             }
         });
-        this.props.store_signup_basic(basic_info);
-        this.props.store_signup_imap(imap_info);
-        this.props.store_signup_smtp(smtp_info);
-        this.props.insert_channels(channels);
-        this.props.make_signin();
-        return this.props.history.push('/home');
     }
 
     render() {
@@ -130,4 +148,4 @@ class Signin extends Component {
     }
 }
 
-export default connect(mapDispatchToProps)(Signin);
+export default connect(mapStateToProps, mapDispatchToProps)(Signin);

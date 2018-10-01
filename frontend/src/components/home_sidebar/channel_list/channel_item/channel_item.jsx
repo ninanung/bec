@@ -5,10 +5,13 @@ import './channel_item.css';
 
 class ChannelItem extends Component {
     clickListItem = () => {
-        if(!this.props.isChannel) {
+        if(!this.props.isChannel && this.props.channel.address) {
             this.props.history.push('/home/mailbox/' + this.props.channel.address);
+        } else if(!this.props.channel.address) { 
+            this.props.history.push('/home');
+        } else {
+            this.props.history.push('/home/' + this.props.channel.address);
         }
-        this.props.history.push('/home/' + this.props.channel.address);
     }
 
     render() {
