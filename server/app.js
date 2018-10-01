@@ -1,24 +1,26 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
-var connectHistoryApiFallback = require("connect-history-api-fallback");
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const mongoose = require("mongoose");
+mongoose.Promise = global.Promise;
+const logger = require('morgan');
+const bodyParser = require('body-parser');
+const connectHistoryApiFallback = require("connect-history-api-fallback");
 
-var app = express();
-//app.use(connectHistoryApiFallback());
+const app = express();
+app.use(connectHistoryApiFallback());
 
 const get = '/api/get';
 const post = '/api/post';
 
-var index = require('./routes/index');
-var imap = require('./routes/imap/imap');
-var signup = require('./routes/account/signup');
-var signin = require('./routes/account/signin');
-var get_user = require('./routes/account/get_user');
-var update_user = require('./routes/account/update_user');
-var test = require('./routes/test');
+const index = require('./routes/index');
+const imap = require('./routes/imap/imap');
+const signup = require('./routes/account/signup');
+const signin = require('./routes/account/signin');
+const get_user = require('./routes/account/get_user');
+const update_user = require('./routes/account/update_user');
+const test = require('./routes/test');
 
 app.use('/test', test);
 app.use('/', index);
@@ -28,13 +30,14 @@ app.use(post + '/update/user', update_user);
 app.use(get + '/signin', signin);
 app.use(get + '/user', get_user);
 
+mongoose.connect("mongodb://localhost:27017/test");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-//app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, 'build')));
 app.set('view engine', 'html');
 
 app.use(function(req, res, next) {

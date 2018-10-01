@@ -9,24 +9,20 @@ router.get('/', jsonParser, function(req, res, next) {
     var body = req.body;
     var info = {
         error: '',
-        words: '',
         user: null,
     }
     User.findOne({ id: body.id }, function(err, user) {
         if(err) {
-            info.error = 'true';
-            info.words = err;
+            info.error = err;
             console.log(err);
             return res.send(info);
         }
         if(!user) {
-            info.error = 'true';
-            info.words = 'There\'s no account that has same id.';
+            info.error = 'There\'s no account that has same id.';
             return res.send(info);
         }
         if(user.password !== body.password) {
-            info.error = 'true';
-            info.words = 'Wrong password.';
+            info.error = 'Wrong password.';
             return res.send(info);
         }
         info.user = user;

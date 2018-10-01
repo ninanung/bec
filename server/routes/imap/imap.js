@@ -391,13 +391,12 @@ router.get('/emails/sent/:address', function(req, res, next) {
 
 router.get('/emails/all/:address', function(req, res, next) {
     const selectAddress = req.params.address;
-    const body = req.body;
     var send = {
         error: '',
         mails: [],
     }
 
-    User.findOne({ id: body.id }, function(err, user) {
+    User.findOne({ id: req.body.id }, function(err, user) {
         if(err) {
             send.error = err;
             console.log(err);

@@ -121,6 +121,9 @@ class SignupImap extends Component {
             json: signupInfo,
         }
         request(option, function(err, res, body) {
+            if(err) {
+                return  alert(err);
+            }
             if(body.error) {
                 return alert(body.error);
             } else {

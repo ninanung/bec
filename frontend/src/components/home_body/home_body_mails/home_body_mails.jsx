@@ -15,69 +15,6 @@ const mapStateToProps = (state) => {
     }
 }
 
-const testmailarray = [
-    {
-        from: 'ninanung@naver.com',
-        to: 'ninanung@naver.com',
-        cc: '',
-        subject: 'testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest',
-        html: '<div></div>',
-        text: 'testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest',
-        date: 123,
-        sent: false,
-    },
-    {
-        from: 'ninanung@naver.com',
-        to: 'ninanung@naver.com',
-        cc: '',
-        subject: 'test',
-        html: '',
-        text: 'test',
-        date: 123,
-        sent: false,
-    },
-    {
-        from: 'ninanung@naver.com',
-        to: 'ninanung@naver.com',
-        cc: '',
-        subject: 'test',
-        html: '',
-        text: 'test',
-        date: 123,
-        sent: true,
-    },
-    {
-        from: 'ninanung@naver.com',
-        to: 'ninanung@naver.com',
-        cc: '',
-        subject: 'test',
-        html: '',
-        text: 'test',
-        date: 123,
-        sent: false,
-    },
-    {
-        from: 'ninanung@naver.com',
-        to: 'ninanung@naver.com',
-        cc: '',
-        subject: 'test',
-        html: '',
-        text: 'test',
-        date: 123,
-        sent: true,
-    },
-    {
-        from: 'ninanung@naver.com',
-        to: 'ninanung@naver.com',
-        cc: '',
-        subject: 'test',
-        html: '',
-        text: 'test',
-        date: 123,
-        sent: false,
-    },
-]
-
 class HomeBodyMails extends Component {
     constructor(props) {
         super(props);
@@ -87,14 +24,14 @@ class HomeBodyMails extends Component {
     }
 
     componentWillMount() {
-        const mails = [];
+        let mails = [];
         let uri = '';
         const { address } = this.props;
         
         if(address === 'unread') uri = constant.GET_EMAIL_UNSEEN;
         else if(address === 'all') uri = constant.GET_ALL_EMAIL_BY_ID;
         else if(address === 'sent') uri = constant.GET_EMAIL_SENT;
-        else uri = constant.GET_ALL_EMAIL_BY_ADDRESS + this.props.address;
+        else uri = constant.GET_ALL_EMAIL_BY_ADDRESS + address;
 
         const idInfo = {
             id: this.props.signup_basic.id,
@@ -104,13 +41,19 @@ class HomeBodyMails extends Component {
             uri: uri,
             json: idInfo,
         }
-        /*request(option, function(err, res, body) {
+        request(option, function(err, res, body) {
+            if(err) {
+                return  alert(err);
+            }
             if(body.error) {
                 return alert(body.error);
             } else {
                 mails = body.mails.slice();
+                mails.sort((a, b) => {
+                    return a.date - b.date;
+                })
             }
-        })*/
+        })
         this.setState({
             mails: mails,
         })
@@ -119,7 +62,7 @@ class HomeBodyMails extends Component {
     render() {
         return (
             <div className='mails-body'>
-                {testmailarray.map((mail, index) => { //this.state.mails.map((mail, index) => {
+                {this.state.mails.map((mail, index) => { //this.state.mails.map((mail, index) => {
                     if(mail.sent) {
                         return (
                             <div className='mails-div-item' key={index}><MailItem sent={true} mail={mail} index={index} /></div>

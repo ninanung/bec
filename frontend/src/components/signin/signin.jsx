@@ -16,6 +16,7 @@ const mapDispatchToProps = (dispatch) => {
         store_signup_imap: actions.store_signup_imap,
         store_signup_basic: actions.store_signup_basic,
         store_signup_smtp: actions.store_signup_smtp,
+        insert_channels: actions.insert_channels,
         make_signin: actions.make_signin,
     }, dispatch)
 }
@@ -54,6 +55,7 @@ class Signin extends Component {
         let basic_info = null;
         let smtp_info = null;
         let imap_info = null;
+        let channels = null;
         request(option, function(err, res, body) {
             if(err) {
                 return alert(err);
@@ -78,11 +80,13 @@ class Signin extends Component {
                     imap_port: body.imap_port,
                     imap_tls: body.imap_tls,
                 };
+                channels = body.channels;
             }
         });
         this.props.store_signup_basic(basic_info);
         this.props.store_signup_imap(imap_info);
         this.props.store_signup_smtp(smtp_info);
+        this.props.insert_channels(channels);
         this.props.make_signin();
         return this.props.history.push('/home');
     }
