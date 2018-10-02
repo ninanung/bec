@@ -40,6 +40,8 @@ class MailItem extends Component {
         let whoSent = '';
         if(sent) {
             whoSent = 'mail-item-me'
+        } else if(this.props.mailbox) {
+            whoSent = 'mail-item-mailbox'
         } else {
             whoSent = 'mail-item-other'
         }

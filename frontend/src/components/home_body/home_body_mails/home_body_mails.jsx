@@ -96,6 +96,10 @@ class HomeBodyMails extends React.PureComponent {
                         return (
                             <div className='mails-div-item' key={index}><MailItem sent={true} mail={mail} index={index} /></div>
                         )
+                    } else if(this.props.mailbox) {
+                        return (
+                            <div className='mails-div-item' key={index}><MailItem mailbox={this.props.mailbox} sent={false} mail={mail} index={index} /></div>
+                        )
                     } else {
                         return (
                             <div className='mails-div-item' key={index}><MailItem sent={false} mail={mail} index={index} /></div>

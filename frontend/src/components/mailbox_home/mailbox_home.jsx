@@ -36,7 +36,7 @@ class HomeBody extends React.PureComponent {
                     <HomeBodyHeader mailboxIconClick={this.mailboxIconClick} menuIconClick={this.menuIconClick} address={this.props.address} history={this.props.history} />
                 </div>
                 <div className='mails-div'>
-                    <HomeBodyMails address={this.props.address} history={this.props.history} />
+                    <HomeBodyMails mailbox={true} address={this.props.address} history={this.props.history} />
                     <div className='text-div'>
                         <h1>Please, Click the Mails!</h1>
                     </div>

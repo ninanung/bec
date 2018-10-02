@@ -8,6 +8,11 @@
     background: white; text-align: left; border-radius: 10px; 
 }
 
+.mail-item-mailbox {
+    width: calc(100% -70px); left: 30px; right: 30px; position: absolute;
+    background: white; text-align: left; border-radius: 10px; 
+}
+
 .mail-item-me:hover {
     cursor: pointer;
 }
