@@ -2,6 +2,7 @@ import React from 'react';
 import request from 'request';
 
 import MailItem from './mail_item/mail_item';
+import ModalLoader from '../../modal_loader/modal_loader';
 import constant from '../../../constant/server_constant';
 
 import './home_body_mails.css';
@@ -15,18 +16,19 @@ const mapStateToProps = (state) => {
     }
 }
 
-let mails = [];
-
 class HomeBodyMails extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
+            loading: false,
+            trigger: false,
             mails: [],
         }
     }
 
     componentWillMount() {
         let uri = '';
+        let mails = [];
         const { address } = this.props;
         
         if(address === 'unread') uri = constant.GET_EMAIL_UNSEEN;
@@ -42,6 +44,13 @@ class HomeBodyMails extends React.PureComponent {
             uri: uri,
             json: idInfo,
         }
+
+        //prepare functions
+        const changeState = this.changeState;
+        const startLoad = this.startLoad;
+        const endLoad = this.endLoad;
+
+        startLoad();
         request(option, function(err, res, body) {
             if(err) {
                 return alert('home_body_mails : ' + err);
@@ -52,20 +61,36 @@ class HomeBodyMails extends React.PureComponent {
                 mails = body.mails.slice();
                 mails.sort((a, b) => {
                     return a.date - b.date;
-                })      
+                })
+                changeState(mails);
+                endLoad();
             }
         })
     }
 
-    componentDidMount() {
+    changeState = (mails) => {
         this.setState({
+            trigger: !this.state.trigger,
             mails: mails,
+        })
+    }
+
+    startLoad = () => {
+        this.setState({
+            loading: true,
+        })
+    }
+
+    endLoad = () => {
+        this.setState({
+            loading: false,
         })
     }
 
     render() {
         return (
             <div className='mails-body'>
+                {this.state.loading ? <ModalLoader /> : null}
                 {this.state.mails.map((mail, index) => {
                     if(mail.sent) {
                         return (

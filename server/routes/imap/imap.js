@@ -43,7 +43,6 @@ router.post('/', jsonParser, function(req, res, next) {
     });
 
     imap.once('ready', function () {
-        console.log('once ready')
         imap.openBox('INBOX', false, function (err, box) {
             if(err) {
                 console.log(err)
@@ -61,7 +60,6 @@ router.post('/', jsonParser, function(req, res, next) {
     });
 
     imap.on('mail', function(num) {
-        console.log('mail');
         console.log('new mail : ', num);
         isNewEmail = true;
         imap.search(['UNSEEN'], function (err, results) {
@@ -69,7 +67,6 @@ router.post('/', jsonParser, function(req, res, next) {
                 console.log(err)
                 throw err;
             }
-            console.log('imap search')
             if(results && isNewEmail) {
                 var f = imap.fetch(results, { bodies: '', struct: true });    
                 f.on('message', function (msg, seqno) {

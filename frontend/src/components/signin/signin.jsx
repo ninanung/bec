@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import request from 'request';
 
 import InputBox from '../input_box/input_box';
+import ModalLoader from '../modal_loader/modal_loader';
 
 import './signin.css';
 import constant from '../../constant/server_constant';
@@ -41,6 +42,7 @@ class Signin extends Component {
             inputHeight: 30,
             id: '',
             password: '',
+            loading: false,
         }
     }
 
@@ -50,6 +52,18 @@ class Signin extends Component {
 
     onPasswordChange = (event) => {
         this.setState({password: event.target.value})
+    }
+
+    startLoad = () => {
+        this.setState({
+            loading: true,
+        })
+    }
+
+    endLoad = () => {
+        this.setState({
+            loading: false,
+        })
     }
 
     connectImap = (imap_info) => {
@@ -98,12 +112,17 @@ class Signin extends Component {
             url: constant.SIGNIN,
             json: signinInfo,
         }
+        //base state
         let basic_info = null;
         let smtp_info = null;
         let imap_info = null;
         let channels = null;
+
+        //prepare functions for using in the request
         const storeAll = this.storeAll;
         const connectImap = this.connectImap;
+        const startLoad = this.startLoad;
+
         request(option, function(err, res, body) {
             if(err) {
                 return alert(err);
@@ -130,6 +149,7 @@ class Signin extends Component {
                 };
                 channels = body.user.channels;
                 storeAll(basic_info, imap_info, smtp_info, channels);
+                startLoad();
                 connectImap(imap_info);
             }
         });
@@ -138,6 +158,7 @@ class Signin extends Component {
     render() {
         return (
             <div className='signin'>
+                {this.state.loading ? <ModalLoader /> : null}
                 <div className='signin-header'>
                     <h1 className='signin-header-title'>wellcome Bec!</h1>
                     <p className='signin-header-text'>For the better e-mail user experience</p>
