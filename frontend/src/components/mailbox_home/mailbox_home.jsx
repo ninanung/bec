@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import HomeBodyHeader from '../home_body/home_body_header/home_body_header'
 import HomeBodyMails from '../home_body/home_body_mails/home_body_mails'
 
 import './mailbox_home.css';
 
-class HomeBody extends Component {
+class HomeBody extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {

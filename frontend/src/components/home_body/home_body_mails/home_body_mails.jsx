@@ -1,23 +1,72 @@
-import React, { Component } from 'react';
+import React from 'react';
+import request from 'request';
 
 import MailItem from './mail_item/mail_item';
+import constant from '../../../constant/server_constant';
 
 import './home_body_mails.css';
 
-/*import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 
 const mapStateToProps = (state) => {
     return {
         signup_basic: state.signup_basic,
         signup_imap: state.signup_imap,
     }
-}*/
+}
 
-class HomeBodyMails extends Component {
+let mails = [];
+
+class HomeBodyMails extends React.PureComponent {
+    constructor(props) {
+        super(props);
+        this.state = {
+            mails: [],
+        }
+    }
+
+    componentWillMount() {
+        let uri = '';
+        const { address } = this.props;
+        
+        if(address === 'unread') uri = constant.GET_EMAIL_UNSEEN;
+        else if(address === 'all') uri = constant.GET_ALL_EMAIL_BY_ID;
+        else if(address === 'sent') uri = constant.GET_EMAIL_SENT;
+        else uri = constant.GET_ALL_EMAIL_BY_ADDRESS + address;
+
+        const idInfo = {
+            id: this.props.signup_basic.id,
+        }
+        const option = {
+            method: 'POST',
+            uri: uri,
+            json: idInfo,
+        }
+        request(option, function(err, res, body) {
+            if(err) {
+                return alert('home_body_mails : ' + err);
+            }
+            if(body.error) {
+                return alert('home_body_mails : ' + body.error);
+            } else {
+                mails = body.mails.slice();
+                mails.sort((a, b) => {
+                    return a.date - b.date;
+                })      
+            }
+        })
+    }
+
+    componentDidMount() {
+        this.setState({
+            mails: mails,
+        })
+    }
+
     render() {
         return (
             <div className='mails-body'>
-                {this.props.mails.map((mail, index) => {
+                {this.state.mails.map((mail, index) => {
                     if(mail.sent) {
                         return (
                             <div className='mails-div-item' key={index}><MailItem sent={true} mail={mail} index={index} /></div>
@@ -33,4 +82,4 @@ class HomeBodyMails extends Component {
     }
 }
 
-export default HomeBodyMails;
+export default connect(mapStateToProps)(HomeBodyMails);

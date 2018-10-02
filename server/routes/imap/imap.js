@@ -43,8 +43,12 @@ router.post('/', jsonParser, function(req, res, next) {
     });
 
     imap.once('ready', function () {
+        console.log('once ready')
         imap.openBox('INBOX', false, function (err, box) {
-            if(err) throw err;
+            if(err) {
+                console.log(err)
+                throw err;
+            }
             console.log('box open');
             isNewEmail = false;
             var date = new Date();
@@ -52,6 +56,7 @@ router.post('/', jsonParser, function(req, res, next) {
             console.log(time);
             console.log(new Date(time));
         });
+        console.log('send')
         return res.send(true);
     });
 
@@ -60,7 +65,11 @@ router.post('/', jsonParser, function(req, res, next) {
         console.log('new mail : ', num);
         isNewEmail = true;
         imap.search(['UNSEEN'], function (err, results) {
-            if(err) throw err;
+            if(err) {
+                console.log(err)
+                throw err;
+            }
+            console.log('imap search')
             if(results && isNewEmail) {
                 var f = imap.fetch(results, { bodies: '', struct: true });    
                 f.on('message', function (msg, seqno) {
