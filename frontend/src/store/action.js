@@ -61,3 +61,29 @@ export const empty_channels = () => {
         type: 'EMPTY_CHANNELS',
     }
 }
+
+export const insert_mails = (mails) => {
+    return {
+        type: 'INSERT_MAILS',
+        mails,
+    }
+}
+
+export const empty_mails = () => {
+    return {
+        type: 'EMPTY_MAILS',
+    }
+}
+
+export const insert_sent = (sent) => {
+    return {
+        type: 'INSERT_SENT',
+        sent,
+    }
+}
+
+export const empty_sent = () => {
+    return {
+        type: 'EMPTY_SENT',
+    }
+}

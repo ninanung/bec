@@ -6,7 +6,7 @@ import TextAreaBox from '../text_area_box/text_area_box';
 
 import './home_body.css';
 
-class HomeBody extends React.PureComponent {
+class HomeBody extends React.Component {
     constructor(props) {
         super(props);
         this.state = {

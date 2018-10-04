@@ -19,6 +19,7 @@ const state = {
     },
     channels: [],
     is_signin: false,
+    mails: [],
 }
 
 export default state;

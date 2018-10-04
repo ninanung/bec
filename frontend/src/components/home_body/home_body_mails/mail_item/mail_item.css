@@ -13,6 +13,10 @@
     background: white; text-align: left; border-radius: 10px; 
 }
 
+.mail-item-unread {
+    background: #FF8064;
+}
+
 .mail-item-me:hover {
     cursor: pointer;
 }

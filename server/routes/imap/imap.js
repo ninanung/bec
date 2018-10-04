@@ -43,20 +43,77 @@ router.post('/', jsonParser, function(req, res, next) {
     });
 
     imap.once('ready', function () {
+        var send = {
+            error: '',
+            mails: [],
+        }
         imap.openBox('INBOX', false, function (err, box) {
-            if(err) {
-                console.log(err)
-                throw err;
-            }
+            if (err) throw err;
             console.log('box open');
             isNewEmail = false;
-            var date = new Date();
-            var time = date.getTime();
-            console.log(time);
-            console.log(new Date(time));
+            imap.search(['ALL'], function (err, results) {
+                if (err) throw err;
+                if(results) {
+                    var f = imap.fetch(results, { bodies: '', struct: true });    
+                    f.on('message', function (msg, seqno) {
+                        var prefix = '#' + seqno + ' ';
+                        let mail = {
+                            date: '',
+                            from: '',
+                            name: '',
+                            to: null,
+                            cc: null,
+                            subject: '',
+                            html: '',
+                            text: '',
+                            uid: '',
+                            flags: null,
+                        }
+                        msg.on('attributes', function (attrs) {
+                            mail.uid = attrs.uid;
+                            mail.flags = attrs.flags;
+                        });
+                        msg.on('body', function (stream, info) {
+                            simpleParser(stream, (err, parsed) => {
+                                if(parsed.html) {
+                                    mail.html = parsed.html.replace(/\\n/gi, '')
+                                }
+                                if(parsed.text) {
+                                    mail.text = parsed.text;
+                                }
+                                if(parsed.cc) {
+                                    mail.cc = parsed.cc.value;
+                                }
+                                if(parsed.from) {
+                                    mail.from = parsed.from.value[0].address;
+                                    mail.name = parsed.from.value[0].name;
+                                }
+                                if(parsed.to) {
+                                    mail.to = parsed.to.value;
+                                }
+                                if(parsed.subject) {
+                                    mail.subject = parsed.subject;
+                                }
+                                if(parsed.date) {
+                                    mail.date = new Date(parsed.date).getTime();
+                                }
+                                send.mails.push(mail);
+                            })
+                        });
+                        msg.on('end', function () {
+                            console.log(prefix + 'Finished');
+                        });
+                    });
+                    f.once('error', function (err) {
+                        console.log('Fetch error: ' + err);
+                    });
+                    f.once('end', function () {
+                        console.log('Done fetching all messages!');
+                        res.send(send);
+                    });
+                }
+            });
         });
-        console.log('send')
-        return res.send(true);
     });
 
     imap.on('mail', function(num) {
@@ -187,7 +244,7 @@ router.post('/emails/all', jsonParser, function(req, res, next) {
     imap.connect();
 });
 
-router.post('/emails/from/:address', function(req, res, next) {
+router.post('/emails/from/:address', jsonParser, function(req, res, next) {
     var selectAddress = 'ninanung@naver.com'//req.params.address;
     var send = {
         error: '',
@@ -268,7 +325,7 @@ router.post('/emails/from/:address', function(req, res, next) {
     imap.connect();
 });
 
-router.post('/emails/unseen', function(req, res, next) {
+router.post('/emails/unseen', jsonParser, function(req, res, next) {
     var send = {
         error: '',
         mails: [],
@@ -346,7 +403,7 @@ router.post('/emails/unseen', function(req, res, next) {
     imap.connect();
 });
 
-router.post('/emails/sent', function(req, res, next) {
+router.post('/emails/sent', jsonParser, function(req, res, next) {
     var send = {
         error: '',
         mails: [],
@@ -370,7 +427,7 @@ router.post('/emails/sent', function(req, res, next) {
     });
 });
 
-router.post('/emails/sent/:address', function(req, res, next) {
+router.post('/emails/sent/:address', jsonParser, function(req, res, next) {
     const selectAddress = req.params.address;
     var send = {
         error: '',
@@ -395,7 +452,7 @@ router.post('/emails/sent/:address', function(req, res, next) {
     });
 });
 
-router.post('/emails/all/:address', function(req, res, next) {
+router.post('/emails/all/:address', jsonParser, function(req, res, next) {
     const selectAddress = req.params.address;
     var send = {
         error: '',

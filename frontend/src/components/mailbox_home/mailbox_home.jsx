@@ -5,7 +5,7 @@ import HomeBodyMails from '../home_body/home_body_mails/home_body_mails'
 
 import './mailbox_home.css';
 
-class HomeBody extends React.PureComponent {
+class HomeBody extends React.Component {
     constructor(props) {
         super(props);
         this.state = {

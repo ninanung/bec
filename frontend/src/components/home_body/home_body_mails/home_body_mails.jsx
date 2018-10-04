@@ -13,64 +13,120 @@ const mapStateToProps = (state) => {
     return {
         signup_basic: state.signup_basic,
         signup_imap: state.signup_imap,
+        mails: state.mails,
+        sent: state.sent,
     }
 }
 
-class HomeBodyMails extends React.PureComponent {
+class HomeBodyMails extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            loading: false,
+            loading: null,
             trigger: false,
             mails: [],
         }
     }
 
-    componentWillMount() {
-        let uri = '';
-        let mails = [];
-        const { address } = this.props;
-        
-        if(address === 'unread') uri = constant.GET_EMAIL_UNSEEN;
-        else if(address === 'all') uri = constant.GET_ALL_EMAIL_BY_ID;
-        else if(address === 'sent') uri = constant.GET_EMAIL_SENT;
-        else uri = constant.GET_ALL_EMAIL_BY_ADDRESS + address;
-
-        const idInfo = {
-            id: this.props.signup_basic.id,
-        }
-        const option = {
-            method: 'POST',
-            uri: uri,
-            json: idInfo,
-        }
-
-        //prepare functions
-        const changeState = this.changeState;
-        const startLoad = this.startLoad;
-        const endLoad = this.endLoad;
-
-        startLoad();
-        request(option, function(err, res, body) {
-            if(err) {
-                return alert('home_body_mails : ' + err);
-            }
-            if(body.error) {
-                return alert('home_body_mails : ' + body.error);
-            } else {
-                mails = body.mails.slice();
-                mails.sort((a, b) => {
+    componentWillReceiveProps(nextProps) {
+        if(this.props.address !== nextProps.address) {
+            let sortedMails = [];
+            const { address, mails, sent } = this.props;
+            
+            if(address === 'unread') {
+                for(let i = 0; i < mails.length; i++) {
+                    if(mails[i].flags.length === 0) {
+                       sortedMails.push(mails[i]); 
+                    }
+                }
+                sortedMails.sort((a, b) => {
                     return a.date - b.date;
                 })
-                changeState(mails);
-                endLoad();
+                this.changeState(sortedMails);
+            } else if(address === 'all') {
+                sortedMails = mails;
+                sortedMails.sort((a, b) => {
+                    return a.date - b.date;
+                })
+                this.changeState(sortedMails);
+            } else if(address === 'sent') {
+                sortedMails = sent;
+                sortedMails.sort((a, b) => {
+                    return a.date - b.date;
+                })
+                this.changeState(sortedMails);
+            } else {
+                for(let i = 0; i < mails.length; i++) {
+                    if(mails[i].from === address) {
+                       sortedMails.push(mails[i]); 
+                    }
+                }
+                for(let i = 0; i < sent.length; i++) {
+                    if(sent[i].to === address) {
+                       sortedMails.push(mails[i]); 
+                    }
+                }
+                sortedMails.sort((a, b) => {
+                    return a.date - b.date;
+                })
+                this.changeState(sortedMails);
             }
-        })
+        }
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log(this.state.trigger);
+        console.log(nextState.trigger);
+        return true;
+    }
+
+    componentWillMount() {
+        let sortedMails = [];
+        const { address, mails, sent } = this.props;
+        
+        if(address === 'unread') {
+            for(let i = 0; i < mails.length; i++) {
+                if(mails[i].flags.length === 0) {
+                   sortedMails.push(mails[i]); 
+                }
+            }
+            sortedMails.sort((a, b) => {
+                return a.date - b.date;
+            })
+            this.changeState(sortedMails);
+        } else if(address === 'all') {
+            sortedMails = mails;
+            sortedMails.sort((a, b) => {
+                return a.date - b.date;
+            })
+            this.changeState(sortedMails);
+        } else if(address === 'sent') {
+            sortedMails = sent;
+            sortedMails.sort((a, b) => {
+                return a.date - b.date;
+            })
+            this.changeState(sortedMails);
+        } else {
+            for(let i = 0; i < mails.length; i++) {
+                if(mails[i].from === address) {
+                   sortedMails.push(mails[i]); 
+                }
+            }
+            for(let i = 0; i < sent.length; i++) {
+                if(sent[i].to === address) {
+                   sortedMails.push(mails[i]); 
+                }
+            }
+            sortedMails.sort((a, b) => {
+                return a.date - b.date;
+            })
+            this.changeState(sortedMails);
+        }
     }
 
     changeState = (mails) => {
         this.setState({
-            trigger: !this.state.trigger,
+            trigger: Math.random(),
             mails: mails,
         })
     }
