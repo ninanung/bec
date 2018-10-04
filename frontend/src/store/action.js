@@ -49,6 +49,18 @@ export const make_signout = () => {
     }
 }
 
+export const make_wrong= () => {
+    return {
+        type: 'MAKE_WRONG',
+    }
+}
+
+export const make_fine = () => {
+    return {
+        type: 'MAKE_FINE',
+    }
+}
+
 export const insert_channels = (channels) => {
     return {
         type: 'INSERT_CHANNELS',

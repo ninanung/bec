@@ -75,15 +75,12 @@ class HomeBodyMails extends React.Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        console.log(this.state.trigger);
-        console.log(nextState.trigger);
         return true;
     }
 
     componentWillMount() {
         let sortedMails = [];
-        const { address, mails, sent } = this.props;
-        
+        const {address, mails, sent} = this.props;
         if(address === 'unread') {
             for(let i = 0; i < mails.length; i++) {
                 if(mails[i].flags.length === 0) {

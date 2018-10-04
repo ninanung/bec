@@ -18,8 +18,10 @@ const state = {
         imap_tls: true,
     },
     channels: [],
-    is_signin: false,
     mails: [],
+    sent: [],
+    is_signin: false,
+    is_wrong: false,
 }
 
 export default state;

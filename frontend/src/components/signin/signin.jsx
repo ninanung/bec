@@ -18,6 +18,8 @@ const mapStateToProps = (state) => {
     }
 }
 
+let isPass = false;
+
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
         clear_signup_imap: actions.clear_signup_imap,
@@ -27,6 +29,7 @@ const mapDispatchToProps = (dispatch) => {
         empty_mails: actions.empty_mails,
         empty_sent: actions.empty_sent,
         make_signout: actions.make_signout,
+        make_wrong: actions.make_wrong,
 
         store_signup_imap: actions.store_signup_imap,
         store_signup_basic: actions.store_signup_basic,
@@ -35,6 +38,7 @@ const mapDispatchToProps = (dispatch) => {
         insert_mails: actions.insert_mails,
         insert_sent: actions.insert_sent,
         make_signin: actions.make_signin,
+        make_fine: actions.make_fine,
     }, dispatch)
 }
 
@@ -71,7 +75,7 @@ class Signin extends Component {
     }
 
     connectImap = (imap_info) => {
-        const {insert_mails} = this.props;
+        const {insert_mails, make_signin} = this.props;
         const option = {
             method: 'POST',
             url: constant.CONNECT_IMAP,
@@ -82,7 +86,7 @@ class Signin extends Component {
         const clearAll = this.clearAll;
         request(option, function(err, res, body) {
             if(err) {
-                alert(err);
+                alert('signin : ' + err);
                 clearAll();
                 return window.location.href = '/';
             } else if(body.error) {
@@ -91,6 +95,7 @@ class Signin extends Component {
                 return window.location.href = '/';
             } else {
                 insert_mails(body.mails);
+                make_signin();
                 return window.location.href = '/home';
             }
         });
@@ -108,7 +113,7 @@ class Signin extends Component {
         const clearAll = this.clearAll;
         request(option, function(err, res, body) {
             if(err) {
-                alert(err);
+                alert('sent : ' + err);
                 clearAll();
                 return window.location.href = '/';
             } else if(body.error) {
@@ -131,17 +136,19 @@ class Signin extends Component {
     }
 
     clearAll = () => {
-        const {clear_signup_basic, clear_signup_imap, clear_signup_smtp, make_signout, empty_channels, empty_mails, empty_sent} = this.props;
+        const {clear_signup_basic, clear_signup_imap, clear_signup_smtp, make_signout, empty_channels, empty_mails, empty_sent, make_wrong} = this.props;
         clear_signup_basic();
         clear_signup_imap();
         clear_signup_smtp();
         make_signout();
+        make_wrong();
         empty_channels();
         empty_mails();
         empty_sent();
     }
 
     onSignin = () => {
+        this.props.make_fine();
         if(!this.state.id || !this.state.password) {
             return alert('Please, fulfill all user information.')
         }
@@ -165,6 +172,7 @@ class Signin extends Component {
         const connectImap = this.connectImap;
         const startLoad = this.startLoad;
         const connectSent = this.connectSent;
+        const clearAll = this.clearAll
 
         request(option, function(err, res, body) {
             if(err) {
@@ -193,8 +201,8 @@ class Signin extends Component {
                 channels = body.user.channels;
                 storeAll(basic_info, imap_info, smtp_info, channels);
                 startLoad();
-                connectImap(imap_info);
                 connectSent();
+                connectImap(imap_info);
             }
         });
     }

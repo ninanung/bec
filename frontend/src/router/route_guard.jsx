@@ -6,13 +6,21 @@ import { connect } from 'react-redux';
 const mapStateToProps = (state) => {
     return {
         is_signin: state.is_signin,
+        is_wrong: state.is_wrong,
+        sent: state.sent,
+        mails: state.mails,
     }
 }
 
 class RouterGuard extends Component {
     componentWillMount = () => {
-        /*if(this.props.option) {
+        if(this.props.option) {
             if(this.props.option[0]) {
+                if(this.props.is_wrong) {
+                    window.location.href = this.props.option[1];
+                }
+            }
+            /*if(this.props.option[0]) {
                 if(this.props.is_signin) {
                     window.location.href = this.props.option[1];
                 }
@@ -21,8 +29,8 @@ class RouterGuard extends Component {
                     alert('Please Sign in first!');
                     window.location.href = this.props.option[1];
                 }
-            }
-        }*/
+            }*/
+        }
     }
 
     render() {
