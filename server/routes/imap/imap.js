@@ -97,8 +97,8 @@ router.post('/', jsonParser, function(req, res, next) {
                                 if(parsed.date) {
                                     mail.date = new Date(parsed.date).getTime();
                                 }
-                                send.mails.push(mail);
                             })
+                            send.mails.push(mail);
                         });
                         msg.on('end', function () {
                             console.log(prefix + 'Finished');
@@ -224,10 +224,10 @@ router.post('/emails/all', jsonParser, function(req, res, next) {
                                 if(parsed.date) {
                                     mail.date = new Date(parsed.date).getTime();
                                 }
-                                send.mails.push(mail);
                             })
                         });
                         msg.on('end', function () {
+                            send.mails.push(mail);
                             console.log(prefix + 'Finished');
                         });
                     });
@@ -277,12 +277,14 @@ router.post('/emails/from/:address', jsonParser, function(req, res, next) {
                             uid: '',
                             flags: [],
                         }
+                        let canPush = null;
                         msg.on('attributes', function (attrs) {
                             mail.uid = attrs.uid;
                         });
                         msg.on('body', function (stream, info) {
                             simpleParser(stream, (err, parsed) => {
                                 if(parsed.from.value[0].address === selectAddress) {
+                                    canPush = true;
                                     if(parsed.html) {
                                         mail.html = parsed.html.replace(/\\n/gi, '')
                                     }
@@ -305,11 +307,11 @@ router.post('/emails/from/:address', jsonParser, function(req, res, next) {
                                     if(parsed.date) {
                                         mail.date = new Date(parsed.date).getTime();
                                     }
-                                    send.mails.push(mail);
-                                }
+                                } else canPush = false;
                             })
                         });
                         msg.on('end', function () {
+                            if(canPush) send.mails.push(mail);
                             console.log(prefix + 'Finished');
                         });
                     });
@@ -385,10 +387,10 @@ router.post('/emails/unseen', jsonParser, function(req, res, next) {
                                 if(parsed.date) {
                                     mail.date = new Date(parsed.date).getTime();
                                 }
-                                send.mails.push(mail);
                             })
                         });
                         msg.on('end', function () {
+                            send.mails.push(mail);
                             console.log(prefix + 'Finished');
                         });
                     });
@@ -505,12 +507,14 @@ router.post('/emails/all/:address', jsonParser, function(req, res, next) {
                             uid: '',
                             flags: [],
                         }
+                        let canPush = null
                         msg.on('attributes', function (attrs) {
                             mail.uid = attrs.uid;
                         });
                         msg.on('body', function (stream, info) {
                             simpleParser(stream, (err, parsed) => {
                                 if(parsed.from.value[0].address === selectAddress) {
+                                    canPush = true;
                                     if(parsed.html) {
                                         mail.html = parsed.html.replace(/\\n/gi, '')
                                     }
@@ -533,11 +537,11 @@ router.post('/emails/all/:address', jsonParser, function(req, res, next) {
                                     if(parsed.date) {
                                         mail.date = new Date(parsed.date).getTime();
                                     }
-                                    send.mails.push(mail);
-                                }
+                                } else canPush = false;
                             })
                         });
                         msg.on('end', function () {
+                            if(canPush) send.mails.push(mail);
                             console.log(prefix + 'Finished');
                         });
                     });

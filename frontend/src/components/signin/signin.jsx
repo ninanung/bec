@@ -94,7 +94,7 @@ class Signin extends Component {
             } else {
                 insert_mails(body.mails);
                 make_signin();
-                return window.location.href = '/home';
+                console.log(body.mails)//return window.location.href = '/home';
             }
         });
     }
