@@ -18,8 +18,6 @@ const mapStateToProps = (state) => {
     }
 }
 
-let isPass = false;
-
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
         clear_signup_imap: actions.clear_signup_imap,
@@ -172,7 +170,6 @@ class Signin extends Component {
         const connectImap = this.connectImap;
         const startLoad = this.startLoad;
         const connectSent = this.connectSent;
-        const clearAll = this.clearAll
 
         request(option, function(err, res, body) {
             if(err) {

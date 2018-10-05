@@ -1,9 +1,6 @@
 import React from 'react';
-import request from 'request';
 
 import MailItem from './mail_item/mail_item';
-import ModalLoader from '../../modal_loader/modal_loader';
-import constant from '../../../constant/server_constant';
 
 import './home_body_mails.css';
 
@@ -22,13 +19,13 @@ class HomeBodyMails extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            loading: null,
             trigger: false,
             mails: [],
         }
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log('receive props')
         if(this.props.address !== nextProps.address) {
             let sortedMails = [];
             const { address, mails, sent } = this.props;
@@ -71,14 +68,13 @@ class HomeBodyMails extends React.Component {
                 })
                 this.changeState(sortedMails);
             }
+            console.log(this.state.mails.length);
+            console.log(sortedMails.length);
         }
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        return true;
-    }
-
     componentWillMount() {
+        console.log('component mount')
         let sortedMails = [];
         const {address, mails, sent} = this.props;
         if(address === 'unread') {
@@ -119,31 +115,33 @@ class HomeBodyMails extends React.Component {
             })
             this.changeState(sortedMails);
         }
+        console.log(this.state.mails.length);
+        console.log(sortedMails.length);
+    }
+
+    componentDidMount() {
+        console.log('did mount');
+        console.log(this.state.mails.length)
+    }
+
+    componentDidUpdate() {
+        console.log('did update');
+        console.log(this.state.mails.length)
     }
 
     changeState = (mails) => {
+        console.log('change state')
         this.setState({
             trigger: Math.random(),
             mails: mails,
         })
     }
 
-    startLoad = () => {
-        this.setState({
-            loading: true,
-        })
-    }
-
-    endLoad = () => {
-        this.setState({
-            loading: false,
-        })
-    }
-
     render() {
+        console.log('render')
+        console.log(this.state.mails.length);
         return (
             <div className='mails-body'>
-                {this.state.loading ? <ModalLoader /> : null}
                 {this.state.mails.map((mail, index) => {
                     if(mail.sent) {
                         return (
