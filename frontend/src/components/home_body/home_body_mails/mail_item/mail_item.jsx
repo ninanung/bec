@@ -45,6 +45,9 @@ class MailItem extends Component {
         } else {
             whoSent = 'mail-item-other'
         }
+        if(this.props.unseen) {
+            whoSent += ' unseen'
+        }
         return (
             <div className={whoSent}>
                 <div onClick={this.onPopup}>

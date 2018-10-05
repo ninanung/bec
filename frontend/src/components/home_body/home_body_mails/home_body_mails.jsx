@@ -25,11 +25,10 @@ class HomeBodyMails extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('receive props')
         if(this.props.address !== nextProps.address) {
             let sortedMails = [];
-            const { address, mails, sent } = this.props;
-            
+            const { mails, sent } = this.props;
+            const address = nextProps.address;
             if(address === 'unread') {
                 for(let i = 0; i < mails.length; i++) {
                     if(mails[i].flags.length === 0) {
@@ -68,13 +67,10 @@ class HomeBodyMails extends React.Component {
                 })
                 this.changeState(sortedMails);
             }
-            console.log(this.state.mails.length);
-            console.log(sortedMails.length);
         }
     }
 
     componentWillMount() {
-        console.log('component mount')
         let sortedMails = [];
         const {address, mails, sent} = this.props;
         if(address === 'unread') {
@@ -115,22 +111,9 @@ class HomeBodyMails extends React.Component {
             })
             this.changeState(sortedMails);
         }
-        console.log(this.state.mails.length);
-        console.log(sortedMails.length);
-    }
-
-    componentDidMount() {
-        console.log('did mount');
-        console.log(this.state.mails.length)
-    }
-
-    componentDidUpdate() {
-        console.log('did update');
-        console.log(this.state.mails.length)
     }
 
     changeState = (mails) => {
-        console.log('change state')
         this.setState({
             trigger: Math.random(),
             mails: mails,
@@ -138,8 +121,6 @@ class HomeBodyMails extends React.Component {
     }
 
     render() {
-        console.log('render')
-        console.log(this.state.mails.length);
         return (
             <div className='mails-body'>
                 {this.state.mails.map((mail, index) => {
@@ -148,10 +129,16 @@ class HomeBodyMails extends React.Component {
                             <div className='mails-div-item' key={index}><MailItem sent={true} mail={mail} index={index} /></div>
                         )
                     } else if(this.props.mailbox) {
+                        if(mail.flags && mail.flags.length === 0) {
+                            return <div className='mails-div-item' key={index}><MailItem sent={false} mailbox={this.props.mailbox} unseen={true} mail={mail} index={index} /></div>
+                        }
                         return (
-                            <div className='mails-div-item' key={index}><MailItem mailbox={this.props.mailbox} sent={false} mail={mail} index={index} /></div>
+                            <div className='mails-div-item' key={index}><MailItem sent={false} mailbox={this.props.mailbox} mail={mail} index={index} /></div>
                         )
                     } else {
+                        if(mail.flags && mail.flags.length === 0) {
+                            return <div className='mails-div-item' key={index}><MailItem sent={false} unseen={true} mail={mail} index={index} /></div>
+                        }
                         return (
                             <div className='mails-div-item' key={index}><MailItem sent={false} mail={mail} index={index} /></div>
                         )

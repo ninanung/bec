@@ -13,8 +13,8 @@
     background: white; text-align: left; border-radius: 10px; 
 }
 
-.mail-item-unread {
-    background: #FF8064;
+.unseen {
+    background: #FF8064 !important;
 }
 
 .mail-item-me:hover {

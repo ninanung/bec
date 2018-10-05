@@ -11,10 +11,14 @@ class PopupMail extends Component {
                 <div className='popup-inner-body'>
                     <div onClick={this.props.closePopup} className='close-button'>X</div>
                     <h2 className='subject'>subject: {mail.subject}</h2>
-                    <h3 className='mailinfo'>date: {mail.date}</h3>
-                    <h3 className='mailinfo'>from: {mail.from}</h3>
-                    <h3 className='mailinfo'>to: {mail.to}</h3>
-                    <h3 className='mailinfo'>cc: {mail.cc}</h3>
+                    <h3 className='mailinfo'>date: {new Date(mail.date)}</h3>
+                    <h3 className='mailinfo'>from: {mail.from}, name: {mail.name}</h3>
+                    {mail.to.map((to, index) => {
+                        return <h3 className='mailinfo'>to: {to.address}, name: {to.name}</h3>
+                    })}
+                    {mail.cc.map((cc, index) => {
+                        return <h3 className='mailinfo'>cc: {cc.address}, name: {cc.name}</h3>
+                    })}
                     <hr/>
                     {mail.text ? <h3 className='text'>{mail.text}</h3> : null}
                     <hr/>

@@ -61,13 +61,13 @@ router.post('/', jsonParser, function(req, res, next) {
                             date: '',
                             from: '',
                             name: '',
-                            to: null,
-                            cc: null,
+                            to: [],
+                            cc: [],
                             subject: '',
                             html: '',
                             text: '',
                             uid: '',
-                            flags: null,
+                            flags: [],
                         }
                         msg.on('attributes', function (attrs) {
                             mail.uid = attrs.uid;
@@ -189,12 +189,13 @@ router.post('/emails/all', jsonParser, function(req, res, next) {
                             date: '',
                             from: '',
                             name: '',
-                            to: null,
-                            cc: null,
+                            to: [],
+                            cc: [],
                             subject: '',
                             html: '',
                             text: '',
                             uid: '',
+                            flags: [],
                         }
                         msg.on('attributes', function (attrs) {
                             mail.uid = attrs.uid;
@@ -268,12 +269,13 @@ router.post('/emails/from/:address', jsonParser, function(req, res, next) {
                             date: '',
                             from: '',
                             name: '',
-                            to: null,
-                            cc: null,
+                            to: [],
+                            cc: [],
                             subject: '',
                             html: '',
                             text: '',
                             uid: '',
+                            flags: [],
                         }
                         msg.on('attributes', function (attrs) {
                             mail.uid = attrs.uid;
@@ -348,12 +350,13 @@ router.post('/emails/unseen', jsonParser, function(req, res, next) {
                             date: '',
                             from: '',
                             name: '',
-                            to: null,
-                            cc: null,
+                            to: [],
+                            cc: [],
                             subject: '',
                             html: '',
                             text: '',
                             uid: '',
+                            flags: [],
                         }
                         msg.on('attributes', function (attrs) {
                             mail.uid = attrs.uid;
@@ -494,12 +497,13 @@ router.post('/emails/all/:address', jsonParser, function(req, res, next) {
                             date: '',
                             from: '',
                             name: '',
-                            to: null,
-                            cc: null,
+                            to: [],
+                            cc: [],
                             subject: '',
                             html: '',
                             text: '',
                             uid: '',
+                            flags: [],
                         }
                         msg.on('attributes', function (attrs) {
                             mail.uid = attrs.uid;
