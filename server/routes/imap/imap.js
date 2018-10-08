@@ -97,8 +97,11 @@ router.post('/', jsonParser, function(req, res, next) {
                                 if(parsed.date) {
                                     mail.date = new Date(parsed.date).getTime();
                                 }
+                                send.mails.push(mail);
+                                if(results.length === send.mails.length) {
+                                    res.send(send);
+                                }
                             })
-                            send.mails.push(mail);
                         });
                         msg.on('end', function () {
                             console.log(prefix + 'Finished');
@@ -109,7 +112,6 @@ router.post('/', jsonParser, function(req, res, next) {
                     });
                     f.once('end', function () {
                         console.log('Done fetching all messages!');
-                        res.send(send);
                     });
                 }
             });

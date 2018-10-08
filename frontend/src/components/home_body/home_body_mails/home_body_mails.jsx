@@ -124,6 +124,9 @@ class HomeBodyMails extends React.Component {
         return (
             <div className='mails-body'>
                 {this.state.mails.map((mail, index) => {
+                    if(mail.subject.length === 0) {
+                        return null;
+                    }
                     if(mail.sent) {
                         return (
                             <div className='mails-div-item' key={index}><MailItem sent={true} mail={mail} index={index} /></div>
