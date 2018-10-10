@@ -1,8 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types';
+import React from 'react';
 import request from 'request';
+import PropTypes from 'prop-types';
 
-import './insert_channel_button.css';
+import './delete_channel_button.css';
 
 import constant from '../../constant/server_constant';
 
@@ -23,21 +23,20 @@ const mapDispatchToProps = (dispatch) => {
     }, dispatch)
 }
 
-class InsertChannelButton extends React.Component {
-    addToChannel = (event) => {
+class DeleteChannelButton extends React.Component {
+    deleteFromChannel = (event) => {
         event.stopPropagation();
-        const {name, address, channels, signup_basic, insert_channels} = this.props;
+        const {address, channels, signup_basic, insert_channels} = this.props;
         for(let i = 0; i < channels.length; i++) {
             if(channels[i] === address) {
-                return alert('There\'s already same address in the channel list.');
+                return alert('There\'s nothing to delete in the channel list.');
             }
         }
         const option = {
             method: 'POST',
-            url: constant.INSERT_CHANNELS,
+            url: constant.DELETE_CHANNELS,
             json: {
                 address: address,
-                name: name,
                 id: signup_basic.id,
             },
         }
@@ -53,21 +52,14 @@ class InsertChannelButton extends React.Component {
     }
 
     render() {
-        const {address, channels} = this.props;
-        for(let i = 0; i < channels.length; i++) {
-            if(channels[i].address === address) {
-                return null;
-            }
-        }
         return (
-            <button onClick={this.addToChannel} className='add-button'>add</button>
+            <button onClick={this.deleteFromChannel} className='delete-button'>del</button>
         )
     }
 }
 
-InsertChannelButton.propTypes = {
-    address: PropTypes.string.isRequired,
-    name: PropTypes.string,
+DeleteChannelButton.proTypes = {
+    address: PropTypes.string.isRequired
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(InsertChannelButton);
+export default connect(mapStateToProps, mapDispatchToProps)(DeleteChannelButton);

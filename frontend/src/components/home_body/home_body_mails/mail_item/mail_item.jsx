@@ -53,7 +53,7 @@ class MailItem extends Component {
             <div className={whoSent}>
                 <div onClick={this.onPopup}>
                     <h2 className='mail-item-text'>{'Sub: ' + mail.subject}</h2>
-                    <h3 className='mail-item-text'><InsertChannelButton address={mail.from} />{'From: ' + mail.from}</h3>
+                    <h3 className='mail-item-text'><InsertChannelButton name={mail.name} address={mail.from} />{' From: ' + mail.from}</h3>
                     <h3 className='mail-item-text'>{'Text: ' + mail.text}</h3>
                 </div>
                 {popup ? <PopupMail mail={mail} onEscClose={this.onEscClose} closePopup={this.closePopup} /> : null}

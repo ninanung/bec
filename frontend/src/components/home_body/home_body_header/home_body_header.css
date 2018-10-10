@@ -39,6 +39,6 @@
     }
 
     .header-address {
-        top: 20px; left: calc(50% - 160px); right: calc(50% - 160px); position: absolute;
+        top: 20px; left: calc(50% - 250px); right: calc(50% - 250px); position: absolute; width: 500px;
     }
 }

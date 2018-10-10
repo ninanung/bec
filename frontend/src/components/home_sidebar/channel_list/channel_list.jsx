@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import ChannelItem from './channel_item/channel_item';
 import './channel_list.css';
@@ -9,6 +10,13 @@ class ChannelList extends Component {
         this.state = {
             channels: [],
         }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const channels = nextProps.channels;
+        this.setState({
+            channels: channels,
+        })
     }
 
     componentWillMount() {
@@ -35,6 +43,11 @@ class ChannelList extends Component {
             </div>
         )
     }
+}
+
+ChannelList.propTypes = {
+    channels: PropTypes.arrayOf(PropTypes.object).isRequired,
+    history: PropTypes.object.isRequired,
 }
 
 export default ChannelList;

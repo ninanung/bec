@@ -1,27 +1,31 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import DeleteChannelList from '../../../delete_channel_button/delete_channel_button';
+
 import './channel_item.css';
 
 class ChannelItem extends Component {
     clickListItem = () => {
-        if(!this.props.isChannel && this.props.channel.address) {
-            this.props.history.push('/home/mailbox/' + this.props.channel.address);
-        } else if(!this.props.channel.address) { 
-            this.props.history.push('/home');
+        const {isChannel, history, channel} = this.props;
+        if(!isChannel && channel.address) {
+            history.push('/home/mailbox/' + channel.address);
+        } else if(!channel.address) { 
+            history.push('/home');
         } else {
-            this.props.history.push('/home/' + this.props.channel.address);
+            history.push('/home/' + channel.address);
         }
     }
 
     render() {
+        const {isChannel, channel} = this.props;
         return (
             <div onClick={this.clickListItem} className='channel-item-body'>
                 <div className='channel-item-name'>
-                    <h3>✔ {this.props.channel.name}</h3>
+                    <h3>✔ {channel.name + ' '} {isChannel ? <DeleteChannelList address={channel.address} /> : null}</h3>
                 </div>
                 <div className='channel-item-address'>
-                    {this.props.isChannel ? this.props.channel.address : ''}
+                    {isChannel ? channel.address : ''} 
                 </div>
             </div>
         )

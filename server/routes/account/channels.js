@@ -22,13 +22,16 @@ router.post('/insert', jsonParser, function(req, res, next) {
             return res.send(send);
         }
         for(let i = 0; i < user.channels.length; i++) {
-            if(user.channels[i] === body.address) {
+            if(user.channels[i].address === body.address) {
                 send.error = 'There\'s already same address in the channel list.';
                 return  res.send(send);
             }
         }
         send.channels = user.channels;
-        send.channels.push(address);
+        send.channels.push({
+            address: body.address,
+            name: body.name,
+        });
         user.channels = send.channels;
         user.save(function(err){
             if(err) {
@@ -58,11 +61,11 @@ router.post('/delete', jsonParser, function(req, res, next) {
             return res.send(send);
         }
         let thereIs = false;
-        let wheereIs;
+        let whereIs;
         for(let i = 0; i < user.channels.length; i++) {
-            if(user.channels[i] === body.address) {
+            if(user.channels[i].address === body.address) {
                 thereIs = true;
-                wheereIs = i;
+                whereIs = i;
             }
         }
         if(!thereIs) {
@@ -70,7 +73,7 @@ router.post('/delete', jsonParser, function(req, res, next) {
             return res.send(send);
         }
         send.channels = user.channels;
-        send.channels.splice(i, 1);
+        send.channels.splice(whereIs, 1);
         user.channels = send.channels;
         user.save(function(err){
             if(err) {
