@@ -41,6 +41,7 @@ class InsertChannelButton extends React.Component {
                 id: signup_basic.id,
             },
         }
+        console.log(option);
         request(option, function(err, res, body) {
             if(err) {
                 return alert(err);

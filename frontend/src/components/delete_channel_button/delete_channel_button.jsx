@@ -40,6 +40,7 @@ class DeleteChannelButton extends React.Component {
                 id: signup_basic.id,
             },
         }
+        console.log(option);
         request(option, function(err, res, body) {
             if(err) {
                 return alert(err);
@@ -59,7 +60,7 @@ class DeleteChannelButton extends React.Component {
 }
 
 DeleteChannelButton.proTypes = {
-    address: PropTypes.string.isRequired
+    address: PropTypes.string.isRequired,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DeleteChannelButton);

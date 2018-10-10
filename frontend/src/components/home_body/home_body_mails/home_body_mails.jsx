@@ -1,6 +1,7 @@
 import React from 'react';
 
 import MailItem from './mail_item/mail_item';
+import DateBar from './date_bar/date_bar';
 
 import './home_body_mails.css';
 
@@ -27,8 +28,8 @@ class HomeBodyMails extends React.Component {
     componentWillReceiveProps(nextProps) {
         if(this.props.address !== nextProps.address) {
             let sortedMails = [];
-            const { mails, sent } = this.props;
-            const address = nextProps.address;
+            const {sent, mails} = this.props;
+            const {address} = nextProps;
             if(address === 'unread') {
                 for(let i = 0; i < mails.length; i++) {
                     if(mails[i].flags.length === 0) {
@@ -38,19 +39,16 @@ class HomeBodyMails extends React.Component {
                 sortedMails.sort((a, b) => {
                     return a.date - b.date;
                 })
-                this.changeState(sortedMails);
             } else if(address === 'all') {
-                sortedMails = mails;
+                sortedMails = mails.slice();
                 sortedMails.sort((a, b) => {
                     return a.date - b.date;
                 })
-                this.changeState(sortedMails);
             } else if(address === 'sent') {
-                sortedMails = sent;
+                sortedMails = sent.slice();
                 sortedMails.sort((a, b) => {
                     return a.date - b.date;
                 })
-                this.changeState(sortedMails);
             } else {
                 for(let i = 0; i < mails.length; i++) {
                     if(mails[i].from === address) {
@@ -65,8 +63,9 @@ class HomeBodyMails extends React.Component {
                 sortedMails.sort((a, b) => {
                     return a.date - b.date;
                 })
-                this.changeState(sortedMails);
             }
+            sortedMails = this.insertDate(sortedMails);
+            this.changeState(sortedMails);
         }
     }
 
@@ -82,19 +81,16 @@ class HomeBodyMails extends React.Component {
             sortedMails.sort((a, b) => {
                 return a.date - b.date;
             })
-            this.changeState(sortedMails);
         } else if(address === 'all') {
-            sortedMails = mails;
+            sortedMails = mails.slice();
             sortedMails.sort((a, b) => {
                 return a.date - b.date;
             })
-            this.changeState(sortedMails);
         } else if(address === 'sent') {
-            sortedMails = sent;
+            sortedMails = sent.slice();
             sortedMails.sort((a, b) => {
                 return a.date - b.date;
             })
-            this.changeState(sortedMails);
         } else {
             for(let i = 0; i < mails.length; i++) {
                 if(mails[i].from === address) {
@@ -109,8 +105,39 @@ class HomeBodyMails extends React.Component {
             sortedMails.sort((a, b) => {
                 return a.date - b.date;
             })
-            this.changeState(sortedMails);
         }
+        sortedMails = this.insertDate(sortedMails);
+        this.changeState(sortedMails);
+    }
+
+    insertDate = (sortedArray) => {
+        if(sortedArray.length === 0) return sortedArray;
+        const copy = sortedArray;
+        for(let i = 0; i < sortedArray.length; i++) {
+            if(i === 0) {
+                const info = {
+                    date: this.parseToString(sortedArray[i].date),
+                    isDateBar: true,
+                }
+                copy.splice(i, 0, info);
+            } else if(!sortedArray[i]) return copy;
+            else {
+                const lastDate = this.parseToString(sortedArray[i - 1].date)
+                const thisDate = this.parseToString(sortedArray[i].date)
+                if(lastDate !== thisDate) {
+                    const info = {
+                        date: this.parseToString(sortedArray[i].date),
+                        isDateBar: true,
+                    }
+                    copy.splice(i, 0, info);
+                }
+            }
+        }
+        return copy;
+    }
+
+    parseToString = (date) => {
+        return new Date(date).toString().split(" ").splice(0, 4).splice(0, 4).toString().replace(/,/g, " ");
     }
 
     changeState = (mails) => {
@@ -124,6 +151,9 @@ class HomeBodyMails extends React.Component {
         return (
             <div className='mails-body'>
                 {this.state.mails.map((mail, index) => {
+                    if(mail.isDateBar) {
+                        return <DateBar date={mail.date} />
+                    }
                     if(mail.subject.length === 0) {
                         return null;
                     }
