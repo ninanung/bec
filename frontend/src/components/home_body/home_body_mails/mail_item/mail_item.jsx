@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import './mail_item.css';
 
 import PopupMail from '../../../popup_mail/popup_mail';
+import InsertChannelButton from '../../../insert_channel_button/insert_channel_button';
 
 class MailItem extends Component {
     constructor(props) {
@@ -52,7 +53,7 @@ class MailItem extends Component {
             <div className={whoSent}>
                 <div onClick={this.onPopup}>
                     <h2 className='mail-item-text'>{'Sub: ' + mail.subject}</h2>
-                    <h3 className='mail-item-text'>{'From: ' + mail.from}</h3>
+                    <h3 className='mail-item-text'><InsertChannelButton address={mail.from} />{'From: ' + mail.from}</h3>
                     <h3 className='mail-item-text'>{'Text: ' + mail.text}</h3>
                 </div>
                 {popup ? <PopupMail mail={mail} onEscClose={this.onEscClose} closePopup={this.closePopup} /> : null}

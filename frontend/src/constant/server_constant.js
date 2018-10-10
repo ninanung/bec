@@ -11,7 +11,8 @@ const GET_SENT_EMAIL_BY_ADDRESS = '/api/post/imap/emails/sent/';
 const GET_EMAIL_SENT = '/api/post/imap/emails/sent';
 const GET_ALL_EMAIL_BY_ADDRESS = '/api/post/imap/emails/all/';
 const DISCONNECT = '/api/post/imap/disconnect';
-const INSERT_CHANNEL = '/api/post/insert/channel';
+const INSERT_CHANNELS = '/api/post/channels/insert';
+const DELETE_CHANNELS = '/api/post/channels/delete';
 
 export default {
     BASE_URL: BASE_URL,
@@ -27,5 +28,6 @@ export default {
     GET_EMAIL_SENT: BASE_URL + GET_EMAIL_SENT,
     GET_ALL_EMAIL_BY_ADDRESS: BASE_URL + GET_ALL_EMAIL_BY_ADDRESS,
     DISCONNECT: BASE_URL + DISCONNECT,
-    INSERT_CHANNEL: BASE_URL + INSERT_CHANNEL,
+    INSERT_CHANNELS: BASE_URL + INSERT_CHANNELS,
+    DELETE_CHANNELS: BASE_URL + DELETE_CHANNELS,
 }

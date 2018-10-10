@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types';
+import request from 'request';
 
 import './insert_channel_button.css';
 
@@ -22,7 +24,8 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 class InsertChannelButton extends React.Component {
-    addToChannel = () => {
+    addToChannel = (event) => {
+        event.stopPropagation();
         const {address, channels, signup_basic, insert_channels} = this.props;
         for(let i = 0; i < channels.length; i++) {
             if(channels[i] === address) {
@@ -31,7 +34,7 @@ class InsertChannelButton extends React.Component {
         }
         const option = {
             method: 'POST',
-            url: constant.INSERT_CHANNEL,
+            url: constant.INSERT_CHANNELS,
             json: {
                 address: address,
                 id: signup_basic.id,
@@ -39,7 +42,7 @@ class InsertChannelButton extends React.Component {
         }
         request(option, function(err, res, body) {
             if(err) {
-                return alert('signin : ' + err);
+                return alert(err);
             } else if(body.error) {
                 return alert(body.error);
             } else {
@@ -49,12 +52,20 @@ class InsertChannelButton extends React.Component {
     }
 
     render() {
+        const {address, channels} = this.props;
+        for(let i = 0; i < channels.length; i++) {
+            if(channels[i] === address) {
+                return null;
+            }
+        }
         return (
-            <div onClick={this.addToChannel} className='insert-channel-body'>
-                <p>Add Channel</p>
-            </div>
+            <button onClick={this.addToChannel} className='add-button'>add</button>
         )
     }
+}
+
+InsertChannelButton.propTypes = {
+    address: PropTypes.string,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(InsertChannelButton);

@@ -20,6 +20,7 @@ const signup = require('./routes/account/signup');
 const signin = require('./routes/account/signin');
 const get_user = require('./routes/account/get_user');
 const update_user = require('./routes/account/update_user');
+const channels = require('./routes/account/channels');
 const test = require('./routes/test');
 
 app.use('/test', test);
@@ -29,6 +30,7 @@ app.use(post + '/signup', signup);
 app.use(post + '/update/user', update_user);
 app.use(post + '/signin', signin);
 app.use(post + '/user', get_user);
+app.use(post + '/channels', channels);
 
 mongoose.connect("mongodb://localhost:27017/test");
 app.use(bodyParser.urlencoded({ extended: false }));
