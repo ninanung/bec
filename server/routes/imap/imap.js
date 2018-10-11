@@ -20,7 +20,8 @@ var imap;
 var isNewEmail = false;
 
 router.post('/', jsonParser, function(req, res, next) {
-    //var user = req.body;
+    var user = req.body.imap_info;
+    console.log(user);
 
     imap = new Imap({
         user: google.id, //user.imap_id,
@@ -160,11 +161,43 @@ router.post('/', jsonParser, function(req, res, next) {
     imap.connect();
 });
 
-router.post('/disconnect', function(req, res, next) {
-    imap.closeBox(function(err) {
-        if(err) throw err;
-        console.log('box closed');
-    })
+router.post('/disconnect', jsonParser, function(req, res, next) {
+    var user = req.body.imap_info;
+    console.log(user);
+
+    /*imap = new Imap({
+        user: google.id, //user.imap_id,
+        password: google.password, //user.imap_password,
+        host: google.host, //user.imap_host,
+        port: google.port, //user.imap_port,
+        tls: google.tls, //user.imap_tls,
+        connTimeout: 10000, // Default by node-imap 
+        authTimeout: 10000, // Default by node-imap, 
+        keepalive: true,
+        //debug: console.log, // Or your custom function with only one incoming argument. Default: null 
+        tlsOptions: { rejectUnauthorized: false },
+        mailbox: 'INBOX',
+        //searchFilter: ['UNSEEN', 'FLAGGED'], // the search filter being used after an IDLE notification has been retrieved 
+        //markSeen: true, // all fetched email willbe marked as seen and not fetched next time 
+        fetchUnreadOnStart: true, // use it only if you want to get all unread email on lib start. Default is `false`, 
+        mailParserOptions: { streamAttachments: true }, // options to be passed to mailParser lib. 
+        attachments: true, // download attachments as they are encountered to the project directory 
+        attachmentOptions: { directory: 'attachments/' } // specify a download directory for attachments 
+    });*/
+
+    imap.once('error', function(err) {
+        console.log(err);
+        res.send(false);
+    });
+
+    imap.once('end', function() {
+        var date = new Date();
+        var time = date.getTime();
+        console.log(time);
+        console.log(new Date(time));
+        console.log('end');
+    });
+
     imap.end()
 });
 

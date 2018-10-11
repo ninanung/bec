@@ -21,7 +21,6 @@ class Intro extends Component {
     render() {
         return (
             <div className='header'>
-                {console.log(this.props.mails)}
                 <div>
                     <IntroHeader/>
                 </div>

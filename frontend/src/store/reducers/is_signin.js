@@ -5,13 +5,9 @@ const initialState = state.is_signin;
 export default (state = initialState, action) => {
     switch (action.type) {
         case 'MAKE_SIGNIN':
-            return Object.assign({}, state, {
-                is_signin: true,
-            })
+            return true;
         case 'MAKE_SIGNOUT':
-            return Object.assign({}, state, {
-                is_signin: false,
-            })
+            return false;
         default:
             return state;
     }

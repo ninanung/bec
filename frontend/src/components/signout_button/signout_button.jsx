@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import request from 'request';
 
 import './signout_button.css';
+
+import constant from '../../constant/server_constant';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -9,7 +12,7 @@ import * as actions from '../../store/action';
 
 const mapStateToProps = (state) => {
     return {
-        signup_basic: state.signup_basic,
+        signup_imap: state.signup_basic,
     }
 }
 
@@ -29,8 +32,29 @@ const mapDispatchToProps = (dispatch) => {
 
 class SignoutButton extends React.Component {
     signout = (event) => {
-        //this.clearAll();
-        console.log(this.props.history)
+        this.clearAll();
+        //this.disconnect();
+        this.props.history.push('/')
+    }
+
+    disconnect = () => {
+        const option = {
+            method: 'POST',
+            url: constant.DISCONNECT,
+            json: {
+                imap_info: this.props.signup_imap,
+            }
+        }
+        const clearAll = this.clearAll;
+        request(option, function(err, res, body) {
+            if(err) {
+                return alert(err);
+            } else if(!body) {
+                return alert('something happend! Please wait and try again.');
+            } else {
+                clearAll();
+            }
+        });
     }
 
     clearAll = () => {

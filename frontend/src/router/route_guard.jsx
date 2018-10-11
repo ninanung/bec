@@ -20,16 +20,17 @@ class RouterGuard extends Component {
                     window.location.href = this.props.option[1];
                 }
             }
-            /*if(this.props.option[0]) {
-                if(this.props.is_signin) {
+            if(!this.props.option[0]) {
+                if(!this.props.is_signin) {
+                    alert('Please sign in!');
                     window.location.href = this.props.option[1];
                 }
             } else {
-                if(!this.props.is_signin) {
-                    alert('Please Sign in first!');
+                if(this.props.is_signin) {
+                    alert('Please sign out!');
                     window.location.href = this.props.option[1];
                 }
-            }*/
+            }
         }
     }
 
