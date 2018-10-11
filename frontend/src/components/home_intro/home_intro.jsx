@@ -12,7 +12,7 @@ class HomeIntro extends Component {
                     <HomeSidebar history={this.props.history}/>
                 </div>
                 <div className='home-body'>
-                    <h1>Home sweet home!</h1>
+                    <h1>Welcome!</h1>
                 </div>
             </div>
         );

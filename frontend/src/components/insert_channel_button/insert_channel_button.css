@@ -1,9 +1,9 @@
 .add-button {
     border-radius: 10px; width: 60px; height: 30px; font-size: 20px;
     font-weight: bold; cursor: pointer; color: white; background-color: #157483;
-    border-color: white;
+    border-color: #157483;
 }
 
 .add-button:hover {
-    cursor: pointer;
+    cursor: pointer; color: #157483; background-color: white; border-color: white;
 }

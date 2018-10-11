@@ -5,6 +5,7 @@ import request from 'request';
 import './signout_button.css';
 
 import constant from '../../constant/server_constant';
+import ModalLoader from '../modal_loader/modal_loader';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -12,7 +13,7 @@ import * as actions from '../../store/action';
 
 const mapStateToProps = (state) => {
     return {
-        signup_imap: state.signup_basic,
+        signup_imap: state.signup_imap,
     }
 }
 
@@ -31,10 +32,22 @@ const mapDispatchToProps = (dispatch) => {
 
 
 class SignoutButton extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: false,
+        }
+    }
+
     signout = (event) => {
-        this.clearAll();
-        //this.disconnect();
-        this.props.history.push('/')
+        this.setLoading(true);
+        this.disconnect();
+    }
+
+    setLoading = (bool) => {
+        this.setState({
+            loading: bool,
+        })
     }
 
     disconnect = () => {
@@ -46,10 +59,13 @@ class SignoutButton extends React.Component {
             }
         }
         const clearAll = this.clearAll;
+        const setLoading = this.setLoading;
         request(option, function(err, res, body) {
             if(err) {
+                setLoading(false);
                 return alert(err);
             } else if(!body) {
+                setLoading(false);
                 return alert('something happend! Please wait and try again.');
             } else {
                 clearAll();
@@ -66,11 +82,16 @@ class SignoutButton extends React.Component {
         this.props.empty_sent();
         this.props.make_signout();
         this.props.make_wrong();
+        this.setLoading(false);
+        this.props.history.push('/')
     }
 
     render() {
         return (
-            <button onClick={this.signout} className='signout-button'>SIGNOUT</button>
+            <div>
+                {this.state.loading ? <ModalLoader /> : null}
+                <button onClick={this.signout} className='signout-button'>SIGNOUT</button>
+            </div>
         )
     }
 }
