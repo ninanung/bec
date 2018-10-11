@@ -7,10 +7,21 @@ import IntroImap from './intro_body/intro_imap';
 
 import './intro.css';
 
+import {connect} from 'react-redux'
+
+const mapStateToProps = (state) => {
+    return {
+        is_signin: state.is_signin,
+        signup_basic: state.signup_basic,
+        mails: state.mails,
+    }
+}
+
 class Intro extends Component {
     render() {
         return (
             <div className='header'>
+                {console.log(this.props.mails)}
                 <div>
                     <IntroHeader/>
                 </div>
@@ -26,4 +37,4 @@ class Intro extends Component {
     }
 }
 
-export default Intro;
+export default connect(mapStateToProps)(Intro);

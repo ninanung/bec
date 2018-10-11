@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import ChannelList from './channel_list/channel_list';
 import SidebarMenu from './sidebar_menu/sidebar-menu';
@@ -21,7 +22,7 @@ class HomeSidebar extends Component {
         return (
             <div className='home-sidebar-body'>
                 <div className='sidebar-top'>
-                    <Profile user={signup_basic}/>
+                    <Profile history={this.props.history} user={signup_basic}/>
                     <SidebarMenu />
                 </div>
                 <div className='channel-list'>
@@ -30,6 +31,10 @@ class HomeSidebar extends Component {
             </div>
         )
     }
+}
+
+HomeSidebar.propTypes = {
+    history: PropTypes.object.isRequired,
 }
 
 export default connect(mapStateToProps)(HomeSidebar);

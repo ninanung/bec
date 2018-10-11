@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import './date_bar.css';
+
 class DateBar extends React.Component {
     render() {
         return (
-            <div>{this.props.date}</div>
+            <div className='datebar-body'>
+                <h3 className='datebar-text'>{this.props.date}</h3>
+            </div>
         )
     }
 }

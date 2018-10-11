@@ -1,0 +1,9 @@
+.signout-button {
+    border-radius: 10px; width: 100px; height: 25px; font-size: 15px;
+    font-weight: bold; cursor: pointer; color: #157483; background-color: white;
+    border-color: white;
+}
+
+.signout-button:hover {
+    cursor: pointer; background: #157483; color: white; border-color: white;
+}

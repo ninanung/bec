@@ -12,8 +12,6 @@ router.post('/insert', jsonParser, function(req, res, next) {
         channels: [],
     }
     User.findOne({ id: body.id }, function(err, user) {
-        console.log(body)
-        console.log(user)
         if(err) {
             send.error = err
             console.log(err);
@@ -53,8 +51,6 @@ router.post('/delete', jsonParser, function(req, res, next) {
         channels: [],
     }
     User.findOne({ id: body.id }, function(err, user) {
-        console.log(body)
-        console.log(user)
         if(err) {
             send.error = err
             console.log(err);
