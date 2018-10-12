@@ -30,7 +30,6 @@ const mapDispatchToProps = (dispatch) => {
     }, dispatch)
 }
 
-
 class SignoutButton extends React.Component {
     constructor(props) {
         super(props);

@@ -33,6 +33,7 @@ class HomeBody extends React.Component {
     }
 
     render() {
+        const address = this.props.address;
         return (
             <div className='home-body-main'>
                 <div className='header-div'>
@@ -40,10 +41,15 @@ class HomeBody extends React.Component {
                 </div>
                 <div className='mails-div'>
                     <HomeBodyMails address={this.props.address} history={this.props.history} />
-                    <div className='textarea-div'>
-                        <TextAreaBox history={this.props.history} onKeyPress={this.onEnterPress} typeChange={this.onTextChange} 
-                        placeholder="Type and Press Enter to Send!" height={60} width={'calc(100% - 50px)'} margin={6} />
-                    </div>
+                    {address === 'sent' || address === 'all' || address === 'unread' ? 
+                        <div className='text-div'>
+                            <h1>Please, Click the Mails!</h1>
+                        </div> :
+                        <div className='textarea-div'>
+                            <TextAreaBox history={this.props.history} onKeyPress={this.onEnterPress} typeChange={this.onTextChange} 
+                            placeholder="Type and Press Enter to Send!" height={60} width={'calc(100% - 50px)'} margin={6} />
+                        </div>
+                    }
                 </div>
             </div>
         )

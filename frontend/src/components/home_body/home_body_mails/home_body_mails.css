@@ -17,3 +17,7 @@
 .mails-div-item {
     margin: 50px 0 50px 0 !important; height: 90px; position: relative;
 }
+
+.no-mails {
+    margin-top: calc(50vh - 140px) !important;
+}

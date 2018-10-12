@@ -56,7 +56,6 @@ router.post('/', jsonParser, function(req, res, next) {
                 if(results) {
                     var f = imap.fetch(results, { bodies: '', struct: true });    
                     f.on('message', function (msg, seqno) {
-                        var prefix = '#' + seqno + ' ';
                         let mail = {
                             date: '',
                             from: '',
@@ -172,6 +171,37 @@ router.post('/disconnect', jsonParser, function(req, res, next) {
     });
 
     imap.end()
+});
+
+router.post('/mark/seen', jsonParser, function(req, res, next) {
+    var send = {
+        error: '',
+        mail: null,
+    }
+    const uid = req.body.uid;
+    const f = imap.fetch(uid, { bodies: '', struct: true, markSeen: true });
+    f.on('message', function (msg, seqno) {
+        let mail = {
+            uid: '',
+            flags: [],
+        }
+        msg.on('attributes', function (attrs) {
+            mail.uid = attrs.uid;
+            mail.flags = attrs.flags;
+        });
+        msg.on('end', function () {
+            send.mail = mail;
+            res.send(send);
+        });
+    });
+    f.once('error', function (err) {
+        console.log('Fetch error: ' + err);
+        send.error = err;
+        res.send(send);
+    });
+    f.once('end', function () {
+        console.log('Done fetching all messages!');
+    });
 });
 
 router.post('/emails/all', jsonParser, function(req, res, next) {

@@ -148,6 +148,13 @@ class HomeBodyMails extends React.Component {
     }
 
     render() {
+        if(this.state.mails.length === 0) {
+            return (
+                <div className='mails-body'>
+                    <h1 className='no-mails'>There's no mail to show.</h1>
+                </div>
+            )
+        }
         return (
             <div className='mails-body'>
                 {this.state.mails.map((mail, index) => {
