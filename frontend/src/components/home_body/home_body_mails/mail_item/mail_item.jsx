@@ -69,24 +69,26 @@ class MailItem extends Component {
         const changeMails = this.changeMails;
         let mails = this.props.mails.slice();
 
-        this.setState({
-            loading: true,
-        })
-        request(option, function(err, res, body) {
-            if(err) {
-                return alert(err);
-            } else if(body.error) {
-                return alert(body.error);
-            } else {
-                for(let i = 0; i < mails.length; i++) {
-                    if(body.mail.uid === mails[i].uid) {
-                        mails[i].flags = body.mail.flags.slice();
-                        changeMails(mails);
-                        changeState();
+        if(mail.flags.length === 0) {
+            this.setState({
+                loading: true,
+            })
+            request(option, function(err, res, body) {
+                if(err) {
+                    return alert(err);
+                } else if(body.error) {
+                    return alert(body.error);
+                } else {
+                    for(let i = 0; i < mails.length; i++) {
+                        if(body.mail.uid === mails[i].uid) {
+                            mails[i].flags = body.mail.flags.slice();
+                            changeMails(mails);
+                            changeState();
+                        }
                     }
                 }
-            }
-        })
+            })
+        } else this.changeState();
     }
 
     onEscClose = (event) => {

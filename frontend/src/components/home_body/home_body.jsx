@@ -43,7 +43,7 @@ class HomeBody extends React.Component {
                     <HomeBodyMails address={this.props.address} history={this.props.history} />
                     {address === 'sent' || address === 'all' || address === 'unread' ? 
                         <div className='text-div'>
-                            <h1>Please, Click the Mails!</h1>
+                            <h1 className='text-div-h1'>Please, Click the Mails!</h1>
                         </div> :
                         <div className='textarea-div'>
                             <TextAreaBox history={this.props.history} onKeyPress={this.onEnterPress} typeChange={this.onTextChange} 

@@ -13,3 +13,11 @@
 .textarea-div {
     width: 100%; height: 80px; bottom: 0; right: 0;
 }
+
+.text-div {
+    border-top: 1px solid white; height: 79px;
+}
+
+.text-div-h1 {
+    margin-top: 20px !important; color: white;
+}
