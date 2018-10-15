@@ -1,10 +1,13 @@
 import React from 'react';
+import socketIoClient from 'socket.io-client'
 
 import HomeBodyHeader from './home_body_header/home_body_header';
 import HomeBodyMails from './home_body_mails/home_body_mails';
 import TextAreaBox from '../text_area_box/text_area_box';
 
 import './home_body.css';
+
+import constant from '../../constant/socket_constant';
 
 class HomeBody extends React.Component {
     constructor(props) {
@@ -14,6 +17,13 @@ class HomeBody extends React.Component {
             text: '',
         }
     }
+
+    componentWillMount() {
+        const socket = socketIoClient(constant.SERVER_URL)
+        /*socket.on(constant.UPDATE_MAILS, (mails) => {
+            console.log(mails);
+        })*/
+      }
 
     onTextChange = (event) => {
         this.forceUpdate();
