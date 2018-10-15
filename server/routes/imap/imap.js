@@ -7,7 +7,7 @@ var jsonParser = bodyParser.json();
 var fs = require('fs'), fileStream;
 var socketIO = require('socket.io');
 const socketIoClient = require('socket.io-client');
-var request = require('request');
+const constant = require('../../socket_constant/socket_constant');
 
 var User = require('../../models/users');
 
@@ -127,23 +127,69 @@ router.post('/', jsonParser, function(req, res, next) {
                 throw err;
             }
             if(results && isNewEmail) {
-                var f = imap.fetch(results, { bodies: '', struct: true });    
+                let newMails = [];
+                const resLength = results.length - 1;
+                for(let i = resLength; i > resLength - num; i--) {
+                    newMails.push(results[i]);
+                }
+                var f = imap.fetch(newMails, { bodies: '', struct: true });
+                let mails = [];  
                 f.on('message', function (msg, seqno) {
+                    let mail = {
+                        date: '',
+                        from: '',
+                        name: '',
+                        to: [],
+                        cc: [],
+                        subject: '',
+                        html: '',
+                        text: '',
+                        uid: '',
+                        flags: [],
+                    }
+                    msg.on('attributes', function (attrs) {
+                        mail.uid = attrs.uid;
+                        mail.flags = attrs.flags;
+                    });
                     msg.on('body', function (stream, info) {
                         simpleParser(stream, (err, parsed) => {
-                            console.log('unseen')
+                            if(parsed.html) {
+                                mail.html = parsed.html.replace(/\\n/gi, '')
+                            }
+                            if(parsed.text) {
+                                mail.text = parsed.text;
+                            }
+                            if(parsed.cc) {
+                                mail.cc = parsed.cc.value;
+                            }
+                            if(parsed.from) {
+                                mail.from = parsed.from.value[0].address;
+                                mail.name = parsed.from.value[0].name;
+                            }
+                            if(parsed.to) {
+                                mail.to = parsed.to.value;
+                            }
+                            if(parsed.subject) {
+                                mail.subject = parsed.subject;
+                            }
+                            if(parsed.date) {
+                                mail.date = new Date(parsed.date).getTime();
+                            }
+                            mails.push(mail);
+                            if(newMails.length === mails.length) {
+                                //send mails to server side socket
+                                console.log('socket');
+                                const socket = socketIoClient(constant.SERVER_URL);
+                                socket.emit(constant.UPDATE_MAILS, mails)
+                            }
                         })
-                    })
-                })
+                    });
+                    msg.on('end', function () {});
+                });
                 f.once('error', function (err) {
                     console.log('Fetch error: ' + err);
                 });
                 f.once('end', function () {
-                    //test
-                    console.log('socket');
-                    const socket = socketIoClient('http://localhost:3001');
-                    socket.emit('change color', 'test')
-                    
                     console.log('Done fetching all messages!');
                 });
             }

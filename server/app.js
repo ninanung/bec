@@ -17,6 +17,10 @@ app.use(connectHistoryApiFallback());
 const get = '/api/get';
 const post = '/api/post';
 
+//import socket constant
+const constant = require('./socket_constant/socket_constant');
+
+//import routes
 const index = require('./routes/index');
 const imap = require('./routes/imap/imap');
 const signup = require('./routes/account/signup');
@@ -66,9 +70,10 @@ const io = socketIO(server);
 io.on('connection', socket => {
   console.log(socket);
   console.log('User connected')
-  socket.on('change color', (color) => {
-    console.log(color)
-    io.sockets.emit('change color', color)
+
+  socket.on(constant.UPDATE_MAILS, (mails) => {
+    console.log(mails)
+    io.sockets.emit(constant.UPDATE_MAILS, mails);
   })
 })
 server.listen(port, () => {
