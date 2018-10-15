@@ -5,6 +5,9 @@ var Imap = require('imap'), inspect = require('util').inspect;
 var bodyParser = require('body-parser')
 var jsonParser = bodyParser.json();
 var fs = require('fs'), fileStream;
+var socketIO = require('socket.io');
+const socketIoClient = require('socket.io-client');
+var request = require('request');
 
 var User = require('../../models/users');
 
@@ -132,6 +135,17 @@ router.post('/', jsonParser, function(req, res, next) {
                         })
                     })
                 })
+                f.once('error', function (err) {
+                    console.log('Fetch error: ' + err);
+                });
+                f.once('end', function () {
+                    //test
+                    console.log('socket');
+                    const socket = socketIoClient('http://localhost:3001');
+                    socket.emit('change color', 'test')
+                    
+                    console.log('Done fetching all messages!');
+                });
             }
         })
     })

@@ -2,7 +2,10 @@ var express = require('express');
 var simpleParser = require('mailparser').simpleParser;
 var router = express.Router();
 var Imap = require('imap'), inspect = require('util').inspect;
+var bodyParser = require('body-parser')
+var jsonParser = bodyParser.json();
 var fs = require('fs'), fileStream;
+const socketIoClient = require('socket.io-client');
 
 const google = {
   id: 'ninanung0503@gmail.com',
@@ -206,6 +209,13 @@ router.get('/', function(req, res, next) {
     });
   });
   imap.connect();
+})
+
+router.post('/socket', jsonParser, function(req, res, next) {
+  console.log('socket');
+  const socket = socketIoClient('http://localhost:3001');
+  socket.emit('change color', 'test') // change 'red' to this.state.color
+  res.send(true);
 })
 
 module.exports = router;

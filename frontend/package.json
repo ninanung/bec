@@ -18,7 +18,8 @@
     "redux": "^4.0.0",
     "redux-persist": "^5.10.0",
     "request": "^2.88.0",
-    "sign-checker": "^1.0.8"
+    "sign-checker": "^1.0.8",
+    "socket.io-client": "^2.1.1"
   },
   "scripts": {
     "start": "react-scripts start",

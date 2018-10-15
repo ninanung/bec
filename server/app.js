@@ -8,6 +8,9 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const connectHistoryApiFallback = require("connect-history-api-fallback");
 
+const socketIO = require('socket.io');
+const http = require('http');
+
 const app = express();
 app.use(connectHistoryApiFallback());
 
@@ -42,10 +45,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'build')));
 app.set('view engine', 'html');
 
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-
 app.use(function(err, req, res, next) {
   if (req.url === '/favicon.ico') {
     res.writeHead(200, {'Content-Type': 'image/x-icon'} );
@@ -57,7 +56,37 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   // render the error page
   res.status(err.status || 500);
-  //res.render('error');
+  //res.render('error'); 
+  next(createError(404));
 });
+
+const port = 3001;
+const server = http.createServer(app);
+const io = socketIO(server);
+io.on('connection', socket => {
+  console.log(socket);
+  console.log('User connected')
+  socket.on('change color', (color) => {
+    console.log(color)
+    io.sockets.emit('change color', color)
+  })
+})
+server.listen(port, () => {
+  console.log(`Listening on port ${port}`)
+})
+
+/*app.use(function(err, req, res, next) {
+  if (req.url === '/favicon.ico') {
+    res.writeHead(200, {'Content-Type': 'image/x-icon'} );
+    res.end();
+    return;
+  }
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  // render the error page
+  res.status(err.status || 500);
+  //res.render('error');
+});*/
 
 module.exports = app;

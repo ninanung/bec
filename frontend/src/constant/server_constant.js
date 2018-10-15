@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'http://localhost:3001';
 const SIGNIN = '/api/post/signin';
 const SIGNUP = '/api/post/signup';
 const GET_USER = '/api/post/user';
