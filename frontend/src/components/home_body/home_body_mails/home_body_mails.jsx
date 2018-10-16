@@ -26,7 +26,7 @@ class HomeBodyMails extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(this.props.address !== nextProps.address) {
+        if(this.props.address !== nextProps.address || this.props.socketTrigger !== nextProps.socketTrigger) {
             let sortedMails = [];
             const {sent, mails} = this.props;
             const {address} = nextProps;

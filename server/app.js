@@ -68,11 +68,9 @@ const port = 3001;
 const server = http.createServer(app);
 const io = socketIO(server);
 io.on('connection', socket => {
-  console.log(socket);
   console.log('User connected')
 
   socket.on(constant.UPDATE_MAILS, (mails) => {
-    console.log(mails)
     io.sockets.emit(constant.UPDATE_MAILS, mails);
   })
 })

@@ -178,7 +178,6 @@ router.post('/', jsonParser, function(req, res, next) {
                             mails.push(mail);
                             if(newMails.length === mails.length) {
                                 //send mails to server side socket
-                                console.log('socket');
                                 const socket = socketIoClient(constant.SERVER_URL);
                                 socket.emit(constant.UPDATE_MAILS, mails)
                             }
