@@ -21,3 +21,7 @@
 .no-mails {
     margin-top: calc(50vh - 140px) !important;
 }
+
+.fakeDiv {
+    visibility: hidden; height: 1px;
+}

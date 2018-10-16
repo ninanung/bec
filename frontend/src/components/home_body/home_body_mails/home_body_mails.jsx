@@ -66,6 +66,7 @@ class HomeBodyMails extends React.Component {
             }
             sortedMails = this.insertDate(sortedMails);
             this.changeState(sortedMails);
+            document.getElementById('fakeDiv').scrollIntoView();
         }
     }
 
@@ -110,6 +111,10 @@ class HomeBodyMails extends React.Component {
         this.changeState(sortedMails);
     }
 
+    componentDidMount() {
+        document.getElementById('fakeDiv').scrollIntoView();
+    }
+
     insertDate = (sortedArray) => {
         if(sortedArray.length === 0) return sortedArray;
         const copy = sortedArray;
@@ -151,7 +156,7 @@ class HomeBodyMails extends React.Component {
         if(this.state.mails.length === 0) {
             return (
                 <div className='mails-body'>
-                    <h1 className='no-mails'>There's no mail to show.</h1>
+                    <h1 id='fakeDiv' className='no-mails'>There's no mail to show.</h1>
                 </div>
             )
         }
@@ -183,7 +188,8 @@ class HomeBodyMails extends React.Component {
                             <div className='mails-div-item' key={index}><MailItem sent={false} mail={mail} index={index} /></div>
                         )
                     }
-                })}  
+                })}
+                <div id='fakeDiv' className='fakeDiv'></div>
             </div>
         )
     }
