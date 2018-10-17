@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "firebase": "^5.5.4",
     "history": "^4.7.2",
     "perfect-scrollbar": "^1.4.0",
     "prop-types": "^15.6.2",
@@ -26,5 +27,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "serviceworker-webpack-plugin": "^1.0.1"
   }
 }

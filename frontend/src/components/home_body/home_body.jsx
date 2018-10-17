@@ -68,13 +68,17 @@ class HomeBody extends React.Component {
 
     render() {
         const address = this.props.address;
+        let mailbox = false;
+        if(address === 'sent' || address === 'all' || address === 'unread') {
+            mailbox = true;
+        }
         return (
             <div className='home-body-main'>
                 <div className='header-div'>
                     <HomeBodyHeader mailboxIconClick={this.mailboxIconClick} menuIconClick={this.menuIconClick} address={this.props.address} history={this.props.history} />
                 </div>
                 <div className='mails-div'>
-                    <HomeBodyMails socketTrigger={this.state.socketTrigger} address={this.props.address} history={this.props.history} />
+                    <HomeBodyMails mailbox={mailbox} socketTrigger={this.state.socketTrigger} address={this.props.address} history={this.props.history} />
                     {address === 'sent' || address === 'all' || address === 'unread' ? 
                         <div className='text-div'>
                             <h1 className='text-div-h1'>Please, Click the Mails!</h1>
