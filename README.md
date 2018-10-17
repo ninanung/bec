@@ -22,6 +22,15 @@ This project is public now, but can be changed to private.
 
 ## What i first try in this project
 
-1. Complicate websocket event
-2. Using Imap(email base product)
+1. ~~Complicate websocket event~~
+2. ~~Using Imap(email base product)~~
 3. Web notification
+
+First, Websocket is built with `socket.io`. It was pretty simpler than i thought. Actually i misunderstood how to use `socket.io`. I thought it can be only used like `client send event -> server recieve event -> send back to client` scenario, but it was not. `send event anywhere -> recieve event anywhere -> send data to anywhere need to recieve` is right. So i can now easily control if new mail come in to mailbox.  
+
+Second, IMAP was pretty difficult. Cause i have never made the mail related wabapp. But now, i used to it, and know how IMAP do it's work. At first, i made server to request mails everytime user change the channel, but i realized it is dumbest way to get mails. Connecting to mail server is not fast, actually it is pretty slow. So now, server only request mails when user sign-in and if websocket send event(new mails), server request only new mails, not all.  
+
+## Progress
+
+2018-10-17  
+![](./readme-image/2018-10-17.png)  
