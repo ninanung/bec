@@ -30,6 +30,8 @@ First, Websocket is built with `socket.io`. It was pretty simpler than i thought
 
 Second, IMAP was pretty difficult. Cause i have never made the mail related wabapp. But now, i used to it, and know how IMAP do it's work. At first, i made server to request mails everytime user change the channel, but i realized it is dumbest way to get mails. Connecting to mail server is not fast, actually it is pretty slow. So now, server only request mails when user sign-in and if websocket send event(new mails), server request only new mails, not all.  
 
+Third, Now testing, so far so good.  
+
 ## Progress
 
 2018-10-17  
