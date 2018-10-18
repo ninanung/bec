@@ -99,3 +99,11 @@ export const empty_sent = () => {
         type: 'EMPTY_SENT',
     }
 }
+
+export const insert_token = (token) => {
+    console.log(token)
+    return {
+        type: 'INSERT_TOKEN',
+        token,
+    }
+}

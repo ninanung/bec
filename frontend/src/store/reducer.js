@@ -8,7 +8,8 @@ import channels from './reducers/channels';
 import mails from './reducers/mails';
 import sent from './reducers/sent';
 import wrong from './reducers/is_wrong';
+import token from './reducers/token';
 
-const reducer = combineReducers({signup_basic, signup_imap, signup_smtp, is_signin, channels, mails, sent, wrong});
+const reducer = combineReducers({signup_basic, signup_imap, signup_smtp, is_signin, channels, mails, sent, wrong, token});
 
 export default reducer;

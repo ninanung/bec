@@ -1,5 +1,6 @@
 import React from 'react';
 import socketIoClient from 'socket.io-client'
+import request from 'request';
 
 import HomeBodyHeader from './home_body_header/home_body_header';
 import HomeBodyMails from './home_body_mails/home_body_mails';
@@ -8,6 +9,7 @@ import TextAreaBox from '../text_area_box/text_area_box';
 import './home_body.css';
 
 import constant from '../../constant/socket_constant';
+import fcm from '../../fcm_config/fcm_config';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -16,6 +18,7 @@ import * as actions from '../../store/action';
 const mapStateToProps = (state) => {
     return {
         mails: state.mails,
+        fcm_token: state.fcm_cloud_messaging_token,
     }
 }
   
@@ -39,6 +42,29 @@ class HomeBody extends React.Component {
         const socket = socketIoClient(constant.SERVER_URL)
         socket.on(constant.UPDATE_MAILS, (mails) => {
             const latestMails = this.props.mails.slice();
+            const option = {
+                method: 'POST',
+                url: fcm.url,
+                json: {
+                    'to': this.props.fcm_token,
+                    'notification': {
+                        'title': 'new mail from ' + mails[mails.length-1].from,
+                        'body': 'Please, check unread mails',
+                    }
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'key=' + fcm.key
+                }
+            }
+            console.log(option.json.to);
+            request(option, function(res, err, body) {
+                if(err) {
+                    console.log(err);
+                } else {
+                    console.log(body);
+                }
+            })
             for(let i = 0; i < mails.length; i++) {
                 latestMails.push(mails[i]);
             }

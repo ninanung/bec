@@ -22,6 +22,7 @@ const state = {
     sent: [],
     is_signin: false,
     is_wrong: false,
+    fcm_cloud_messaging_token: '',
 }
 
 export default state;
