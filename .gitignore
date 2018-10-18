@@ -60,3 +60,7 @@ typings/
 
 # next.js build output
 .next
+
+# fcm_config file
+fcm_config/
+frontend/public/firebase-messaging-sw.js
