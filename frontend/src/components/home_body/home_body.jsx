@@ -8,7 +8,8 @@ import TextAreaBox from '../text_area_box/text_area_box';
 
 import './home_body.css';
 
-import constant from '../../constant/socket_constant';
+import constant from '../../constant/server_constant';
+import socket_constant from '../../constant/socket_constant';
 import fcm from '../../fcm_config/fcm_config';
 
 import {connect} from 'react-redux';
@@ -18,7 +19,8 @@ import * as actions from '../../store/action';
 const mapStateToProps = (state) => {
     return {
         mails: state.mails,
-        fcm_token: state.fcm_cloud_messaging_token,
+        fcm_cloud_messaging_token: state.fcm_cloud_messaging_token,
+        channels: state.channels,
     }
 }
   
@@ -39,17 +41,29 @@ class HomeBody extends React.Component {
     }
 
     componentWillMount() {
-        const socket = socketIoClient(constant.SERVER_URL)
-        socket.on(constant.UPDATE_MAILS, (mails) => {
+        const {channels, fcm_cloud_messaging_token} = this.props;
+
+        const socket = socketIoClient(socket_constant.SERVER_URL);
+        const address = mails[mails.length-1].from;
+        const token = fcm_cloud_messaging_token;
+        let clickActionUrl = constant.BASE_URL + '/home/mailbox/unread';
+        for(let i = 0; i < channels.length; i++) {
+            if(channels[i] === address) {
+                clickActionUrl = constant.BASE_URL + '/home/' + address;
+            }
+        }
+
+        socket.on(socket_constant.UPDATE_MAILS, (mails) => {
             const latestMails = this.props.mails.slice();
             const option = {
                 method: 'POST',
                 url: fcm.url,
                 json: {
-                    'to': this.props.fcm_token,
+                    'to': token,
                     'notification': {
-                        'title': 'new mail from ' + mails[mails.length-1].from,
+                        'title': 'new mail from ' + address,
                         'body': 'Please, check unread mails',
+                        'click_action': clickActionUrl,
                     }
                 },
                 headers: {
@@ -57,12 +71,11 @@ class HomeBody extends React.Component {
                     'Authorization': 'key=' + fcm.key
                 }
             }
-            console.log(option.json.to);
             request(option, function(res, err, body) {
                 if(err) {
                     console.log(err);
                 } else {
-                    console.log(body);
+                    return ;
                 }
             })
             for(let i = 0; i < mails.length; i++) {

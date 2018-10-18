@@ -26,7 +26,6 @@ class App extends Component {
   componentWillMount() {
     firebase.initializeApp(fcm.config);
     const insert_token = this.props.insert_token;
-    const fcmToken = this.props.fcm_cloud_messaging_token;
 
     const messaging = firebase.messaging();
     messaging.requestPermission().then(function() {

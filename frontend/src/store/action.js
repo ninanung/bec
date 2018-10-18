@@ -101,7 +101,6 @@ export const empty_sent = () => {
 }
 
 export const insert_token = (token) => {
-    console.log(token)
     return {
         type: 'INSERT_TOKEN',
         token,
