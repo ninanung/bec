@@ -44,17 +44,20 @@ class HomeBody extends React.Component {
         const {channels, fcm_cloud_messaging_token} = this.props;
 
         const socket = socketIoClient(socket_constant.SERVER_URL);
-        const address = mails[mails.length-1].from;
         const token = fcm_cloud_messaging_token;
-        let clickActionUrl = constant.BASE_URL + '/home/mailbox/unread';
-        for(let i = 0; i < channels.length; i++) {
-            if(channels[i] === address) {
-                clickActionUrl = constant.BASE_URL + '/home/' + address;
-            }
-        }
 
         socket.on(socket_constant.UPDATE_MAILS, (mails) => {
             const latestMails = this.props.mails.slice();
+            const address = mails[mails.length-1].from;
+
+            let clickActionUrl = constant.BASE_URL + '/home/mailbox/unread';
+            for(let i = 0; i < channels.length; i++) {
+                if(channels[i].address === address) {
+
+                    clickActionUrl = constant.BASE_URL + '/home/' + address;
+                }
+            }
+            
             const option = {
                 method: 'POST',
                 url: fcm.url,
