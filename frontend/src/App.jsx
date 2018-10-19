@@ -36,7 +36,6 @@ class App extends Component {
     }).catch(function(err) {
       console.log('fcm error : ', err);
     })
-
     messaging.onTokenRefresh(function() {
       messaging.getToken().then(function(refreshedToken) {
         insert_token(refreshedToken);
