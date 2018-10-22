@@ -19,7 +19,7 @@ class NotFound extends Component {
 
 class Router extends Component {
   render() {
-    const outside = [true, '/home'];
+    const outside = [true, '/home/mailbox/unread'];
     const inside = [false, '/'];
     return (
       <Switch>

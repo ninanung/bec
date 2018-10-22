@@ -14,7 +14,7 @@ const mapStateToProps = (state) => {
 
 class RouterGuard extends Component {
     componentWillMount = () => {
-        /*if(this.props.option) {
+        if(this.props.option) {
             if(this.props.option[0]) {
                 if(this.props.is_wrong) {
                     window.location.href = this.props.option[1];
@@ -31,7 +31,7 @@ class RouterGuard extends Component {
                     window.location.href = this.props.option[1];
                 }
             }
-        }*/
+        }
     }
 
     render() {
