@@ -22,7 +22,7 @@ const DELETE_CHANNELS = '/api/post/channels/delete';
 
 //edit user
 const EDIT_BASIC_INFO = '/api/post/basic/edit';
-const EDIT_MAIL_SETTING = '/api/post/edit/setting';
+const EDIT_MAIL_SETTING = '/api/post/edit/setting/';
 
 export default {
     BASE_URL: BASE_URL,

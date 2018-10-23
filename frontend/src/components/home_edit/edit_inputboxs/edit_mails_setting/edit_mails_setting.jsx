@@ -34,7 +34,7 @@ class EditMailsSetting extends Component {
             password: '',
             host: '',
             port: '',
-            tls: true,
+            security: true,
         }
     }
 
@@ -58,20 +58,20 @@ class EditMailsSetting extends Component {
         this.setState({port: event.target.value});
     }
 
-    onTlsChange = (event) => {
-        let tls;
+    onSecurityChange = (event) => {
+        let security;
         if(event.target.value === 'true') {
-            tls = true;
+            security = true;
         } else {
-            tls = false;
+            security = false;
         }
-        this.setState({tls: tls});
+        this.setState({security: security});
     }
 
-    onCreateAccount = () => {
-        const {id, password, host, port, tls} = this.state;
+    onEditMailsSetting = () => {
+        const {id, password, host, port, security} = this.state;
         const { store_signup_imap, store_signup_smtp } = this.props;
-        if(!id || !password || !host || !port || !tls) {
+        if(!id || !password || !host || !port || !security) {
             return alert('All information must be fullfilled.')
         }
         for(let i = 0; i < port.length; i++) {
@@ -79,24 +79,18 @@ class EditMailsSetting extends Component {
                 return alert('Port must be number.');
             }
         }
-        const signupInfo = {
-            id: signup_basic.id,
-            password: signup_basic.password,
-            imap_id: id,
-            imap_password: password,
-            imap_host: host,
-            imap_port: port,
-            imap_tls: tls,
-            smtp_id: signup_smtp.smtp_id,
-            smtp_password: signup_smtp.smtp_password,
-            smtp_host: signup_smtp.smtp_host,
-            smtp_port: signup_smtp.smtp_port,
-            smtp_secure: signup_smtp.smtp_secure,
+        const editInfo = {
+            id: id,
+            password: password,
+            host: host,
+            port: port,
+            security: security,
         }
+        const url = constant.EDIT_MAIL_SETTING + this.props.settingType; 
         const option = {
             method: 'POST',
-            uri: constant.SIGNUP,
-            json: signupInfo,
+            uri: url,
+            json: editInfo,
         }
         request(option, function(err, res, body) {
             if(err) {
@@ -146,11 +140,11 @@ class EditMailsSetting extends Component {
                         <p className='br'/>
                         <label>Option about {settingType}'s security setting. normally true.</label>
                         <br/>
-                        <SelectBox options={options} optionChange={this.onTlsChange} />
+                        <SelectBox options={options} optionChange={this.onSecurityChange} />
                         <p className='br'/>
                     </div>
                     <div className='signup-imap-footer'>
-                        <button onClick={this.onCreateAccount} className='button signup-imap-next'>Edit</button>
+                        <button onClick={this.onEditMailsSetting} className='button signup-imap-next'>Edit</button>
                     </div>
                 </div>
             </div>
