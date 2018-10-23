@@ -7,33 +7,11 @@ import HomeMobileSidebar from '../home_mobile_sidebar/home_mobile_sidebar';
 
 import './home_edit.css';
 
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import * as actions from '../../store/action';
-
-const mapStateToProps = (state) => {
-    return {
-        signup_basic: state.signup_basic,
-        signup_imap: state.signup_imap,
-        signup_smtp: state.signup_smtp,
-    }
-}
-  
-const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({
-        store_signup_basic: actions.store_signup_basic,
-        store_signup_imap: actions.store_signup_imap,
-        store_signup_smtp: actions.store_signup_smtp,
-    }, dispatch)
-}
-
 class HomeEdit extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             popup: false,
-            socketTrigger: 1,
-            text: '',
         }
     }
 
@@ -51,14 +29,18 @@ class HomeEdit extends React.Component {
 
     render() {
         return (
-            <div className='home'>
-                <div className='home-sidebar'>
+            <div className='home-edit'>
+                <div className='home-edit-sidebar'>
                     <HomeSidebar history={this.props.history} />
                 </div>
-                <div className='home-body'>
-                    <HomeBodyHeader mailboxIconClick={this.mailboxIconClick} menuIconClick={this.menuIconClick} address='Edit your profile!' history={this.props.history} />
-                    <div className='edit-body-main'>
+                <div className='home-edit-body'>
+                    <div className='home-edit-body-main'>
+                        <div className='edit-header-div'>
+                            <HomeBodyHeader mailboxIconClick={this.mailboxIconClick} menuIconClick={this.menuIconClick} address='Edit your profile!' history={this.props.history} />
+                        </div>
+                        <div className='edit-inputboxs-div'>
 
+                        </div>
                     </div>
                 </div>
                 {this.state.popup ? <HomeMobileSidebar sidebarArrowIconClick={this.sidebarArrowIconClick} history={this.props.history}/> : null}
@@ -71,4 +53,4 @@ HomeEdit.propTypes = {
     history: PropTypes.object.isRequired,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeEdit);
+export default HomeEdit;

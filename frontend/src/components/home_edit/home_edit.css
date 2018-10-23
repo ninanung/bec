@@ -1,3 +1,36 @@
-.edit-body-main {
+.home-edit {
+    width: 100%; height: 100vh; margin: 0; top: 0; bottom: 0;
+}
+
+@media only screen and (max-width: 1000px) {
+    .home-edit-sidebar {
+        display: none;
+    }
+
+    .home-edit-body {
+        border: 0; height: 100%; width: 100%;
+    }
+}
+
+@media only screen and (min-width: 1000px) {
+    .home-edit-sidebar {
+        border: 0; height: 100%; width: 300px; left: 0; top: 0;
+        margin: 0; float: left;
+    }
     
+    .home-edit-body {
+        border: 0; height: 100%; width: calc(100% - 300px); margin-left: 300px;
+    }
+}
+
+.home-edit-body-main {
+    background: #9CB3D3; height: 100vh; position: relative;
+}
+
+.edit-inputboxs-div {
+    width: 100%; position: absolute; top: 70px; bottom: 80px; right: 0; height: calc(100% - 150px);
+}
+
+.edit-header-div {
+    height: 70px; position: absolute; width: 100%;
 }

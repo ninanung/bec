@@ -8,6 +8,7 @@ import Profile from '../home_sidebar/profile/profile';
 import { connect } from 'react-redux';
 
 import './home_mobile_sidebar.css';
+import ToEditProfile from '../to_edit_profile/to_edit_profile';
 
 const mapStateToProps = (state) => {
     return {
@@ -28,6 +29,9 @@ class HomeMobileSidebar extends Component {
                 </div>
                 <div className='mobile-channel-list'>
                     <ChannelList history={this.props.history} channels={channels}/>
+                </div>
+                <div className='to-edit-profile'>
+                    <ToEditProfile history={this.props.history} />
                 </div>
             </div>
         )

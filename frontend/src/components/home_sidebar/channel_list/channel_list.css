@@ -1,5 +1,5 @@
 .channel-list-body {
-    height: calc(100vh - 70px); overflow-y: scroll;
+    height: calc(100vh - 150px); overflow-y: scroll;
 }
 
 .channel-list-body::-webkit-scrollbar {
