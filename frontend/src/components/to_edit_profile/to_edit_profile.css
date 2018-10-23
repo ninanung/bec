@@ -1,0 +1,7 @@
+.edit-text {
+    color: white; margin-top: 22px !important;
+}
+
+.edit-text:hover {
+    cursor: pointer;
+}
