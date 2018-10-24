@@ -10,7 +10,7 @@ import constant from '../../../../constant/server_constant';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as actions from '../../store/action';
+import * as actions from '../../../../store/action';
 
 const mapStateToProps = (state) => {
     return {

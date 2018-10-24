@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import HomeSidebar from '../home_sidebar/home_sidebar';
 import HomeBodyHeader from '../home_body/home_body_header/home_body_header';
 import HomeMobileSidebar from '../home_mobile_sidebar/home_mobile_sidebar';
+import EditInputboxs from './edit_inputboxs/edit_inputboxs';
+
 
 import './home_edit.css';
 
@@ -39,7 +41,7 @@ class HomeEdit extends React.Component {
                             <HomeBodyHeader mailboxIconClick={this.mailboxIconClick} menuIconClick={this.menuIconClick} address='Edit your profile!' history={this.props.history} />
                         </div>
                         <div className='edit-inputboxs-div'>
-
+                            <EditInputboxs />
                         </div>
                     </div>
                 </div>

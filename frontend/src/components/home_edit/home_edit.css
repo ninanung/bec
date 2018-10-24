@@ -28,9 +28,22 @@
 }
 
 .edit-inputboxs-div {
-    width: 100%; position: absolute; top: 70px; bottom: 80px; right: 0; height: calc(100% - 150px);
+    width: 100%; position: absolute; top: 70px; bottom: 80px; right: 0; height: calc(100% - 70px);
+    overflow-y: scroll;
 }
 
 .edit-header-div {
     height: 70px; position: absolute; width: 100%;
+}
+
+.edit-inputboxs-div::-webkit-scrollbar {
+    display: hidden; background: #9CB3D3;
+}
+
+.edit-inputboxs-div:hover::-webkit-scrollbar {
+    display: block; opacity: 0.2; background: #9CB3D3;
+}
+
+.edit-inputboxs-div:hover::-webkit-scrollbar-thumb {
+    display: block; opacity: 0.2; background: #D1BABA;
 }

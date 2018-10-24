@@ -1,4 +1,4 @@
-import React from 'reacr';
+import React from 'react';
 
 import EditBasicInfo from './edit_basic_info/edit_basic_info';
 import EditMailsSetting from './edit_mails_setting/edit_mails_setting';
