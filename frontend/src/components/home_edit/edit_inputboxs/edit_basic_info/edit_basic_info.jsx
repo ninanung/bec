@@ -66,6 +66,16 @@ class EditBasicInfo extends Component {
         this.setState({password: password});
     }
 
+    onAddressChange = (event) => {
+        const address = event.target.value;
+        this.setState({address: address});
+    }
+
+    onNameChange = (event) => {
+        const name = event.target.value;
+        this.setState({name: name});
+    }
+
     onConfirmPasswordChange = (event) => {
         const confirmPassword = event.target.value;
         const password = this.state.password;
@@ -113,6 +123,14 @@ class EditBasicInfo extends Component {
                         <label>ID must be 6~11 long and can be made with English, special letters and number.</label>
                         <InputBox typeChange={this.onIdChange} placeholder='ID' width={200} height={inputHeight} />
                         <p className={idNoti}>{idNoti}</p>
+                        <br/>
+                        <label>Address must be your mail address in SMTP server.</label>
+                        <InputBox type='password' typeChange={this.onAddressChange} placeholder='Address' width={inputWidth} height={inputHeight} />
+                        <br/>
+                        <br/>
+                        <label>Name that will used for email sending.</label>
+                        <InputBox type='password' typeChange={this.onNameChange} placeholder='Name' width={inputWidth} height={inputHeight} />
+                        <br/>
                         <br/>
                         <label>Password must be longer than 6 and combination of English, special letters and number.</label>
                         <InputBox type='password' typeChange={this.onPasswordChange} placeholder='Password' width={inputWidth} height={inputHeight} />

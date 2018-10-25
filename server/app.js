@@ -35,7 +35,7 @@ const test = require('./routes/test');
 app.use('/test', test);
 app.use('/', index);
 app.use(post + '/imap', imap);
-app.user(post + '/smtp', smtp);
+app.use(post + '/smtp', smtp);
 app.use(post + '/signup', signup);
 app.use(post + '/update/user', update_user);
 app.use(post + '/signin', signin);

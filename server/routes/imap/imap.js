@@ -4,12 +4,9 @@ const router = express.Router();
 const Imap = require('imap'), inspect = require('util').inspect;
 const bodyParser = require('body-parser')
 const jsonParser = bodyParser.json();
-const fs = require('fs'), fileStream;
-const socketIO = require('socket.io');
 const socketIoClient = require('socket.io-client');
-const constant = require('../../socket_constant/socket_constant');
 
-const User = require('../../models/users');
+const constant = require('../../socket_constant/socket_constant');
 
 const google = {
   id: 'ninanung0503@gmail.com',

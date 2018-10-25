@@ -143,8 +143,10 @@ class Signup extends Component {
                         <label>Address must be your mail address in SMTP server.</label>
                         <InputBox type='password' typeChange={this.onAddressChange} placeholder='Address' width={inputWidth} height={inputHeight} />
                         <br/>
+                        <br/>
                         <label>Name that will used for email sending.</label>
                         <InputBox type='password' typeChange={this.onNameChange} placeholder='Name' width={inputWidth} height={inputHeight} />
+                        <br/>
                         <br/>
                         <label>Password must be longer than 6 and combination of English, special letters and number.</label>
                         <InputBox type='password' typeChange={this.onPasswordChange} placeholder='Password' width={inputWidth} height={inputHeight} />

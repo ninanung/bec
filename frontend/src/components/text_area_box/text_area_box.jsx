@@ -70,7 +70,7 @@ class TextAreaBox extends Component {
     }
 
     CtrlEnter = () => {
-        const {sent, signup_basic, insert_sent, signup_smtp} = this.props;
+        const {sent, signup_basic, insert_sent, signup_smtp, address} = this.props;
         const option = {
             method: 'POST',
             url: constant.SEND_MAIL,
