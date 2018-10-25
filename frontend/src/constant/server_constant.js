@@ -3,18 +3,15 @@ const BASE_URL = 'http://localhost:3001';
 //user
 const SIGNIN = '/api/post/signin';
 const SIGNUP = '/api/post/signup';
-const GET_USER = '/api/post/user';
 
 //imap
 const CONNECT_IMAP = '/api/post/imap'
-const GET_ALL_EMAIL_BY_ID = '/api/post/imap/emails/all';
-const GET_EMAIL_BY_ADDRESS = '/api/post/imap/emails/from/';
-const GET_EMAIL_UNSEEN = '/api/post/imap/emails/unseen';
-const GET_SENT_EMAIL_BY_ADDRESS = '/api/post/imap/emails/sent/';
-const GET_EMAIL_SENT = '/api/post/imap/emails/sent';
-const GET_ALL_EMAIL_BY_ADDRESS = '/api/post/imap/emails/all/';
 const DISCONNECT = '/api/post/imap/disconnect';
 const MARK_SEEN = '/api/post/imap/mark/seen';
+
+//smtp
+const SEND_MAIL = '/api/post/smtp/send';
+const GET_EMAIL_SENT = '/api/post/smtp/emails/sent';
 
 //channel
 const INSERT_CHANNELS = '/api/post/channels/insert';
@@ -28,18 +25,13 @@ export default {
     BASE_URL: BASE_URL,
     SIGNIN: BASE_URL + SIGNIN,
     SIGNUP: BASE_URL + SIGNUP,
-    GET_USER: BASE_URL + GET_USER,
     CONNECT_IMAP: BASE_URL + CONNECT_IMAP,
-    GET_ALL_EMAIL_BY_ID: BASE_URL + GET_ALL_EMAIL_BY_ID,
-    GET_EMAIL_BY_ADDRESS: BASE_URL + GET_EMAIL_BY_ADDRESS,
-    GET_EMAIL_UNSEEN: BASE_URL + GET_EMAIL_UNSEEN,
-    GET_SENT_EMAIL_BY_ADDRESS: BASE_URL + GET_SENT_EMAIL_BY_ADDRESS,
     GET_EMAIL_SENT: BASE_URL + GET_EMAIL_SENT,
-    GET_ALL_EMAIL_BY_ADDRESS: BASE_URL + GET_ALL_EMAIL_BY_ADDRESS,
     DISCONNECT: BASE_URL + DISCONNECT,
     INSERT_CHANNELS: BASE_URL + INSERT_CHANNELS,
     DELETE_CHANNELS: BASE_URL + DELETE_CHANNELS,
     MARK_SEEN: BASE_URL + MARK_SEEN,
     EDIT_BASIC_INFO: BASE_URL + EDIT_BASIC_INFO,
     EDIT_MAIL_SETTING: BASE_URL + EDIT_MAIL_SETTING,
+    SEND_MAIL: BASE_URL + SEND_MAIL,
 }

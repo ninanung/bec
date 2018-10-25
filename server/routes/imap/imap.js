@@ -1,15 +1,15 @@
-var express = require('express');
-var simpleParser = require('mailparser').simpleParser;
-var router = express.Router();
-var Imap = require('imap'), inspect = require('util').inspect;
-var bodyParser = require('body-parser')
-var jsonParser = bodyParser.json();
-var fs = require('fs'), fileStream;
-var socketIO = require('socket.io');
+const express = require('express');
+const simpleParser = require('mailparser').simpleParser;
+const router = express.Router();
+const Imap = require('imap'), inspect = require('util').inspect;
+const bodyParser = require('body-parser')
+const jsonParser = bodyParser.json();
+const fs = require('fs'), fileStream;
+const socketIO = require('socket.io');
 const socketIoClient = require('socket.io-client');
 const constant = require('../../socket_constant/socket_constant');
 
-var User = require('../../models/users');
+const User = require('../../models/users');
 
 const google = {
   id: 'ninanung0503@gmail.com',
@@ -19,11 +19,11 @@ const google = {
   tls: true,
 }
 
-var imap;
-var isNewEmail = false;
+let imap;
+let isNewEmail = false;
 
 router.post('/', jsonParser, function(req, res, next) {
-    var user = req.body.imap_info;
+    const user = req.body.imap_info;
 
     imap = new Imap({
         user: google.id, //user.imap_id,
@@ -46,7 +46,7 @@ router.post('/', jsonParser, function(req, res, next) {
     });
 
     imap.once('ready', function () {
-        var send = {
+        let send = {
             error: '',
             mails: [],
         }
@@ -57,7 +57,7 @@ router.post('/', jsonParser, function(req, res, next) {
             imap.search(['ALL'], function (err, results) {
                 if (err) throw err;
                 if(results) {
-                    var f = imap.fetch(results, { bodies: '', struct: true });    
+                    const f = imap.fetch(results, { bodies: '', struct: true });    
                     f.on('message', function (msg, seqno) {
                         let mail = {
                             date: '',
@@ -132,7 +132,7 @@ router.post('/', jsonParser, function(req, res, next) {
                 for(let i = resLength; i > resLength - num; i--) {
                     newMails.push(results[i]);
                 }
-                var f = imap.fetch(newMails, { bodies: '', struct: true });
+                const f = imap.fetch(newMails, { bodies: '', struct: true });
                 let mails = [];  
                 f.on('message', function (msg, seqno) {
                     let mail = {
@@ -206,8 +206,8 @@ router.post('/', jsonParser, function(req, res, next) {
     });
 
     imap.once('end', function() {
-        var date = new Date();
-        var time = date.getTime();
+        const date = new Date();
+        const time = date.getTime();
         console.log('imap connect end (not with signout) : ' + new Date(time));
     });
 
@@ -215,7 +215,7 @@ router.post('/', jsonParser, function(req, res, next) {
 });
 
 router.post('/disconnect', jsonParser, function(req, res, next) {
-    var user = req.body.imap_info;
+    const user = req.body.imap_info;
 
     imap.once('error', function(err) {
         console.log(err);
@@ -223,8 +223,8 @@ router.post('/disconnect', jsonParser, function(req, res, next) {
     });
 
     imap.once('end', function() {
-        var date = new Date();
-        var time = date.getTime();
+        const date = new Date();
+        const time = date.getTime();
         console.log('imap connect end : ' + new Date(time));
         res.send(true);
     });
@@ -233,7 +233,7 @@ router.post('/disconnect', jsonParser, function(req, res, next) {
 });
 
 router.post('/mark/seen', jsonParser, function(req, res, next) {
-    var send = {
+    let send = {
         error: '',
         mail: null,
     }
@@ -262,398 +262,5 @@ router.post('/mark/seen', jsonParser, function(req, res, next) {
         console.log('Done fetching all messages!');
     });
 });
-
-router.post('/emails/all', jsonParser, function(req, res, next) {
-    var send = {
-        error: '',
-        mails: [],
-    }
-    function openInbox(cb) {
-        imap.openBox('INBOX', false, cb);
-    }
-    imap.once('ready', function () {
-        openInbox(function (err, box) {
-            if (err) throw err;
-            console.log('box open');
-            isNewEmail = false;
-            imap.search(['ALL'], function (err, results) {
-                if (err) throw err;
-                if(results) {
-                    var f = imap.fetch(results, { bodies: '', struct: true });    
-                    f.on('message', function (msg, seqno) {
-                        var prefix = '#' + seqno + ' ';
-                        let mail = {
-                            date: '',
-                            from: '',
-                            name: '',
-                            to: [],
-                            cc: [],
-                            subject: '',
-                            html: '',
-                            text: '',
-                            uid: '',
-                            flags: [],
-                        }
-                        msg.on('attributes', function (attrs) {
-                            mail.uid = attrs.uid;
-                        });
-                        msg.on('body', function (stream, info) {
-                            simpleParser(stream, (err, parsed) => {
-                                if(parsed.html) {
-                                    mail.html = parsed.html.replace(/\\n/gi, '')
-                                }
-                                if(parsed.text) {
-                                    mail.text = parsed.text;
-                                }
-                                if(parsed.cc) {
-                                    mail.cc = parsed.cc.value;
-                                }
-                                if(parsed.from) {
-                                    mail.from = parsed.from.value[0].address;
-                                    mail.name = parsed.from.value[0].name;
-                                }
-                                if(parsed.to) {
-                                    mail.to = parsed.to.value;
-                                }
-                                if(parsed.subject) {
-                                    mail.subject = parsed.subject;
-                                }
-                                if(parsed.date) {
-                                    mail.date = new Date(parsed.date).getTime();
-                                }
-                            })
-                        });
-                        msg.on('end', function () {
-                            send.mails.push(mail);
-                            console.log(prefix + 'Finished');
-                        });
-                    });
-                    f.once('error', function (err) {
-                        console.log('Fetch error: ' + err);
-                    });
-                    f.once('end', function () {
-                        console.log('Done fetching all messages!');
-                        res.send(send);
-                    });
-                }
-            });
-        });
-    });
-    imap.connect();
-});
-
-router.post('/emails/from/:address', jsonParser, function(req, res, next) {
-    var selectAddress = 'ninanung@naver.com'//req.params.address;
-    var send = {
-        error: '',
-        mails: [],
-    }
-    function openInbox(cb) {
-        imap.openBox('INBOX', false, cb);
-    }
-    imap.once('ready', function () {
-        openInbox(function (err, box) {
-            if (err) throw err;
-            console.log('box open');
-            isNewEmail = false;
-            imap.search(['ALL'], function (err, results) {
-                if (err) throw err;
-                if(results) {
-                    var f = imap.fetch(results, { bodies: '', struct: true });    
-                    f.on('message', function (msg, seqno) {
-                        var prefix = '#' + seqno + ' ';
-                        let mail = {
-                            date: '',
-                            from: '',
-                            name: '',
-                            to: [],
-                            cc: [],
-                            subject: '',
-                            html: '',
-                            text: '',
-                            uid: '',
-                            flags: [],
-                        }
-                        let canPush = null;
-                        msg.on('attributes', function (attrs) {
-                            mail.uid = attrs.uid;
-                        });
-                        msg.on('body', function (stream, info) {
-                            simpleParser(stream, (err, parsed) => {
-                                if(parsed.from.value[0].address === selectAddress) {
-                                    canPush = true;
-                                    if(parsed.html) {
-                                        mail.html = parsed.html.replace(/\\n/gi, '')
-                                    }
-                                    if(parsed.text) {
-                                        mail.text = parsed.text;
-                                    }
-                                    if(parsed.cc) {
-                                        mail.cc = parsed.cc.value;
-                                    }
-                                    if(parsed.from) {
-                                        mail.from = parsed.from.value[0].address;
-                                        mail.name = parsed.from.value[0].name;
-                                    }
-                                    if(parsed.to) {
-                                        mail.to = parsed.to.value;
-                                    }
-                                    if(parsed.subject) {
-                                        mail.subject = parsed.subject;
-                                    }
-                                    if(parsed.date) {
-                                        mail.date = new Date(parsed.date).getTime();
-                                    }
-                                } else canPush = false;
-                            })
-                        });
-                        msg.on('end', function () {
-                            if(canPush) send.mails.push(mail);
-                            console.log(prefix + 'Finished');
-                        });
-                    });
-                    f.once('error', function (err) {
-                        console.log('Fetch error: ' + err);
-                    });
-                    f.once('end', function () {
-                        console.log('Done fetching all messages!');
-                        res.send(send);
-                    });
-                }
-            });
-        });
-    });
-    imap.connect();
-});
-
-router.post('/emails/unseen', jsonParser, function(req, res, next) {
-    var send = {
-        error: '',
-        mails: [],
-    }
-    function openInbox(cb) {
-        imap.openBox('INBOX', false, cb);
-    }
-    imap.once('ready', function () {
-        openInbox(function (err, box) {
-            if (err) throw err;
-            console.log('box open');
-            isNewEmail = false;
-            imap.search(['UNSEEN'], function (err, results) {
-                if (err) throw err;
-                if(results) {
-                    var f = imap.fetch(results, { bodies: '', struct: true });    
-                    f.on('message', function (msg, seqno) {
-                        var prefix = '#' + seqno + ' ';
-                        let mail = {
-                            date: '',
-                            from: '',
-                            name: '',
-                            to: [],
-                            cc: [],
-                            subject: '',
-                            html: '',
-                            text: '',
-                            uid: '',
-                            flags: [],
-                        }
-                        msg.on('attributes', function (attrs) {
-                            mail.uid = attrs.uid;
-                        });
-                        msg.on('body', function (stream, info) {
-                            simpleParser(stream, (err, parsed) => {
-                                if(parsed.html) {
-                                    mail.html = parsed.html.replace(/\\n/gi, '')
-                                }
-                                if(parsed.text) {
-                                    mail.text = parsed.text;
-                                }
-                                if(parsed.cc) {
-                                    mail.cc = parsed.cc.value;
-                                }
-                                if(parsed.from) {
-                                    mail.from = parsed.from.value[0].address;
-                                    mail.name = parsed.from.value[0].name;
-                                }
-                                if(parsed.to) {
-                                    mail.to = parsed.to.value;
-                                }
-                                if(parsed.subject) {
-                                    mail.subject = parsed.subject;
-                                }
-                                if(parsed.date) {
-                                    mail.date = new Date(parsed.date).getTime();
-                                }
-                            })
-                        });
-                        msg.on('end', function () {
-                            send.mails.push(mail);
-                            console.log(prefix + 'Finished');
-                        });
-                    });
-                    f.once('error', function (err) {
-                        console.log('Fetch error: ' + err);
-                    });
-                    f.once('end', function () {
-                        console.log('Done fetching all messages!');
-                        res.send(send);
-                    });
-                }
-            });
-        });
-    });
-    imap.connect();
-});
-
-router.post('/emails/sent', jsonParser, function(req, res, next) {
-    var send = {
-        error: '',
-        mails: [],
-    }
-    User.findOne({ id: req.body.id }, function(err, user) {
-        if(err) {
-            send.error = err;
-            console.log(err);
-            return res.send(send);
-        }
-        if(!user) {
-            send.error = 'There\'s no account that has same id.';
-            return res.send(send);
-        }
-        for(var i = 0; i < user.sent_messages.length; i++) {
-            if(sent_messages[i].to === address) {
-                send.mails.push(sent_messages[i]);
-            }
-        }
-        return res.send(send);
-    });
-});
-
-router.post('/emails/sent/:address', jsonParser, function(req, res, next) {
-    const selectAddress = req.params.address;
-    var send = {
-        error: '',
-        mails: [],
-    }
-    User.findOne({ id: req.body.id }, function(err, user) {
-        if(err) {
-            send.error = err;
-            console.log(err);
-            return res.send(send);
-        }
-        if(!user) {
-            send.error = 'There\'s no account that has same id.';
-            return res.send(send);
-        }
-        for(var i = 0; i < user.sent_messages.length; i++) {
-            if(sent_messages[i].to === selectAddress) {
-                send.mails.push(sent_messages[i]);
-            }
-        }
-        return res.send(send);
-    });
-});
-
-router.post('/emails/all/:address', jsonParser, function(req, res, next) {
-    const selectAddress = req.params.address;
-    var send = {
-        error: '',
-        mails: [],
-    }
-
-    User.findOne({ id: req.body.id }, function(err, user) {
-        if(err) {
-            send.error = err;
-            console.log(err);
-            return res.send(send);
-        }
-        if(!user) {
-            send.error = 'There\'s no account that has same id.';
-            return res.send(send);
-        }
-        for(var i = 0; i < user.sent_messages.length; i++) {
-            if(sent_messages[i].to === selectAddress) {
-                send.mails.push(sent_messages[i]);
-            }
-        }
-    });
-
-    function openInbox(cb) {
-        imap.openBox('INBOX', false, cb);
-    }
-    imap.once('ready', function () {
-        openInbox(function (err, box) {
-            if (err) throw err;
-            console.log('box open');
-            isNewEmail = false;
-            imap.search(['ALL'], function (err, results) {
-                if (err) throw err;
-                if(results) {
-                    var f = imap.fetch(results, { bodies: '', struct: true });    
-                    f.on('message', function (msg, seqno) {
-                        var prefix = '#' + seqno + ' ';
-                        let mail = {
-                            date: '',
-                            from: '',
-                            name: '',
-                            to: [],
-                            cc: [],
-                            subject: '',
-                            html: '',
-                            text: '',
-                            uid: '',
-                            flags: [],
-                        }
-                        let canPush = null
-                        msg.on('attributes', function (attrs) {
-                            mail.uid = attrs.uid;
-                        });
-                        msg.on('body', function (stream, info) {
-                            simpleParser(stream, (err, parsed) => {
-                                if(parsed.from.value[0].address === selectAddress) {
-                                    canPush = true;
-                                    if(parsed.html) {
-                                        mail.html = parsed.html.replace(/\\n/gi, '')
-                                    }
-                                    if(parsed.text) {
-                                        mail.text = parsed.text;
-                                    }
-                                    if(parsed.cc) {
-                                        mail.cc = parsed.cc.value;
-                                    }
-                                    if(parsed.from) {
-                                        mail.from = parsed.from.value[0].address;
-                                        mail.name = parsed.from.value[0].name;
-                                    }
-                                    if(parsed.to) {
-                                        mail.to = parsed.to.value;
-                                    }
-                                    if(parsed.subject) {
-                                        mail.subject = parsed.subject;
-                                    }
-                                    if(parsed.date) {
-                                        mail.date = new Date(parsed.date).getTime();
-                                    }
-                                } else canPush = false;
-                            })
-                        });
-                        msg.on('end', function () {
-                            if(canPush) send.mails.push(mail);
-                            console.log(prefix + 'Finished');
-                        });
-                    });
-                    f.once('error', function (err) {
-                        console.log('Fetch error: ' + err);
-                    });
-                    f.once('end', function () {
-                        console.log('Done fetching all messages!');
-                        res.send(send);
-                    });
-                }
-            });
-        });
-    });
-    imap.connect();
-})
 
 module.exports = router;

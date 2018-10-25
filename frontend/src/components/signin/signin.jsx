@@ -180,6 +180,8 @@ class Signin extends Component {
                 basic_info = {
                     id: body.user.id,
                     password: body.user.password,
+                    address: body.user.address,
+                    name: body.user.name,
                 };
                 smtp_info = {
                     smtp_id: body.user.smtp_id,

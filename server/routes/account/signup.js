@@ -10,6 +10,8 @@ router.post('/', jsonParser, function(req, res, next) {
     var userinfo = {
         id: body.id,
         password: body.password,
+        address: body.address,
+        name: body.name,
         imap_id: body.imap_id,
         imap_password: body.imap_password,
         imap_host: body.imap_host,

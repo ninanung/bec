@@ -2,6 +2,8 @@ const state = {
     signup_basic: {
         id: '',
         password: '',
+        address: '',
+        name: '',
     },
     signup_smtp: {
         smtp_id: '',

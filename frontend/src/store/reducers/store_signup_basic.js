@@ -8,11 +8,15 @@ export default (state = initialState, action) => {
             return Object.assign({}, state, {
                 id: action.signup_basic.id,
                 password: action.signup_basic.password,
+                address: action.signup_basic.address,
+                name: action.signup_basic.name,
             })
         case 'CLEAR_BASIC':
             return Object.assign({}, state, {
                 id: '',
                 password: '',
+                address: '',
+                name: '',
             })
         default:
             return state;

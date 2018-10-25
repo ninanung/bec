@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const users = mongoose.Schema({
     id: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    address: { type: String, required: true},
+    name: { type: String, required: true},
 
     imap_id: { type: String, required: true},
     imap_password: { type: String, required: true },
@@ -23,6 +25,7 @@ const users = mongoose.Schema({
 
     sent_messages: [{
         from: { type: String },
+        name: { type: String },
         to: { type: String },
         cc: [{ type: String }],
         subject: { type: String },

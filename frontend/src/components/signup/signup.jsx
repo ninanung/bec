@@ -35,6 +35,8 @@ class Signup extends Component {
             passwordNoti: '',
             id: '',
             password: '',
+            address: '',
+            name: '',
             confirmPassword: '',
         }
     }
@@ -68,6 +70,16 @@ class Signup extends Component {
         this.setState({password: password});
     }
 
+    onAddressChange = (event) => {
+        const address = event.target.value;
+        this.setState({address: address});
+    }
+
+    onNameChange = (event) => {
+        const name = event.target.value;
+        this.setState({name: name});
+    }
+
     onConfirmPasswordChange = (event) => {
         const confirmPassword = event.target.value;
         const password = this.state.password;
@@ -84,7 +96,7 @@ class Signup extends Component {
 
     onSignup = () => {
         const {history} = this.props;
-        const {id, password, confirmPassword} = this.state;
+        const {id, password, address, name, confirmPassword} = this.state;
         if(!id || !password || !confirmPassword) {
             return alert('All information must be fullfilled.');
         }
@@ -105,7 +117,9 @@ class Signup extends Component {
         }
         const info = {
             id: id,
-            password: password
+            password: password,
+            address: address,
+            name: name,
         };
         this.props.store_signup_basic(info);
         this.props.clear_signup_smtp();
@@ -125,6 +139,12 @@ class Signup extends Component {
                         <label>ID must be 6~11 long and can be made with English, special letters and number.</label>
                         <InputBox typeChange={this.onIdChange} placeholder='ID' width={200} height={inputHeight} />
                         <p className={idNoti}>{idNoti}</p>
+                        <br/>
+                        <label>Address must be your mail address in SMTP server.</label>
+                        <InputBox type='password' typeChange={this.onAddressChange} placeholder='Address' width={inputWidth} height={inputHeight} />
+                        <br/>
+                        <label>Name that will used for email sending.</label>
+                        <InputBox type='password' typeChange={this.onNameChange} placeholder='Name' width={inputWidth} height={inputHeight} />
                         <br/>
                         <label>Password must be longer than 6 and combination of English, special letters and number.</label>
                         <InputBox type='password' typeChange={this.onPasswordChange} placeholder='Password' width={inputWidth} height={inputHeight} />

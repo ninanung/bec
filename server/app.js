@@ -28,12 +28,14 @@ const signin = require('./routes/account/signin');
 const get_user = require('./routes/account/get_user');
 const update_user = require('./routes/account/update_user');
 const channels = require('./routes/account/channels');
+const smtp = require('./routes/smtp/smtp');
 const test = require('./routes/test');
 
 //link routes
 app.use('/test', test);
 app.use('/', index);
 app.use(post + '/imap', imap);
+app.user(post + '/smtp', smtp);
 app.use(post + '/signup', signup);
 app.use(post + '/update/user', update_user);
 app.use(post + '/signin', signin);
