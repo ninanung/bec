@@ -99,10 +99,23 @@ class EditMailsSetting extends Component {
             if(body.error) {
                 throw body.error;
             } else {
-                return ;
+                return body.info;
             }
-        }).then(function() {
-            //store_signup
+        }).then(function(info) {
+            smtp_info = {
+                smtp_id: info.id,
+                smtp_password: info.password,
+                smtp_host: info.host,
+                smtp_port: info.port,
+                smtp_secure: info.secure,
+            };
+            imap_info = {
+                imap_id: info.id,
+                imap_password: info.password,
+                imap_host: info.host,
+                imap_port: info.port,
+                imap_tls: info.secure,
+            };
         }).catch(function(err) {
             return alert(err);
         })
