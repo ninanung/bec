@@ -50,18 +50,36 @@ router.post('/send', jsonParser, function(req, res, next) {
         console.log(inf.messageId);
     });
 
-    //last send
-    send.mail = {
-        date: new Date().getTime(),
-        from: body.from.address,
-        name: body.from.name,
-        to: body.to,
-        cc: body.cc ? body.cc : [],
-        subject: '',
-        html: body.html ? body.html : '',
-        text: body.text ? body.text : '',
-        sent: true,
-    }
+    User.findOne({ id: body.id }, function(err, user) {
+        if(err) {
+            info.error = err;
+            return res.send(send);
+        }
+        if(!user) {
+            info.error = 'There\'s no account exist.';
+            return res.send(send);
+        }
+        const mail = {
+            date: new Date().getTime(),
+            from: body.from.address,
+            name: body.from.name,
+            to: body.to,
+            cc: body.cc ? body.cc : [],
+            subject: '',
+            html: body.html ? body.html : '',
+            text: body.text ? body.text : '',
+            sent: true,
+        }
+        user.sent_messages.push(mail)
+        user.save(function(err){
+            if(err) {
+                info.error = "Database error";
+                return res.send(send);
+            }
+        })
+        send.mail = mail;
+        return res.send(send);
+    })
 })
 
 router.post('/emails/sent', jsonParser, function(req, res, next) {

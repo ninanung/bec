@@ -75,6 +75,7 @@ class TextAreaBox extends Component {
             method: 'POST',
             url: constant.SEND_MAIL,
             json: {
+                id: signup_basic.id,
                 smtp: signup_smtp,
                 from: {
                     name: signup_basic.name,
