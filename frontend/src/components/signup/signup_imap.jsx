@@ -104,6 +104,8 @@ class SignupImap extends Component {
         const signupInfo = {
             id: signup_basic.id,
             password: signup_basic.password,
+            address: signup_basic.address,
+            name: signup_basic.name,
             imap_id: id,
             imap_password: password,
             imap_host: host,
@@ -120,6 +122,7 @@ class SignupImap extends Component {
             uri: constant.SIGNUP,
             json: signupInfo,
         }
+        const clearState = this.clearState
         request(option, function(err, res, body) {
             if(err) {
                 return alert(err);
@@ -128,7 +131,7 @@ class SignupImap extends Component {
                 return alert(body.error);
             } else {
                 alert('Signup is done, please signin!');
-                this.clearState();
+                clearState();
                 return this.props.history.push('/')
             }
         })

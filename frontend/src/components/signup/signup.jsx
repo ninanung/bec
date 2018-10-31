@@ -141,11 +141,11 @@ class Signup extends Component {
                         <p className={idNoti}>{idNoti}</p>
                         <br/>
                         <label>Address must be your mail address in SMTP server.</label>
-                        <InputBox type='password' typeChange={this.onAddressChange} placeholder='Address' width={inputWidth} height={inputHeight} />
+                        <InputBox typeChange={this.onAddressChange} placeholder='ex) your@address.com' width={inputWidth} height={inputHeight} />
                         <br/>
                         <br/>
                         <label>Name that will used for email sending.</label>
-                        <InputBox type='password' typeChange={this.onNameChange} placeholder='Name' width={inputWidth} height={inputHeight} />
+                        <InputBox typeChange={this.onNameChange} placeholder='Name' width={inputWidth} height={inputHeight} />
                         <br/>
                         <br/>
                         <label>Password must be longer than 6 and combination of English, special letters and number.</label>

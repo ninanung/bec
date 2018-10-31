@@ -24,7 +24,7 @@ router.post('/', jsonParser, function(req, res, next) {
         smtp_secure: body.smtp_secure
     }
     var info = {
-        error: '',
+        error: null,
     }
     User.findOne({ id: body.id }, function(err, user) {
         if(err) {
@@ -41,6 +41,7 @@ router.post('/', jsonParser, function(req, res, next) {
             if(err) {
                 info.error = err;
                 console.log(err);
+                return res.send(info);
             }
         });
         return res.send(info);

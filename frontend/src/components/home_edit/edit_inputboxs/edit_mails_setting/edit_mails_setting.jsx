@@ -145,11 +145,11 @@ class EditMailsSetting extends Component {
                         <p className='br'/>
                         <label>{settingType} host url. (example: {settingType}.gmail.com)</label>
                         <br/>
-                        <InputBox typeChange={this.onHostChange} placeholder='Imap Host' width={inputWidth} height={inputHeight} />
+                        <InputBox typeChange={this.onHostChange} placeholder={settingType + ' Host'} width={inputWidth} height={inputHeight} />
                         <p className='br'/>
                         <label>{settingType} host's port, normally port is 4 digits of number.</label>
                         <br/>
-                        <InputBox typeChange={this.onPortChange} placeholder='Imap Port' width={100} height={inputHeight} />
+                        <InputBox typeChange={this.onPortChange} placeholder={settingType + ' Port'} width={100} height={inputHeight} />
                         <p className='br'/>
                         <label>Option about {settingType}'s security setting. normally true.</label>
                         <br/>
