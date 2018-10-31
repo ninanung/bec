@@ -14,6 +14,7 @@ import * as actions from '../../../../store/action';
 
 const mapStateToProps = (state) => {
     return {
+        signup_basic: state.signup_basic,
         signup_smtp: state.signup_smtp,
         signup_imap: state.signup_imap,
     }
@@ -70,7 +71,7 @@ class EditMailsSetting extends Component {
 
     onEditMailsSetting = () => {
         const {id, password, host, port, security} = this.state;
-        const { store_signup_imap, store_signup_smtp } = this.props;
+        const {store_signup_imap, store_signup_smtp, settingType, signup_basic} = this.props;
         if(!id || !password || !host || !port || !security) {
             return alert('All information must be fullfilled.')
         }
@@ -80,19 +81,20 @@ class EditMailsSetting extends Component {
             }
         }
         const editInfo = {
+            settingType: settingType,
+            basic_id: signup_basic.id,
             id: id,
             password: password,
             host: host,
             port: port,
             security: security,
         }
-        const url = constant.EDIT_MAIL_SETTING + this.props.settingType; 
         const option = {
             method: 'POST',
-            uri: url,
+            uri: constant.UPDATE_USER,
             json: editInfo,
         }
-        request(option, function(err, res, body) {
+        request(option, (err, res, body) => {
             if(err) {
                 throw err;
             }
@@ -102,20 +104,26 @@ class EditMailsSetting extends Component {
                 return body.info;
             }
         }).then(function(info) {
-            const smtp_info = {
-                smtp_id: info.id,
-                smtp_password: info.password,
-                smtp_host: info.host,
-                smtp_port: info.port,
-                smtp_secure: info.secure,
-            };
-            const imap_info = {
-                imap_id: info.id,
-                imap_password: info.password,
-                imap_host: info.host,
-                imap_port: info.port,
-                imap_tls: info.secure,
-            };
+            switch (info.settingType) { 
+                case 'imap':
+                    const imap_info = {
+                        imap_id: info.id,
+                        imap_password: info.password,
+                        imap_host: info.host,
+                        imap_port: info.port,
+                        imap_tls: info.secure,
+                    };
+                    store_signup_imap(imap_info);
+                case 'smtp':
+                    const smtp_info = {
+                        smtp_id: info.id,
+                        smtp_password: info.password,
+                        smtp_host: info.host,
+                        smtp_port: info.port,
+                        smtp_secure: info.secure,
+                    };
+                    store_signup_smtp(smtp_info);
+            }
         }).catch(function(err) {
             return alert(err);
         })

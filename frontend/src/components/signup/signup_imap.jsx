@@ -123,7 +123,7 @@ class SignupImap extends Component {
             json: signupInfo,
         }
         const clearState = this.clearState
-        request(option, function(err, res, body) {
+        request(option, (err, res, body) => {
             if(err) {
                 return alert(err);
             }

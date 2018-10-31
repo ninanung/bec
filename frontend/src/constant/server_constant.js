@@ -3,6 +3,7 @@ const BASE_URL = 'http://localhost:3001';
 //user
 const SIGNIN = '/api/post/signin';
 const SIGNUP = '/api/post/signup';
+const UPDATE_USER = '/api/post/update/user';
 
 //imap
 const CONNECT_IMAP = '/api/post/imap'
@@ -17,10 +18,6 @@ const GET_EMAIL_SENT = '/api/post/smtp/emails/sent';
 const INSERT_CHANNELS = '/api/post/channels/insert';
 const DELETE_CHANNELS = '/api/post/channels/delete';
 
-//edit user
-const EDIT_BASIC_INFO = '/api/post/basic/edit';
-const EDIT_MAIL_SETTING = '/api/post/edit/setting/';
-
 export default {
     BASE_URL: BASE_URL,
     SIGNIN: BASE_URL + SIGNIN,
@@ -31,7 +28,6 @@ export default {
     INSERT_CHANNELS: BASE_URL + INSERT_CHANNELS,
     DELETE_CHANNELS: BASE_URL + DELETE_CHANNELS,
     MARK_SEEN: BASE_URL + MARK_SEEN,
-    EDIT_BASIC_INFO: BASE_URL + EDIT_BASIC_INFO,
-    EDIT_MAIL_SETTING: BASE_URL + EDIT_MAIL_SETTING,
     SEND_MAIL: BASE_URL + SEND_MAIL,
+    UPDATE_USER: BASE_URL + UPDATE_USER,
 }

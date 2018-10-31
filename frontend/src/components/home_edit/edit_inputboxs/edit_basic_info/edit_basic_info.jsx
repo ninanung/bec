@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { checkBetween, checkWhiteSpace, checkLanguageEnglish, checkLongerThan } from 'sign-checker/check';
+import { checkWhiteSpace, checkLanguageEnglish, checkLongerThan } from 'sign-checker/check';
 import request from 'request';
 
 import InputBox from '../../../input_box/input_box'
+
+import constant from '../../../../constant/server_constant';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -26,10 +28,10 @@ class EditBasicInfo extends Component {
         this.state = {
             inputWidth: 350,
             inputHeight: 30,
-            idNoti: '',
             passwordNoti: '',
-            id: '',
             password: '',
+            address: '',
+            name: '',
             confirmPassword: '',
         }
     }
@@ -47,16 +49,6 @@ class EditBasicInfo extends Component {
         } else {
             this.setState({passwordNoti: 'Good'});
         }
-    }
-
-    onIdChange = (event) => {
-        const id = event.target.value;
-        if(!checkBetween(id, 5, 12) || !checkLanguageEnglish(id) || checkWhiteSpace(id)) {
-            this.setState({idNoti: 'NotGood'});
-        } else {
-            this.setState({idNoti: 'Good'});
-        }
-        this.setState({id: id});
     }
 
     onPasswordChange = (event) => {
@@ -84,16 +76,13 @@ class EditBasicInfo extends Component {
     }
 
     onEditBasicInfo = () => {
-        const {history} = this.props;
-        const {id, password, confirmPassword} = this.state;
+        const {store_signup_basic, signup_basic} = this.props;
+        const {password, address, name, confirmPassword} = this.state;
         if(!id || !password || !confirmPassword) {
             return alert('All information must be fullfilled.');
         }
-        if(checkWhiteSpace(id+password+confirmPassword)) {
+        if(checkWhiteSpace(password+confirmPassword)) {
             return alert('White space are not allowed.');
-        }
-        if(!checkBetween(id, 5, 12)) {
-            return alert('ID must be 6~11 long.');
         }
         if(!checkLanguageEnglish(id+password+confirmPassword)) {
             return alert('All information must be made with English language.');
@@ -105,10 +94,37 @@ class EditBasicInfo extends Component {
             return alert('Password and repeated password are not matched.');
         }
         const info = {
-            id: id,
-            password: password
+            settingType: 'basic',
+            basic_id: signup_basic.id,
+            password: password,
+            address: address,
+            name: name,
         };
-        //request to server and save state
+        const option = {
+            method: 'POST',
+            url: constant.UPDATE_USER,
+            json: info,
+        }
+        request(option, (err, res, body) => {
+            if(err) {
+                throw err;
+            }
+            if(body.error) {
+                throw body.error;
+            } else {
+                return body.info;
+            }
+        }).then((info) => {
+            const basic_info = {
+                id: signup_basic.id,
+                password: info.password,
+                address: info.password,
+                name: info.name,
+            }
+            store_signup_basic(basic_info);
+        }).catch((err) => {
+            return alert(err);
+        })
     }
 
     render() {
@@ -120,16 +136,14 @@ class EditBasicInfo extends Component {
                         <h1>Basic information</h1>
                     </div>
                     <div className='signup-body'>
-                        <label>ID must be 6~11 long and can be made with English, special letters and number.</label>
-                        <InputBox typeChange={this.onIdChange} placeholder='ID' width={200} height={inputHeight} />
-                        <p className={idNoti}>{idNoti}</p>
+                        <p>User can't change their own ID, cause that is required to identify.</p>
                         <br/>
                         <label>Address must be your mail address in SMTP server.</label>
-                        <InputBox type='password' typeChange={this.onAddressChange} placeholder='Address' width={inputWidth} height={inputHeight} />
+                        <InputBox typeChange={this.onAddressChange} placeholder='Address' width={inputWidth} height={inputHeight} />
                         <br/>
                         <br/>
                         <label>Name that will used for email sending.</label>
-                        <InputBox type='password' typeChange={this.onNameChange} placeholder='Name' width={inputWidth} height={inputHeight} />
+                        <InputBox typeChange={this.onNameChange} placeholder='Name' width={inputWidth} height={inputHeight} />
                         <br/>
                         <br/>
                         <label>Password must be longer than 6 and combination of English, special letters and number.</label>
