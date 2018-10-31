@@ -39,10 +39,6 @@ class EditMailsSetting extends Component {
         }
     }
 
-    componentWillMount = () => {
-
-    }
-
     onIdChange = (event) => {
         this.setState({id: event.target.value});
     }
@@ -114,6 +110,7 @@ class EditMailsSetting extends Component {
                         imap_tls: info.secure,
                     };
                     store_signup_imap(imap_info);
+                    break;
                 case 'smtp':
                     const smtp_info = {
                         smtp_id: info.id,
@@ -123,6 +120,9 @@ class EditMailsSetting extends Component {
                         smtp_secure: info.secure,
                     };
                     store_signup_smtp(smtp_info);
+                    break;
+                default:
+                    break;
             }
         }).catch(function(err) {
             return alert(err);
@@ -133,7 +133,13 @@ class EditMailsSetting extends Component {
         const inputWidth = 350;
         const inputHeight = 30;
         const options = ['true', 'false'];
-        const {settingType} = this.props;
+        const {settingType, signup_imap, signup_smtp} = this.props;
+
+        const idValue = settingType === 'imap' ? signup_imap.imap_id : signup_smtp.smtp_id;
+        const passwordValue = settingType === 'imap' ? signup_imap.imap_password : signup_smtp.smtp_password;
+        const hostValue = settingType === 'imap' ? signup_imap.imap_host : signup_smtp.smtp_host;
+        const portValue = settingType === 'imap' ? signup_imap.imap_port : signup_smtp.smtp_port;
+        const secureValue = settingType === 'imap' ? signup_imap.imap_tls : signup_smtp.smtp_secure;
 
         return (
             <div>
@@ -145,23 +151,23 @@ class EditMailsSetting extends Component {
                     <div className='signup-imap-body'>
                         <label>Original account ID.</label>
                         <br/>
-                        <InputBox typeChange={this.onIdChange} placeholder='Email Account ID' width={200} height={inputHeight} />
+                        <InputBox value={idValue} typeChange={this.onIdChange} placeholder={'Email Account' + settingType + 'ID'} width={200} height={inputHeight} />
                         <p className='br'/>
                         <label>Original account password.</label>
                         <br/>
-                        <InputBox type="password" typeChange={this.onPasswordChange} placeholder='Email Account Password' width={inputWidth} height={inputHeight} />
+                        <InputBox value={passwordValue} type="password" typeChange={this.onPasswordChange} placeholder={'Email Account ' + settingType + ' Password'} width={inputWidth} height={inputHeight} />
                         <p className='br'/>
                         <label>{settingType} host url. (example: {settingType}.gmail.com)</label>
                         <br/>
-                        <InputBox typeChange={this.onHostChange} placeholder={settingType + ' Host'} width={inputWidth} height={inputHeight} />
+                        <InputBox value={hostValue} typeChange={this.onHostChange} placeholder={settingType + ' Host'} width={inputWidth} height={inputHeight} />
                         <p className='br'/>
                         <label>{settingType} host's port, normally port is 4 digits of number.</label>
                         <br/>
-                        <InputBox typeChange={this.onPortChange} placeholder={settingType + ' Port'} width={100} height={inputHeight} />
+                        <InputBox value={portValue} typeChange={this.onPortChange} placeholder={settingType + ' Port'} width={100} height={inputHeight} />
                         <p className='br'/>
                         <label>Option about {settingType}'s security setting. normally true.</label>
                         <br/>
-                        <SelectBox options={options} optionChange={this.onSecurityChange} />
+                        <SelectBox value={secureValue} options={options} optionChange={this.onSecurityChange} />
                         <p className='br'/>
                     </div>
                     <div className='signup-imap-footer'>

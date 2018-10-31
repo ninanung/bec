@@ -78,13 +78,13 @@ class EditBasicInfo extends Component {
     onEditBasicInfo = () => {
         const {store_signup_basic, signup_basic} = this.props;
         const {password, address, name, confirmPassword} = this.state;
-        if(!id || !password || !confirmPassword) {
+        if(!password || !address || !name || !confirmPassword) {
             return alert('All information must be fullfilled.');
         }
-        if(checkWhiteSpace(password+confirmPassword)) {
+        if(checkWhiteSpace(address+password+confirmPassword)) {
             return alert('White space are not allowed.');
         }
-        if(!checkLanguageEnglish(id+password+confirmPassword)) {
+        if(!checkLanguageEnglish(address+password+confirmPassword)) {
             return alert('All information must be made with English language.');
         }
         if(!checkLongerThan(password, 5)) {
@@ -128,7 +128,8 @@ class EditBasicInfo extends Component {
     }
 
     render() {
-        const {idNoti, passwordNoti, inputHeight, inputWidth} = this.state;
+        const {passwordNoti, inputHeight, inputWidth} = this.state;
+        const {signup_basic} = this.props;
         return (
             <div>
                 <div className='signup'>
@@ -139,17 +140,17 @@ class EditBasicInfo extends Component {
                         <p>User can't change their own ID, cause that is required to identify.</p>
                         <br/>
                         <label>Address must be your mail address in SMTP server.</label>
-                        <InputBox typeChange={this.onAddressChange} placeholder='Address' width={inputWidth} height={inputHeight} />
+                        <InputBox value={signup_basic.address} typeChange={this.onAddressChange} placeholder='Address' width={inputWidth} height={inputHeight} />
                         <br/>
                         <br/>
                         <label>Name that will used for email sending.</label>
-                        <InputBox typeChange={this.onNameChange} placeholder='Name' width={inputWidth} height={inputHeight} />
+                        <InputBox value={signup_basic.name} typeChange={this.onNameChange} placeholder='Name' width={inputWidth} height={inputHeight} />
                         <br/>
                         <br/>
                         <label>Password must be longer than 6 and combination of English, special letters and number.</label>
-                        <InputBox type='password' typeChange={this.onPasswordChange} placeholder='Password' width={inputWidth} height={inputHeight} />
+                        <InputBox value={signup_basic.password} type='password' typeChange={this.onPasswordChange} placeholder='Password' width={inputWidth} height={inputHeight} />
                         <br/>
-                        <InputBox type='password' typeChange={this.onConfirmPasswordChange} placeholder='Repeat Password' width={inputWidth} height={inputHeight} />
+                        <InputBox value={signup_basic.password} type='password' typeChange={this.onConfirmPasswordChange} placeholder='Repeat Password' width={inputWidth} height={inputHeight} />
                         <p className={passwordNoti}>{passwordNoti}</p>
                         <br/>
                     </div>
