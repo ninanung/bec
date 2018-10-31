@@ -102,14 +102,14 @@ class EditMailsSetting extends Component {
                 return body.info;
             }
         }).then(function(info) {
-            smtp_info = {
+            const smtp_info = {
                 smtp_id: info.id,
                 smtp_password: info.password,
                 smtp_host: info.host,
                 smtp_port: info.port,
                 smtp_secure: info.secure,
             };
-            imap_info = {
+            const imap_info = {
                 imap_id: info.id,
                 imap_password: info.password,
                 imap_host: info.host,
