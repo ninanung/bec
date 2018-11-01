@@ -6,6 +6,7 @@ import HomeBodyHeader from './home_body_header/home_body_header';
 import HomeBodyMails from './home_body_mails/home_body_mails';
 import TextAreaBox from '../text_area_box/text_area_box';
 import HomeMobileSidebar from '../home_mobile_sidebar/home_mobile_sidebar';
+import ModalLoader from '../modal_loader';
 
 import './home_body.css';
 
@@ -44,6 +45,7 @@ class HomeBody extends React.Component {
         this.state = {
             text: '',
             popup: false,
+            loading: false,
             socketTrigger: 1,
         }
     }
@@ -118,6 +120,9 @@ class HomeBody extends React.Component {
                 lastKeycodeTime = new Date().getTime();
                 return ;
             } else {
+                this.setState({
+                    loading: true,
+                })
                 if(new Date().getTime() - lastKeycodeTime < 500) this.CtrlEnter();
             }
             lastKeycode = keycode;
@@ -141,25 +146,26 @@ class HomeBody extends React.Component {
                 text: this.state.text,
             }
         }
-        let sentMail;
+        const setStateEmpty = this.setStateEmpty;
         request(option, (err, res, body) => {
-            if(err) throw err;
-            if(body.error) throw body.error;
-            sentMail = body.mail;
-            return ;
-        }).then(() => {
-            console.log(sentMail);
+            if(err) return alert(err);
+            if(body.error) return alert(body.error);
+            console.log(body.mail);
             const copySent = sent.slice();
-            copySent.push(sentMail);
+            copySent.push(body.mail);
             insert_sent(copySent);
-            this.setState({
-                text: '',
-            })
-            const id = 'textarea';
-            document.getElementById(id).value = '';
-        }).catch((err) => {
-            alert(err);
+            setStateEmpty();
+            return ;
         })
+    }
+    
+    setStateEmpty = () => {
+        this.setState({
+            text: '',
+            loading: false,
+            socketTrigger: Math.random(),
+        })
+        document.getElementById('textarea').value = '';
     }
 
     menuIconClick = () => {
@@ -180,6 +186,7 @@ class HomeBody extends React.Component {
 
     render() {
         const {history, address} = this.props;
+        const {popup, loading, socketTrigger} = this.state;
         let mailbox = false;
         if(address === 'sent' || address === 'all' || address === 'unread') mailbox = true;
         return (
@@ -188,7 +195,7 @@ class HomeBody extends React.Component {
                     <HomeBodyHeader mailboxIconClick={this.mailboxIconClick} menuIconClick={this.menuIconClick} address={address} history={history} />
                 </div>
                 <div className='mails-div'>
-                    <HomeBodyMails mailbox={mailbox} socketTrigger={this.state.socketTrigger} address={address} history={history} />
+                    <HomeBodyMails mailbox={mailbox} socketTrigger={socketTrigger} address={address} history={history} />
                     {address === 'sent' || address === 'all' || address === 'unread' ? 
                         <div className='text-div'>
                             <h1 className='text-div-h1'>Please, Click the Mails!</h1>
@@ -199,7 +206,8 @@ class HomeBody extends React.Component {
                         </div>
                     }
                 </div>
-                {this.state.popup ? <HomeMobileSidebar sidebarArrowIconClick={this.sidebarArrowIconClick} history={history}/> : null}
+                {popup ? <HomeMobileSidebar sidebarArrowIconClick={this.sidebarArrowIconClick} history={history}/> : null}
+                {loading ? <ModalLoader /> : null} 
             </div>
         )
     }

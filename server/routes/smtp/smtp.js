@@ -40,18 +40,14 @@ router.post('/send', jsonParser, function(req, res, next) {
             return res.send(send);
         } else {
             console.log('SMTP ready');
-            return ;
         }
-    }).then(() => {
-        transporter.sendMail(emailOption, (error, inf) => {
-            if(error) {
-                send.error = "Email sending fail. Please check your Email.";
-                return res.send(send);
-            }
-            console.log(inf.messageId);
-            return ;
-        })
-    }).then(() => {
+    })
+    transporter.sendMail(emailOption, (error, inf) => {
+        if(error) {
+            send.error = "Email sending fail. Please check your Email.";
+            return res.send(send);
+        }
+        console.log(inf.messageId);
         User.findOne({ id: body.id }, function(err, user) {
             if(err) {
                 info.error = err;
@@ -61,7 +57,6 @@ router.post('/send', jsonParser, function(req, res, next) {
                 info.error = 'There\'s no account exist.';
                 return res.send(send);
             }
-            console.log('to the user');
             const mail = {
                 date: new Date().getTime(),
                 from: body.from.address,
