@@ -141,18 +141,21 @@ class HomeBody extends React.Component {
                 text: this.state.text,
             }
         }
+        let sentMail;
         request(option, (err, res, body) => {
             if(err) throw err;
             if(body.error) throw body.error;
-            return body.mail;
-        }).then((mail) => {
+            sentMail = body.mail;
+            return ;
+        }).then(() => {
+            console.log(sentMail);
             const copySent = sent.slice();
-            copySent.push(mail);
+            copySent.push(sentMail);
+            insert_sent(copySent);
             this.setState({
                 text: '',
             })
-            insert_sent(copySent);
-            const id = 'textarea' + this.props.address;
+            const id = 'textarea';
             document.getElementById(id).value = '';
         }).catch((err) => {
             alert(err);

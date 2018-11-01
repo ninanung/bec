@@ -50,7 +50,7 @@ class HomeBodyMails extends React.Component {
                     if(mails[i].from === address) sortedMails.push(mails[i]); 
                 }
                 for(let i = 0; i < sent.length; i++) {
-                    if(sent[i].to === address) sortedMails.push(mails[i]); 
+                    if(sent[i].to === address) sortedMails.push(sent[i]); 
                 }
                 sortedMails.sort((a, b) => {
                     return a.date - b.date;
@@ -82,7 +82,7 @@ class HomeBodyMails extends React.Component {
             })
         } else {
             for(let i = 0; i < mails.length; i++) if(mails[i].from === address) sortedMails.push(mails[i]);
-            for(let i = 0; i < sent.length; i++) if(sent[i].to === address) sortedMails.push(mails[i]); 
+            for(let i = 0; i < sent.length; i++) if(sent[i].to === address) sortedMails.push(sent[i]); 
             sortedMails.sort((a, b) => {
                 return a.date - b.date;
             })

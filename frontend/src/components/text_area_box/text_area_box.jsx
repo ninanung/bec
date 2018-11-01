@@ -9,15 +9,15 @@ class TextAreaBox extends Component {
             address: this.props.address,
         }
     }
-    componentWillReceiveProps(someProp) {
+    componentWillReceiveProps(someProps) {
         this.setState({address: this.props.address});
         if(this.state.address !== this.props.address) document.getElementById('textarea').value = '';
     }
     render() {
         const {width, height, placeholder, margin, address} = this.props;
         return (
-            <textarea id={'textarea' + address} onChange={this.props.onTextChange} className='textareabox' onKeyDown={this.props.onKeyDown}
-            placeholder={placeholder} style={{width: width, height: height, margin: margin}}/>
+            <textarea id='textarea' onChange={this.props.onTextChange} className='textareabox' onKeyDown={this.props.onKeyDown}
+            placeholder={placeholder} style={{width: width, height: height, margin: margin}} />
         );
     }
 }

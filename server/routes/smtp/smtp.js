@@ -14,6 +14,17 @@ router.post('/send', jsonParser, function(req, res, next) {
         error: '',
         mail: null,
     }
+    const emailOption = {
+        from: {
+            name: body.from.name,
+            address: body.from.address,
+        },
+        to: body.to,
+        cc: body.cc ? body.cc : [],
+        subject: "New mail from " + body.from.name,
+        html: body.html ? body.html : '',
+        text: body.text ? body.text : '',
+    }
     const transporter = nodeMailer.createTransport(smtpTransport({
         host: smtp.smtp_host,
         port: smtp.smtp_port,
@@ -29,63 +40,56 @@ router.post('/send', jsonParser, function(req, res, next) {
             return res.send(send);
         } else {
             console.log('SMTP ready');
+            return ;
         }
-    });
-    const emailOption = {
-        from: {
-            name: body.from.name,
-            address: body.from.address,
-        },
-        to: body.to,
-        cc: body.cc ? body.cc : [],
-        subject: "Hi, " + id + "! This is Siary! Please confirm your Email.",
-        html: body.html ? body.html : '',
-        text: body.text ? body.text : '',
-    }
-    transporter.sendMail(emailOption, (error, inf) => {
-        if(error) {
-            send.error = "Email sending fail. Please check your Email.";
-            return res.send(send);
-        }
-        console.log(inf.messageId);
-    });
-
-    User.findOne({ id: body.id }, function(err, user) {
-        if(err) {
-            info.error = err;
-            return res.send(send);
-        }
-        if(!user) {
-            info.error = 'There\'s no account exist.';
-            return res.send(send);
-        }
-        const mail = {
-            date: new Date().getTime(),
-            from: body.from.address,
-            name: body.from.name,
-            to: body.to,
-            cc: body.cc ? body.cc : [],
-            subject: '',
-            html: body.html ? body.html : '',
-            text: body.text ? body.text : '',
-            sent: true,
-        }
-        user.sent_messages.push(mail)
-        user.save(function(err){
-            if(err) {
-                info.error = "Database error";
+    }).then(() => {
+        transporter.sendMail(emailOption, (error, inf) => {
+            if(error) {
+                send.error = "Email sending fail. Please check your Email.";
                 return res.send(send);
             }
+            console.log(inf.messageId);
+            return ;
         })
-        send.mail = mail;
-        return res.send(send);
+    }).then(() => {
+        User.findOne({ id: body.id }, function(err, user) {
+            if(err) {
+                info.error = err;
+                return res.send(send);
+            }
+            if(!user) {
+                info.error = 'There\'s no account exist.';
+                return res.send(send);
+            }
+            console.log('to the user');
+            const mail = {
+                date: new Date().getTime(),
+                from: body.from.address,
+                name: body.from.name,
+                to: body.to,
+                cc: body.cc ? body.cc : [],
+                subject: "New mail from " + body.from.name,
+                html: body.html ? body.html : '',
+                text: body.text ? body.text : '',
+                sent: true,
+            }
+            user.sent_messages.push(mail)
+            user.save(function(err){
+                if(err) {
+                    info.error = "Database error";
+                    return res.send(send);
+                }
+            })
+            send.mail = mail;
+            return res.send(send);
+        })
     })
 })
 
 router.post('/emails/sent', jsonParser, function(req, res, next) {
     let send = {
         error: '',
-        mails: [],
+        mails: null,
     }
     User.findOne({ id: req.body.id }, function(err, user) {
         if(err) {
@@ -97,11 +101,7 @@ router.post('/emails/sent', jsonParser, function(req, res, next) {
             send.error = 'There\'s no account that has same id.';
             return res.send(send);
         }
-        for(var i = 0; i < user.sent_messages.length; i++) {
-            if(sent_messages[i].to === address) {
-                send.mails.push(sent_messages[i]);
-            }
-        }
+        send.mails = user.sent_messages.slice();
         return res.send(send);
     });
 });
