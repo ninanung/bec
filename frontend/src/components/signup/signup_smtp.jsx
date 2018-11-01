@@ -64,11 +64,8 @@ class SignupSmtp extends Component {
 
     onSecureChange = (event) => {
         let secure;
-        if(event.target.value === 'true') {
-            secure = true;
-        } else {
-            secure = false;
-        }
+        if(event.target.value === 'true') secure = true;
+        else secure = false;
         this.setState({secure: secure});
     }
 
@@ -84,13 +81,9 @@ class SignupSmtp extends Component {
 
     onSignup = () => {
         const {id, password, host, port, secure} = this.state;
-        if(!id || !password || !host || !port || !secure) {
-            return alert('All information must be fullfilled.')
-        }
+        if(!id || !password || !host || !port || !secure) return alert('All information must be fullfilled.');
         for(let i = 0; i < port.length; i++) {
-            if(!checkNumber(port[i])) {
-                return alert('Port must be number.');
-            }
+            if(!checkNumber(port[i])) return alert('Port must be number.');
         }
         const info = {
             smtp_id: id,
@@ -107,7 +100,6 @@ class SignupSmtp extends Component {
         const inputWidth = 350;
         const inputHeight = 30;
         const options = ['true', 'false'];
-
         return (
             <div>
                 <IntroHeader/>

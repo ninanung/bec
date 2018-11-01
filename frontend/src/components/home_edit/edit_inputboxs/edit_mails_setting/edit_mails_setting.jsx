@@ -57,25 +57,16 @@ class EditMailsSetting extends Component {
 
     onSecurityChange = (event) => {
         let security;
-        if(event.target.value === 'true') {
-            security = true;
-        } else {
-            security = false;
-        }
+        if(event.target.value === 'true') security = true;
+        else security = false;
         this.setState({security: security});
     }
 
     onEditMailsSetting = () => {
         const {id, password, host, port, security} = this.state;
         const {store_signup_imap, store_signup_smtp, settingType, signup_basic} = this.props;
-        if(!id || !password || !host || !port || !security) {
-            return alert('All information must be fullfilled.')
-        }
-        for(let i = 0; i < port.length; i++) {
-            if(!checkNumber(port[i])) {
-                return alert('Port must be number.');
-            }
-        }
+        if(!id || !password || !host || !port || !security) return alert('All information must be fullfilled.')
+        for(let i = 0; i < port.length; i++) if(!checkNumber(port[i])) return alert('Port must be number.');
         const editInfo = {
             settingType: settingType,
             basic_id: signup_basic.id,
@@ -91,14 +82,9 @@ class EditMailsSetting extends Component {
             json: editInfo,
         }
         request(option, (err, res, body) => {
-            if(err) {
-                throw err;
-            }
-            if(body.error) {
-                throw body.error;
-            } else {
-                return body.info;
-            }
+            if(err) throw err;
+            if(body.error) throw body.error;
+            else return body.info;
         }).then(function(info) {
             switch (info.settingType) { 
                 case 'imap':

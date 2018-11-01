@@ -27,11 +27,7 @@ class InsertChannelButton extends React.Component {
     addToChannel = (event) => {
         event.stopPropagation();
         const {name, address, channels, signup_basic, insert_channels} = this.props;
-        for(let i = 0; i < channels.length; i++) {
-            if(channels[i] === address) {
-                return alert('There\'s already same address in the channel list.');
-            }
-        }
+        for(let i = 0; i < channels.length; i++) if(channels[i] === address) return alert('There\'s already same address in the channel list.');
         const option = {
             method: 'POST',
             url: constant.INSERT_CHANNELS,
@@ -42,26 +38,16 @@ class InsertChannelButton extends React.Component {
             },
         }
         request(option, function(err, res, body) {
-            if(err) {
-                return alert(err);
-            } else if(body.error) {
-                return alert(body.error);
-            } else {
-                return insert_channels(body.channels);
-            }
+            if(err) return alert(err);
+            else if(body.error) return alert(body.error);
+            else return insert_channels(body.channels);
         });
     }
 
     render() {
         const {address, channels} = this.props;
-        for(let i = 0; i < channels.length; i++) {
-            if(channels[i].address === address) {
-                return null;
-            }
-        }
-        return (
-            <button onClick={this.addToChannel} className='add-button'>add</button>
-        )
+        for(let i = 0; i < channels.length; i++) if(channels[i].address === address) return null;
+        return <button onClick={this.addToChannel} className='add-button'>add</button>
     }
 }
 

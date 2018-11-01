@@ -35,23 +35,15 @@ class ChannelItem extends Component {
 
     countUnreadMails = (mails, address) => {
         let count = 0;
-        for(let i = 0; i < mails.length; i++) {
-            if(mails[i].from === address && mails[i].flags.length === 0) {
-                count++;
-            }
-        }
+        for(let i = 0; i < mails.length; i++) if(mails[i].from === address && mails[i].flags.length === 0) count++;
         return count;
     }
 
     clickListItem = () => {
         const {isChannel, history, channel} = this.props;
-        if(!isChannel && channel.address) {
-            history.push('/home/mailbox/' + channel.address);
-        } else if(!channel.address) { 
-            history.push('/home');
-        } else {
-            history.push('/home/' + channel.address);
-        }
+        if(!isChannel && channel.address) history.push('/home/mailbox/' + channel.address);
+        else if(!channel.address) history.push('/home');
+        else history.push('/home/' + channel.address);
     }
 
     render() {

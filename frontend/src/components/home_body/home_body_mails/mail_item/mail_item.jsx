@@ -74,11 +74,9 @@ class MailItem extends Component {
                 loading: true,
             })
             request(option, function(err, res, body) {
-                if(err) {
-                    return alert(err);
-                } else if(body.error) {
-                    return alert(body.error);
-                } else {
+                if(err) return alert(err);
+                else if(body.error) return alert(body.error);
+                else {
                     for(let i = 0; i < mails.length; i++) {
                         if(body.mail.uid === mails[i].uid) {
                             mails[i].flags = body.mail.flags.slice();
@@ -104,16 +102,10 @@ class MailItem extends Component {
         const { mail, sent } = this.props;
         const { popup, loading } = this.state;
         let whoSent = '';
-        if(sent) {
-            whoSent = 'mail-item-me'
-        } else if(this.props.mailbox) {
-            whoSent = 'mail-item-mailbox'
-        } else {
-            whoSent = 'mail-item-other'
-        }
-        if(this.props.unseen) {
-            whoSent += ' unseen'
-        }
+        if(sent) whoSent = 'mail-item-me'
+        else if(this.props.mailbox) whoSent = 'mail-item-mailbox'
+        else whoSent = 'mail-item-other'
+        if(this.props.unseen) whoSent += ' unseen'
         return (
             <div className={whoSent}>
                 <div onClick={this.onPopup}>

@@ -48,18 +48,13 @@ class Signup extends Component {
     checkPasswordGood = (password, confirmPassword) => {
         if(!password || !confirmPassword || !checkLongerThan(password, 5) || !checkLanguageEnglish(password) || checkWhiteSpace(password) || password !== confirmPassword) {
             this.setState({passwordNoti: 'NotGood'});
-        } else {
-            this.setState({passwordNoti: 'Good'});
-        }
+        } else this.setState({passwordNoti: 'Good'});
     }
 
     onIdChange = (event) => {
         const id = event.target.value;
-        if(!checkBetween(id, 5, 12) || !checkLanguageEnglish(id) || checkWhiteSpace(id)) {
-            this.setState({idNoti: 'NotGood'});
-        } else {
-            this.setState({idNoti: 'Good'});
-        }
+        if(!checkBetween(id, 5, 12) || !checkLanguageEnglish(id) || checkWhiteSpace(id)) this.setState({idNoti: 'NotGood'});
+        else this.setState({idNoti: 'Good'});
         this.setState({id: id});
     }
 
@@ -97,24 +92,12 @@ class Signup extends Component {
     onSignup = () => {
         const {history} = this.props;
         const {id, password, address, name, confirmPassword} = this.state;
-        if(!id || !address || !name || !password || !confirmPassword) {
-            return alert('All information must be fullfilled.');
-        }
-        if(checkWhiteSpace(address+id+password+confirmPassword)) {
-            return alert('White space are not allowed.');
-        }
-        if(!checkBetween(id, 5, 12)) {
-            return alert('ID must be 6~11 long.');
-        }
-        if(!checkLanguageEnglish(address+id+password+confirmPassword)) {
-            return alert('All information must be made with English language.');
-        }
-        if(!checkLongerThan(password, 5)) {
-            return alert('Password must be longer than 5 letters.')
-        }
-        if(password !== confirmPassword) {
-            return alert('Password and repeated password are not matched.');
-        }
+        if(!id || !address || !name || !password || !confirmPassword) return alert('All information must be fullfilled.');
+        if(checkWhiteSpace(address+id+password+confirmPassword)) return alert('White space are not allowed.');
+        if(!checkBetween(id, 5, 12)) return alert('ID must be 6~11 long.');
+        if(!checkLanguageEnglish(address+id+password+confirmPassword)) return alert('All information must be made with English language.');
+        if(!checkLongerThan(password, 5)) return alert('Password must be longer than 5 letters.')
+        if(password !== confirmPassword) return alert('Password and repeated password are not matched.');
         const info = {
             id: id,
             password: password,

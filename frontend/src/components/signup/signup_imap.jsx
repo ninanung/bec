@@ -71,11 +71,8 @@ class SignupImap extends Component {
 
     onTlsChange = (event) => {
         let tls;
-        if(event.target.value === 'true') {
-            tls = true;
-        } else {
-            tls = false;
-        }
+        if(event.target.value === 'true') tls = true;
+        else tls = false;
         this.setState({tls: tls});
     }
 
@@ -93,13 +90,9 @@ class SignupImap extends Component {
     onCreateAccount = () => {
         const {id, password, host, port, tls} = this.state;
         const { signup_basic, signup_smtp } = this.props;
-        if(!id || !password || !host || !port || !tls) {
-            return alert('All information must be fullfilled.')
-        }
+        if(!id || !password || !host || !port || !tls) return alert('All information must be fullfilled.');
         for(let i = 0; i < port.length; i++) {
-            if(!checkNumber(port[i])) {
-                return alert('Port must be number.');
-            }
+            if(!checkNumber(port[i])) return alert('Port must be number.');
         }
         const signupInfo = {
             id: signup_basic.id,
@@ -124,12 +117,9 @@ class SignupImap extends Component {
         }
         const clearState = this.clearState
         request(option, (err, res, body) => {
-            if(err) {
-                return alert(err);
-            }
-            if(body.error) {
-                return alert(body.error);
-            } else {
+            if(err) return alert(err);
+            if(body.error) return alert(body.error);
+            else {
                 alert('Signup is done, please signin!');
                 clearState();
                 return this.props.history.push('/')

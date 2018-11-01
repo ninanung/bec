@@ -32,9 +32,7 @@ class ChannelList extends Component {
                 <h2 className='channel-list-h2'>Channels</h2>
                 <channelItem isChannel={false} history={this.props.history} channel={{ name: 'Home', address: '/'}} />
                 {this.state.channels.map((channel, index) => {
-                    return (
-                        <ChannelItem isChannel={true} history={this.props.history} channel={channel} index={index} key={index} />
-                    )
+                    return <ChannelItem isChannel={true} history={this.props.history} channel={channel} index={index} key={index} />
                 })}
                 <h2 className='channel-list-h2'>Mail Boxes</h2>
                 <ChannelItem isChannel={false} history={this.props.history} channel={{ name: 'Unread', address: 'unread' }} />

@@ -46,9 +46,7 @@ class EditBasicInfo extends Component {
     checkPasswordGood = (password, confirmPassword) => {
         if(!password || !confirmPassword || !checkLongerThan(password, 5) || !checkLanguageEnglish(password) || checkWhiteSpace(password) || password !== confirmPassword) {
             this.setState({passwordNoti: 'NotGood'});
-        } else {
-            this.setState({passwordNoti: 'Good'});
-        }
+        } else this.setState({passwordNoti: 'Good'});
     }
 
     onPasswordChange = (event) => {
@@ -78,21 +76,11 @@ class EditBasicInfo extends Component {
     onEditBasicInfo = () => {
         const {store_signup_basic, signup_basic} = this.props;
         const {password, address, name, confirmPassword} = this.state;
-        if(!password || !address || !name || !confirmPassword) {
-            return alert('All information must be fullfilled.');
-        }
-        if(checkWhiteSpace(address+password+confirmPassword)) {
-            return alert('White space are not allowed.');
-        }
-        if(!checkLanguageEnglish(address+password+confirmPassword)) {
-            return alert('All information must be made with English language.');
-        }
-        if(!checkLongerThan(password, 5)) {
-            return alert('Password must be longer than 5 letters.')
-        }
-        if(password !== confirmPassword) {
-            return alert('Password and repeated password are not matched.');
-        }
+        if(!password || !address || !name || !confirmPassword) return alert('All information must be fullfilled.');
+        if(checkWhiteSpace(address+password+confirmPassword)) return alert('White space are not allowed.');
+        if(!checkLanguageEnglish(address+password+confirmPassword)) return alert('All information must be made with English language.');
+        if(!checkLongerThan(password, 5)) return alert('Password must be longer than 5 letters.')
+        if(password !== confirmPassword) return alert('Password and repeated password are not matched.');
         const info = {
             settingType: 'basic',
             basic_id: signup_basic.id,
@@ -106,14 +94,9 @@ class EditBasicInfo extends Component {
             json: info,
         }
         request(option, (err, res, body) => {
-            if(err) {
-                throw err;
-            }
-            if(body.error) {
-                throw body.error;
-            } else {
-                return body.info;
-            }
+            if(err) throw err;
+            if(body.error) throw body.error;
+            else return body.info;
         }).then((info) => {
             const basic_info = {
                 id: signup_basic.id,

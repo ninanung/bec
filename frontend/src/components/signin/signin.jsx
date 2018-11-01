@@ -147,9 +147,7 @@ class Signin extends Component {
 
     onSignin = () => {
         this.props.make_fine();
-        if(!this.state.id || !this.state.password) {
-            return alert('Please, fulfill all user information.')
-        }
+        if(!this.state.id || !this.state.password) return alert('Please, fulfill all user information.')
         const signinInfo = {
             id: this.state.id,
             password: this.state.password,
@@ -172,11 +170,9 @@ class Signin extends Component {
         const connectSent = this.connectSent;
 
         request(option, function(err, res, body) {
-            if(err) {
-                return alert(err);
-            } else if(body.error) {
-                return alert(body.error);
-            } else {
+            if(err) return alert(err);
+            else if(body.error) return alert(body.error);
+            else {
                 basic_info = {
                     id: body.user.id,
                     password: body.user.password,

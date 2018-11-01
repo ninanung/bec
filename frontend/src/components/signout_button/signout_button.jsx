@@ -66,9 +66,7 @@ class SignoutButton extends React.Component {
             } else if(!body) {
                 setLoading(false);
                 return alert('something happend! Please wait and try again.');
-            } else {
-                clearAll();
-            }
+            } else clearAll();
         });
     }
 
