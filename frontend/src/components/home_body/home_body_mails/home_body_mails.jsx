@@ -53,11 +53,13 @@ class HomeBodyMails extends React.Component {
                 changed = true;
             } else {
                 for(let i = 0; i < mails.length; i++) if(mails[i].from === nextAddress) sortedMails.push(mails[i]); 
-                for(let j = 0; j < nextSent.length + 1; j++) {
-                    for(let k = 0; k < nextSent[j].to.length; k++) {
-                        if(nextSent[j].to[k] === nextAddress) {
-                            sortedMails.push(nextSent[j]);
-                            k = nextSent[j].to.length;
+                if(nextSent.length !== 0) { 
+                    for(let j = 0; j < nextSent.length; j++) {
+                        for(let k = 0; k < nextSent[j].to.length; k++) {
+                            if(nextSent[j].to[k] === nextAddress) {
+                                sortedMails.push(nextSent[j]);
+                                k = nextSent[j].to.length;
+                            }
                         }
                     }
                 }
@@ -70,7 +72,6 @@ class HomeBodyMails extends React.Component {
                 sortedMails = this.insertDate(sortedMails);
                 this.changeState(sortedMails);
             }
-            document.getElementById('fakeDiv').scrollIntoView();
         }
     }
 
@@ -98,11 +99,13 @@ class HomeBodyMails extends React.Component {
             changed = true;
         } else {
             for(let i = 0; i < mails.length; i++) if(mails[i].from === address) sortedMails.push(mails[i]);
-            for(let j = 0; j < sent.length + 1; j++) {
-                for(let k = 0; k < sent[j].to.length; k++) {
-                    if(sent[j].to[k] === nextAddress) {
-                        sortedMails.push(sent[j]);
-                        k = sent[j].to.length;
+            if(sent.length !== 0) { 
+                for(let j = 0; j < sent.length; j++) {
+                    for(let k = 0; k < sent[j].to.length; k++) {
+                        if(sent[j].to[k] === address) {
+                            sortedMails.push(sent[j]);
+                            k = sent[j].to.length;
+                        }
                     }
                 }
             }
@@ -118,6 +121,10 @@ class HomeBodyMails extends React.Component {
     }
 
     componentDidMount() {
+        document.getElementById('fakeDiv').scrollIntoView();
+    }
+
+    componentDidUpdate() {
         document.getElementById('fakeDiv').scrollIntoView();
     }
 
