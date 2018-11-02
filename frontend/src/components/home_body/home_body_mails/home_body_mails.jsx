@@ -1,4 +1,5 @@
 import React from 'react';
+import PropsTypes from 'prop-types';
 
 import MailItem from './mail_item/mail_item';
 import DateBar from './date_bar/date_bar';
@@ -9,10 +10,9 @@ import { connect } from 'react-redux';
 
 const mapStateToProps = (state) => {
     return {
+        mails: state.mails,
         signup_basic: state.signup_basic,
         signup_imap: state.signup_imap,
-        mails: state.mails,
-        sent: state.sent,
     }
 }
 
@@ -20,8 +20,8 @@ class HomeBodyMails extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            trigger: false,
             mails: [],
+            trigger: 1,
         }
     }
 
@@ -125,15 +125,16 @@ class HomeBodyMails extends React.Component {
         return new Date(date).toString().split(" ").splice(0, 4).splice(0, 4).toString().replace(/,/g, " ");
     }
 
-    changeState = (mails) => {
+    changeState = (sortedMails) => {
         this.setState({
+            mails: sortedMails,
             trigger: Math.random(),
-            mails: mails,
         })
     }
 
     render() {
-        if(this.state.mails.length === 0) {
+        const {mails} = this.state;
+        if(mails.length === 0) {
             return (
                 <div className='mails-body'>
                     <h1 id='fakeDiv' className='no-mails'>There's no mail to show.</h1>
@@ -142,7 +143,7 @@ class HomeBodyMails extends React.Component {
         }
         return (
             <div className='mails-body'>
-                {this.state.mails.map((mail, index) => {
+                {mails.map((mail, index) => {
                     if(mail.isDateBar) return <DateBar date={mail.date} />
                     if(mail.subject.length === 0) return null;
                     if(mail.sent) {
@@ -159,6 +160,13 @@ class HomeBodyMails extends React.Component {
             </div>
         )
     }
+}
+
+HomeBodyMails.propTypes = {
+    mailBox: PropsTypes.bool,
+    address: PropsTypes.object.isRequired,
+    history: PropsTypes.object.isRequired,
+    socketTrigger: PropsTypes.number,
 }
 
 export default connect(mapStateToProps)(HomeBodyMails);

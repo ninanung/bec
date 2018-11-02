@@ -10,11 +10,12 @@ class TextAreaBox extends Component {
         }
     }
     componentWillReceiveProps(someProps) {
-        this.setState({address: this.props.address});
-        if(this.state.address !== this.props.address) document.getElementById('textarea').value = '';
+        const address = this.props.address;
+        this.setState({address: address});
+        if(this.state.address !== address) document.getElementById('textarea').value = '';
     }
     render() {
-        const {width, height, placeholder, margin, address} = this.props;
+        const {width, height, placeholder, margin} = this.props;
         return (
             <textarea id='textarea' onChange={this.props.onTextChange} className='textareabox' onKeyDown={this.props.onKeyDown}
             placeholder={placeholder} style={{width: width, height: height, margin: margin}} />

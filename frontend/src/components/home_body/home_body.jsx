@@ -6,7 +6,7 @@ import HomeBodyHeader from './home_body_header/home_body_header';
 import HomeBodyMails from './home_body_mails/home_body_mails';
 import TextAreaBox from '../text_area_box/text_area_box';
 import HomeMobileSidebar from '../home_mobile_sidebar/home_mobile_sidebar';
-import ModalLoader from '../modal_loader';
+import ModalLoader from '../modal_loader/modal_loader';
 
 import './home_body.css';
 
@@ -43,6 +43,7 @@ class HomeBody extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            sent: this.props.sent,
             text: '',
             popup: false,
             loading: false,
@@ -153,17 +154,18 @@ class HomeBody extends React.Component {
             console.log(body.mail);
             const copySent = sent.slice();
             copySent.push(body.mail);
+            console.log(copySent);
             insert_sent(copySent);
-            setStateEmpty();
+            setStateEmpty(copySent);
             return ;
         })
     }
     
-    setStateEmpty = () => {
+    setStateEmpty = (copySent) => {
         this.setState({
             text: '',
             loading: false,
-            socketTrigger: Math.random(),
+            sent: copySent,
         })
         document.getElementById('textarea').value = '';
     }
@@ -186,7 +188,7 @@ class HomeBody extends React.Component {
 
     render() {
         const {history, address} = this.props;
-        const {popup, loading, socketTrigger} = this.state;
+        const {popup, loading, socketTrigger, sent} = this.state;
         let mailbox = false;
         if(address === 'sent' || address === 'all' || address === 'unread') mailbox = true;
         return (
@@ -195,7 +197,7 @@ class HomeBody extends React.Component {
                     <HomeBodyHeader mailboxIconClick={this.mailboxIconClick} menuIconClick={this.menuIconClick} address={address} history={history} />
                 </div>
                 <div className='mails-div'>
-                    <HomeBodyMails mailbox={mailbox} socketTrigger={socketTrigger} address={address} history={history} />
+                    <HomeBodyMails sent={sent} mailbox={mailbox} socketTrigger={socketTrigger} address={address} history={history} />
                     {address === 'sent' || address === 'all' || address === 'unread' ? 
                         <div className='text-div'>
                             <h1 className='text-div-h1'>Please, Click the Mails!</h1>
