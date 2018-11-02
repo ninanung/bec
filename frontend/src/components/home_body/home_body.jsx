@@ -43,7 +43,6 @@ class HomeBody extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            sent: this.props.sent,
             text: '',
             popup: false,
             loading: false,
@@ -60,6 +59,9 @@ class HomeBody extends React.Component {
     }
 
     componentWillMount() {
+        this.setState({
+            sent: this.props.sent.slice(),
+        })
         const {channels, fcm_cloud_messaging_token} = this.props;
         const socket = socketIoClient(socket_constant.SERVER_URL);
         const token = fcm_cloud_messaging_token;
@@ -151,21 +153,18 @@ class HomeBody extends React.Component {
         request(option, (err, res, body) => {
             if(err) return alert(err);
             if(body.error) return alert(body.error);
-            console.log(body.mail);
             const copySent = sent.slice();
             copySent.push(body.mail);
-            console.log(copySent);
             insert_sent(copySent);
-            setStateEmpty(copySent);
+            setStateEmpty();
             return ;
         })
     }
     
-    setStateEmpty = (copySent) => {
+    setStateEmpty = () => {
         this.setState({
             text: '',
             loading: false,
-            sent: copySent,
         })
         document.getElementById('textarea').value = '';
     }
@@ -197,7 +196,7 @@ class HomeBody extends React.Component {
                     <HomeBodyHeader mailboxIconClick={this.mailboxIconClick} menuIconClick={this.menuIconClick} address={address} history={history} />
                 </div>
                 <div className='mails-div'>
-                    <HomeBodyMails sent={sent} mailbox={mailbox} socketTrigger={socketTrigger} address={address} history={history} />
+                    <HomeBodyMails mailbox={mailbox} socketTrigger={socketTrigger} address={address} history={history} />
                     {address === 'sent' || address === 'all' || address === 'unread' ? 
                         <div className='text-div'>
                             <h1 className='text-div-h1'>Please, Click the Mails!</h1>

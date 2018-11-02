@@ -26,7 +26,7 @@ const users = mongoose.Schema({
     sent_messages: [{
         from: { type: String },
         name: { type: String },
-        to: { type: String },
+        to: [{ type: String }],
         cc: [{ type: String }],
         subject: { type: String },
         html: { type: String },

@@ -37,16 +37,16 @@ router.post('/send', jsonParser, function(req, res, next) {
     User.findOne({ id: body.id }, function(err, user) {
         if(err) {
             info.error = err;
-            return res.send(send);
+            res.send(send);
         }
         if(!user) {
             info.error = 'There\'s no account exist.';
-            return res.send(send);
+            res.send(send);
         }
         transporter.verify(function(error, success) {
             if (error) {
                 send.error = error;
-                return res.send(send);
+                res.send(send);
             } else {
                 console.log('SMTP ready');
             }
@@ -54,9 +54,10 @@ router.post('/send', jsonParser, function(req, res, next) {
         transporter.sendMail(emailOption, (error, inf) => {
             if(error) {
                 send.error = "Email sending fail. Please check your Email.";
-                return res.send(send);
+                res.send(send);
             }
             console.log(inf.messageId);
+            res.send(send);
         });
         console.log('user');
         const mail = {
@@ -74,12 +75,11 @@ router.post('/send', jsonParser, function(req, res, next) {
         user.save(function(err){
             if(err) {
                 info.error = "Database error";
-                return res.send(send);
+                res.send(send);
             }
         })
         console.log('add mail info')
         send.mail = mail;
-        return res.send(send);
     });
 })
 

@@ -13,6 +13,7 @@ const mapStateToProps = (state) => {
         mails: state.mails,
         signup_basic: state.signup_basic,
         signup_imap: state.signup_imap,
+        sent: state.sent,
     }
 }
 
@@ -26,69 +27,94 @@ class HomeBodyMails extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(this.props.address !== nextProps.address || this.props.socketTrigger !== nextProps.socketTrigger) {
+        const {address, socketTrigger, sent, mails} = this.props;
+        if(address !== nextProps.address || socketTrigger !== nextProps.socketTrigger || sent.length !== nextProps.sent.length) {
             let sortedMails = [];
-            const {sent, mails} = this.props;
-            const {address} = nextProps;
-            if(address === 'unread') {
+            const nextAddress = nextProps.address;
+            const nextSent = nextProps.sent;
+            let changed = false;
+            if(nextAddress === 'unread') {
                 for(let i = 0; i < mails.length; i++) if(mails[i].flags.length === 0) sortedMails.push(mails[i]); 
                 sortedMails.sort((a, b) => {
                     return a.date - b.date;
                 })
-            } else if(address === 'all') {
+                changed = true;
+            } else if(nextAddress === 'all') {
                 sortedMails = mails.slice();
                 sortedMails.sort((a, b) => {
                     return a.date - b.date;
                 })
-            } else if(address === 'sent') {
+                changed = true;
+            } else if(nextAddress === 'sent') {
                 sortedMails = sent.slice();
                 sortedMails.sort((a, b) => {
                     return a.date - b.date;
                 })
+                changed = true;
             } else {
-                for(let i = 0; i < mails.length; i++) {
-                    if(mails[i].from === address) sortedMails.push(mails[i]); 
-                }
-                for(let i = 0; i < sent.length; i++) {
-                    if(sent[i].to === address) sortedMails.push(sent[i]); 
+                for(let i = 0; i < mails.length; i++) if(mails[i].from === nextAddress) sortedMails.push(mails[i]); 
+                for(let j = 0; j < nextSent.length + 1; j++) {
+                    for(let k = 0; k < nextSent[j].to.length; k++) {
+                        if(nextSent[j].to[k] === nextAddress) {
+                            sortedMails.push(nextSent[j]);
+                            k = nextSent[j].to.length;
+                        }
+                    }
                 }
                 sortedMails.sort((a, b) => {
                     return a.date - b.date;
                 })
+                changed = true;
             }
-            sortedMails = this.insertDate(sortedMails);
-            this.changeState(sortedMails);
+            if(changed) {
+                sortedMails = this.insertDate(sortedMails);
+                this.changeState(sortedMails);
+            }
             document.getElementById('fakeDiv').scrollIntoView();
         }
     }
 
     componentWillMount() {
         let sortedMails = [];
+        let changed = false;
         const {address, mails, sent} = this.props;
         if(address === 'unread') {
             for(let i = 0; i < mails.length; i++) if(mails[i].flags.length === 0) sortedMails.push(mails[i]); 
             sortedMails.sort((a, b) => {
                 return a.date - b.date;
             })
+            changed = true;
         } else if(address === 'all') {
             sortedMails = mails.slice();
             sortedMails.sort((a, b) => {
                 return a.date - b.date;
             })
+            changed = true;
         } else if(address === 'sent') {
             sortedMails = sent.slice();
             sortedMails.sort((a, b) => {
                 return a.date - b.date;
             })
+            changed = true;
         } else {
             for(let i = 0; i < mails.length; i++) if(mails[i].from === address) sortedMails.push(mails[i]);
-            for(let i = 0; i < sent.length; i++) if(sent[i].to === address) sortedMails.push(sent[i]); 
+            for(let j = 0; j < sent.length + 1; j++) {
+                for(let k = 0; k < sent[j].to.length; k++) {
+                    if(sent[j].to[k] === nextAddress) {
+                        sortedMails.push(sent[j]);
+                        k = sent[j].to.length;
+                    }
+                }
+            }
             sortedMails.sort((a, b) => {
                 return a.date - b.date;
             })
+            changed = true;
         }
-        sortedMails = this.insertDate(sortedMails);
-        this.changeState(sortedMails);
+        if(changed) {
+            sortedMails = this.insertDate(sortedMails);
+            this.changeState(sortedMails);
+        }
     }
 
     componentDidMount() {
