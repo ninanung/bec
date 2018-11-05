@@ -37,9 +37,11 @@ class EditBasicInfo extends Component {
     }
 
     componentWillMount = () => {
+        const signup_basic = this.props.signup_basic;
         this.setState({
-            id: this.props.signup_basic.id,
-            password: this.props.signup_basic.password,
+            address: signup_basic.address,
+            name: signup_basic.name,
+            password: signup_basic.password,
         }) 
     }
 

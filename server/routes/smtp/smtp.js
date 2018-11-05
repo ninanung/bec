@@ -21,7 +21,7 @@ router.post('/send', jsonParser, function(req, res, next) {
         },
         to: body.to,
         cc: body.cc ? body.cc : [],
-        subject: "New mail from " + body.from.name,
+        subject: body.subject,
         html: body.html ? body.html : '',
         text: body.text ? body.text : '',
     };
@@ -66,7 +66,7 @@ router.post('/send', jsonParser, function(req, res, next) {
             name: body.from.name,
             to: body.to,
             cc: body.cc ? body.cc : [],
-            subject: "New mail from " + body.from.name,
+            subject: body.subject,
             html: body.html ? body.html : '',
             text: body.text ? body.text : '',
             sent: true,

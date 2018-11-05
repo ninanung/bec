@@ -7,6 +7,7 @@ import HomeBodyMails from './home_body_mails/home_body_mails';
 import TextAreaBox from '../text_area_box/text_area_box';
 import HomeMobileSidebar from '../home_mobile_sidebar/home_mobile_sidebar';
 import ModalLoader from '../modal_loader/modal_loader';
+import InputBox from '../input_box/input_box';
 
 import './home_body.css';
 
@@ -44,6 +45,7 @@ class HomeBody extends React.Component {
         super(props);
         this.state = {
             text: '',
+            subject: '',
             popup: false,
             loading: false,
             socketTrigger: 1,
@@ -111,6 +113,12 @@ class HomeBody extends React.Component {
         })
     }
 
+    onSubjectChange = (e) => {
+        this.setState({
+            subject: e.target.value,
+        })
+    }
+
     onEnterPress = (e) => {
         const keycode =  e.keyCode;
         if((keycode === 13 || keycode === 17) && (!lastKeycode)) {
@@ -135,6 +143,8 @@ class HomeBody extends React.Component {
 
     CtrlEnter = () => {
         const {sent, signup_basic, insert_sent, signup_smtp, address} = this.props;
+        const {text, subject} = this.state;
+        if(!text || !subject) return alert('Subject or Text is empty!');
         const option = {
             method: 'POST',
             url: constant.SEND_MAIL,
@@ -146,7 +156,8 @@ class HomeBody extends React.Component {
                     address: signup_basic.address,
                 },
                 to: [address],
-                text: this.state.text,
+                text: text,
+                subject: subject,
             }
         }
         const setStateEmpty = this.setStateEmpty;
@@ -163,10 +174,12 @@ class HomeBody extends React.Component {
     
     setStateEmpty = () => {
         this.setState({
+            subject: '',
             text: '',
             loading: false,
         })
         document.getElementById('textarea').value = '';
+        document.getElementById('inputbox').value = '';
     }
 
     menuIconClick = () => {
@@ -187,7 +200,7 @@ class HomeBody extends React.Component {
 
     render() {
         const {history, address} = this.props;
-        const {popup, loading, socketTrigger, sent} = this.state;
+        const {popup, loading, socketTrigger} = this.state;
         let mailbox = false;
         if(address === 'sent' || address === 'all' || address === 'unread') mailbox = true;
         return (
@@ -202,7 +215,8 @@ class HomeBody extends React.Component {
                             <h1 className='text-div-h1'>Please, Click the Mails!</h1>
                         </div> :
                         <div className='textarea-div'>
-                            <TextAreaBox history={history} address={address} placeholder="Press 'Ctrl + Enter' to Send!" height={60} width={'calc(100% - 50px)'} 
+                            <InputBox typeChange={this.onSubjectChange} placeholder={'Subject'} height={21} width={'calc(100% - 50px'} />
+                            <TextAreaBox history={history} address={address} placeholder="Press 'Ctrl + Enter' to Send!" height={49} width={'calc(100% - 50px)'} 
                             margin={6} onTextChange={this.onTextChange} onKeyDown={this.onEnterPress} />
                         </div>
                     }

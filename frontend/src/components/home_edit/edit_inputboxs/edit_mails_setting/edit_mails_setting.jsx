@@ -39,6 +39,25 @@ class EditMailsSetting extends Component {
         }
     }
 
+    componenttWillMount() {
+        const {signup_imap, signup_smtp, settingType} = this.props;
+        if(settingType === 'imap') {
+            this.setDefaultState(signup_imap.imap_id, signup_imap.imap_password, signup_imap.imap_host, signup_imap.imap_port, signup_imap.imap_tls)
+        } else {
+            this.setDefaultState(signup_smtp.smtp_id, signup_smtp.smtp_password, signup_smtp.smtp_host, signup_smtp.smtp_port, signup_smtp.smtp_secure)
+        }
+    }
+
+    setDefaultState = (id, password, host, port, security) => {
+        this.setState({
+            id: id,
+            password: password,
+            host: host,
+            port: port,
+            secureValue: security,
+        })
+    }
+
     onIdChange = (event) => {
         this.setState({id: event.target.value});
     }

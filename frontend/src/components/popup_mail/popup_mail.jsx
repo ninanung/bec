@@ -29,9 +29,11 @@ class PopupMail extends Component {
                     <h3 className='mailinfo'>date: {mail.date}</h3>
                     <h3 className='mailinfo'>from: {mail.from}, name: {mail.name}</h3>
                     {mail.to.map((to, index) => {
+                        if(mail.sent) return <h3 className='mailinfo'>to: {to}</h3>
                         return <h3 className='mailinfo'>to: {to.address}, name: {to.name}</h3>
                     })}
                     {mail.cc.map((cc, index) => {
+                        if(mail.sent) return <h3 className='mailinfo'>cc: {cc}</h3>
                         return <h3 className='mailinfo'>cc: {cc.address}, name: {cc.name}</h3>
                     })}
                     <hr/>
