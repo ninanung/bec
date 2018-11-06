@@ -9,6 +9,7 @@ import SignupSmtp from '../components/signup/signup_smtp';
 import RouteGuard from './route_guard';
 import HomeIntro from '../components/home_intro/home_intro';
 import HomeEdit from '../components/home_edit/home_edit';
+import SearchMail from '../components/search_mail/search_mail';
 
 class NotFound extends Component {
   render() {
@@ -32,6 +33,7 @@ class Router extends Component {
         <RouteGuard exact={ true } path='/home/:address' component={ Home } option={ inside } />
         <RouteGuard exact={ true } path='/home/mailbox/:address' component={ Home } option={ inside } /> 
         <RouteGuard exact={ true } path='/home/edit/profile' component={ HomeEdit } option={ inside } />
+        <RouteGuard exact={ true } path='/home/search/mail' component={ SearchMail } option={ inside } />
         <Route component={ NotFound } />
       </Switch>
     );
