@@ -6,7 +6,6 @@ import HomeBodyHeader from '../home_body/home_body_header/home_body_header';
 import HomeMobileSidebar from '../home_mobile_sidebar/home_mobile_sidebar';
 import EditInputboxs from './edit_inputboxs/edit_inputboxs';
 
-
 import './home_edit.css';
 
 class HomeEdit extends React.Component {
