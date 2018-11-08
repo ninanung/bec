@@ -9,7 +9,7 @@
 
 @media only screen and (max-width: 1000px) {
     .header-menu {
-        display: inline; right: 3px; top: 20; position: absolute;
+        display: inline; right: 7px; top: 20; position: absolute;
     }
 
     .header-menu:hover {
@@ -35,8 +35,13 @@
     }
 
     .header-menu {
-        display: none;
+        display: block; right: 15px; margin-top: 15px !important; position: absolute;
     }
+
+    .header-menu:hover {
+        cursor: pointer;
+    }
+
 
     .header-address {
         top: 20px; left: calc(50% - 250px); right: calc(50% - 250px); position: absolute; width: 500px;

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import HomeSidebar from '../home_sidebar/home_sidebar';
 import HomeBodyHeader from '../home_body/home_body_header/home_body_header';
@@ -7,7 +6,7 @@ import HomeMobileSidebar from '../home_mobile_sidebar/home_mobile_sidebar';
 import SearchInput from './search_input/search_input';
 import SearchResult from './search_result/search_result';
 
-import 'search_mail.css';
+import './search_mail.css';
 
 class SearchMail extends React.Component {
     constructor(props) {
@@ -61,10 +60,6 @@ class SearchMail extends React.Component {
             </div>
         )
     }
-}
-
-SearchMail.propTypes = {
-    history: PropTypes.object.isRequired,
 }
 
 export default SearchMail;

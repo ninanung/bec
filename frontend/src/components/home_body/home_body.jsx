@@ -186,12 +186,6 @@ class HomeBody extends React.Component {
         //menu
     }
 
-    mailboxIconClick = () => {
-        this.setState({
-            popup: true,
-        })
-    }
-
     sidebarArrowIconClick = () => {
         this.setState({
             popup: false,
@@ -206,7 +200,7 @@ class HomeBody extends React.Component {
         return (
             <div className='home-body-main'>
                 <div className='header-div'>
-                    <HomeBodyHeader mailboxIconClick={this.mailboxIconClick} menuIconClick={this.menuIconClick} address={address} history={history} />
+                    <HomeBodyHeader menuIconClick={this.menuIconClick} address={address} history={history} />
                 </div>
                 <div className='mails-div'>
                     <HomeBodyMails mailbox={mailbox} socketTrigger={socketTrigger} address={address} history={history} />
