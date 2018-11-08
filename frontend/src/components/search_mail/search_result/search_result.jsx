@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
+import MailList from '../../mail_list/mail_list';
+
 const mapStateToProps = (state) => {
     return {
         mails: state.mails,
@@ -9,6 +11,13 @@ const mapStateToProps = (state) => {
 }
 
 class SearchResult extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            searchedMails: [],
+        }
+    }
+
     componentWillMount() {
 
     }
@@ -20,7 +29,7 @@ class SearchResult extends React.Component {
     render() {
         return (
             <div>
-
+                <MailList mails={this.state.searchedMails} mailbox={false} />
             </div>
         )
     }

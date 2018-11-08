@@ -1,7 +1,7 @@
 import React from 'react';
 import PropsTypes from 'prop-types';
 
-import MailItem from './mail_item/mail_item';
+import MailList from '../../mail_list/mail_list';
 import DateBar from './date_bar/date_bar';
 
 import './home_body_mails.css';
@@ -176,19 +176,7 @@ class HomeBodyMails extends React.Component {
         }
         return (
             <div className='mails-body'>
-                {mails.map((mail, index) => {
-                    if(mail.isDateBar) return <DateBar date={mail.date} />
-                    if(mail.subject.length === 0) return null;
-                    if(mail.sent) {
-                        return <div className='mails-div-item' key={index}><MailItem sent={true} mail={mail} index={index} /></div>
-                    } else if(this.props.mailbox) {
-                        if(mail.flags && mail.flags.length === 0) return <div className='mails-div-item' key={index}><MailItem sent={false} mailbox={this.props.mailbox} unseen={true} mail={mail} index={index} /></div>
-                        return <div className='mails-div-item' key={index}><MailItem sent={false} mailbox={this.props.mailbox} mail={mail} index={index} /></div>
-                    } else {
-                        if(mail.flags && mail.flags.length === 0) return <div className='mails-div-item' key={index}><MailItem sent={false} unseen={true} mail={mail} index={index} /></div>
-                        return <div className='mails-div-item' key={index}><MailItem sent={false} mail={mail} index={index} /></div>
-                    }
-                })}
+                <MailList mails={mails} mailbox={this.props.mailbox} />
                 <div id='fakeDiv' className='fakeDiv'></div>
             </div>
         )
@@ -200,6 +188,7 @@ HomeBodyMails.propTypes = {
     address: PropsTypes.object.isRequired,
     history: PropsTypes.object.isRequired,
     socketTrigger: PropsTypes.number,
+    mailbox: PropsTypes.bool,
 }
 
 export default connect(mapStateToProps)(HomeBodyMails);
