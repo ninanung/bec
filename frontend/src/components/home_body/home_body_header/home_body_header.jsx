@@ -23,7 +23,7 @@ class HomeBodyHeader extends Component {
 
 HomeBodyHeader.propTypes = {
     history: PropTypes.object.isRequired,
-    menuIconClick: PropTypes.func.isRequired,
+    mailboxIconClick: PropTypes.func.isRequired,
     address: PropTypes.string.isRequired,
 }
 

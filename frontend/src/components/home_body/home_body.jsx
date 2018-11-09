@@ -182,8 +182,10 @@ class HomeBody extends React.Component {
         document.getElementById('inputbox').value = '';
     }
 
-    menuIconClick = () => {
-        //menu
+    mailboxIconClick = () => {
+        this.setState({
+            popup: true,
+        })
     }
 
     sidebarArrowIconClick = () => {
@@ -200,7 +202,7 @@ class HomeBody extends React.Component {
         return (
             <div className='home-body-main'>
                 <div className='header-div'>
-                    <HomeBodyHeader menuIconClick={this.menuIconClick} address={address} history={history} />
+                    <HomeBodyHeader mailboxIconClick={this.mailboxIconClick} address={address} history={history} />
                 </div>
                 <div className='mails-div'>
                     <HomeBodyMails mailbox={mailbox} socketTrigger={socketTrigger} address={address} history={history} />
