@@ -40,12 +40,13 @@ const mapDispatchToProps = (dispatch) => {
     }, dispatch)
 }
 
+const INPUT_HEIGHT = 30;
+const INPUT_WIDTH = 350;
+
 class Signin extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            inputWidth: 350,
-            inputHeight: 30,
             id: '',
             password: '',
             loading: false,
@@ -212,9 +213,9 @@ class Signin extends Component {
                     <p className='signin-header-text'>Organize users and mails.</p>
                 </div>
                 <div className='signin-body'>
-                    <InputBox typeChange={this.onIdChange} placeholder='ID' width={this.state.inputWidth} height={this.state.inputHeight} />
+                    <InputBox typeChange={this.onIdChange} placeholder='ID' width={INPUT_WIDTH} height={INPUT_HEIGHT} />
                     <br/>
-                    <InputBox typeChange={this.onPasswordChange} placeholder='Password' type='password' width={this.state.inputWidth} height={this.state.inputHeight} />
+                    <InputBox typeChange={this.onPasswordChange} placeholder='Password' type='password' width={INPUT_WIDTH} height={INPUT_HEIGHT} />
                     <button onClick={this.onSignin} className='button'>Sign in</button>
                 </div>
                 <div className='signin-footer'>
