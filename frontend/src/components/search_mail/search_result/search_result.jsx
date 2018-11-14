@@ -21,7 +21,7 @@ class SearchResult extends React.Component {
     componentWillReceiveProps(nextProps) {
         const mails = this.props.mails.slice();
         const text = nextProps.searchText
-        const searchedMails = [];
+        let searchedMails = [];
         mails.map((mail, index) => {
             const cc = mail.cc.slice();
             const to = mail.to.slice();
@@ -30,7 +30,7 @@ class SearchResult extends React.Component {
             }
             else if(mail.text && mail.text.includes(text)) {
                 searchedMails.push(mail);
-            } else if(mail.html && mail.html.includes(html)) {
+            } else if(mail.html && mail.html.includes(text)) {
                 searchedMails.push(mail);
             } else if(mail.name && mail.name.includes(text)) {
                 searchedMails.push(mail);
