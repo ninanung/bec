@@ -36,3 +36,7 @@ Third, Ok, done. I'm using Google's Firebase Cloud Messaging(FCM). When new mail
 
 2018-10-17  
 ![](./readme-image/2018-10-17.png)  
+
+## End  
+
+I first start this project as some sample, and it looks ok to show someone. There's still missing functions but, i need to start another project. So, i will let this project open. Maybe i can restart this, but now, i don't have time to do.
