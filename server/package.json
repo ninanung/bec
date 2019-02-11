@@ -13,7 +13,6 @@
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
     "imap": "^0.8.19",
-    "jade": "~1.11.0",
     "mailparser": "^2.3.2",
     "mongoose": "^5.2.12",
     "morgan": "~1.9.0",
